@@ -7,9 +7,10 @@ import java.time.LocalDate;
 import java.util.Set;
 
 import org.manuel.teambuilting.dtos.PlayerDTO;
-import org.manuel.teambuilting.dtos.TeamDTO;
+import org.manuel.teambuilting.dtos.TeamHistDTO;
 import org.manuel.teambuilting.model.TeamId;
 import org.manuel.teambuilting.services.PlayerToTeamService;
+import org.manuel.teambuilting.services.TeamHistService;
 import org.manuel.teambuilting.services.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -30,24 +31,27 @@ import org.springframework.web.bind.annotation.RestController;
 public class TeamController {
 	
 	private final TeamService teamService;
+	private final TeamHistService teamHistService;
 	private final PlayerToTeamService playerToTeamService;
 
 	@Autowired
-	public TeamController(final TeamService teamService, final PlayerToTeamService playerToTeamService) {
+	public TeamController(final TeamService teamService, final TeamHistService teamHistService,
+			final PlayerToTeamService playerToTeamService) {
 		this.teamService = teamService;
+		this.teamHistService = teamHistService;
 		this.playerToTeamService = playerToTeamService;
 	}
 	
 	@RequestMapping(method=RequestMethod.POST)
-	public TeamDTO saveTeam(@RequestBody final TeamDTO team) {
+	public TeamHistDTO saveTeam(@RequestBody final TeamHistDTO team) {
 		Assert.notNull(team);
-        return teamService.saveTeam(team);
+		return teamService.createTeam(team);
     }
 
 	@RequestMapping(path = "/{teamId}", method = RequestMethod.GET)
-	public TeamDTO getTeam(@PathVariable("teamId") final TeamId teamId) {
+	public TeamHistDTO getLastTeamHistOf(@PathVariable("teamId") final TeamId teamId) {
 		Assert.notNull(teamId);
-		return teamService.getTeam(teamId);
+		return teamHistService.getLastTeamHist(teamId);
 	}
 
 	@RequestMapping(path = "/{teamId}/players", method = RequestMethod.GET)

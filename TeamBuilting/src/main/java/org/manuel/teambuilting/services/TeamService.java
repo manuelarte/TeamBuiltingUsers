@@ -3,12 +3,14 @@
  */
 package org.manuel.teambuilting.services;
 
-import org.manuel.teambuilting.dtos.TeamDTO;
+import org.manuel.teambuilting.dtos.TeamHistDTO;
 import org.manuel.teambuilting.model.Team;
 import org.manuel.teambuilting.model.TeamId;
+import org.manuel.teambuilting.model.repository.TeamHistRepository;
 import org.manuel.teambuilting.model.repository.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 /**
  * @author Manuel Doncel Martos
@@ -18,21 +20,26 @@ import org.springframework.stereotype.Service;
 public class TeamService {
 	
 	private final TeamRepository teamRepository;
-	private final DTOSConverter dtosConverter;
+	private final TeamHistService teamHistService;
 
 	@Autowired
-	public TeamService(final TeamRepository teamRepository, final DTOSConverter dtosConverter) {
+	public TeamService(final TeamRepository teamRepository, final TeamHistService teamHistService,
+			final TeamHistRepository teamHistRepository,
+			final DTOSConverter dtosConverter) {
 		this.teamRepository = teamRepository;
-		this.dtosConverter = dtosConverter;
+		this.teamHistService = teamHistService;
 	}
 	
-	public TeamDTO getTeam(final TeamId teamId) {
-		return dtosConverter.convertTeam().apply(teamRepository.findOne(teamId.getId()));
+	public TeamHistDTO createTeam(final TeamHistDTO teamHist) {
+		Assert.notNull(teamHist);
+		final Team team = teamRepository.save(new Team());
+		final TeamHistDTO updatedTeamHist = updateTeamHist(new TeamId(team.getId()), teamHist);
+		return teamHistService.saveTeamHist(updatedTeamHist);
+
 	}
 
-	public TeamDTO saveTeam(final TeamDTO team) {
-		final Team created = teamRepository.save(dtosConverter.convertTeamDTO().apply(team));
-		return dtosConverter.convertTeam().apply(created);
+	private TeamHistDTO updateTeamHist(final TeamId teamId, final TeamHistDTO teamHist) {
+		return new TeamHistDTO.Builder(teamHist).withTeamId(teamId).build();
 	}
 
 }

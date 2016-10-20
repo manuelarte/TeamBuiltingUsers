@@ -22,33 +22,21 @@ import com.mongodb.annotations.Immutable;
 public class TeamDTO {
 	
 	private final TeamId id;
-	private final String name;
 	
 	public TeamDTO(final Builder builder) {
 		this.id = builder.id;
-		this.name = builder.name;
 	}
 
 	public TeamId getId() {
 		return id;
 	}
 	
-	public String getName() {
-		return name;
-	}
-	
 	@JsonPOJOBuilder(buildMethodName = "build", withPrefix = "with")
 	public static class Builder {
 		private TeamId id;
-		private String name;
 		
 		public Builder withId(final TeamId id) {
 			this.id = id;
-			return this;
-		}
-		
-		public Builder withName(final String name) {
-			this.name = name;
 			return this;
 		}
 		
