@@ -1,10 +1,9 @@
 /**
  * 
  */
-package org.manuel.teambuilting.dtos;
+package org.manuel.teambuilting.model;
 
 import java.io.Serializable;
-import java.math.BigInteger;
 
 import org.springframework.data.annotation.Id;
 
@@ -15,22 +14,18 @@ import com.mongodb.annotations.Immutable;
  *
  */
 @Immutable
-public abstract class DTOId implements Serializable {
+public abstract class ModelId implements Serializable {
 	
 	private static final long serialVersionUID = -3395729369300243643L;
 	
 	@Id
-	private final BigInteger id;
+	private final String id;
 	
-	public DTOId(final String id) {
-		this(new BigInteger(id));
-	}
-	
-	public DTOId(final BigInteger id) {
+	public ModelId(final String id) {
 		this.id = id;
 	}
 
-	public BigInteger getId() {
+	public String getId() {
 		return id;
 	}
 	

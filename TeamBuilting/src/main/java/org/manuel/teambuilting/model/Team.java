@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.manuel.teambuilting.dtos;
+package org.manuel.teambuilting.model;
 
 import java.util.Collection;
 
@@ -14,7 +14,7 @@ import com.mongodb.annotations.Immutable;
 @Immutable
 public class Team {
 	
-	private final TeamId id;
+	private final String id;
 	private final String name;
 	private final Collection<Player> players;
 	
@@ -23,16 +23,8 @@ public class Team {
 		this.name = builder.name;
 		this. players = builder.players;
 	}
-	
-	public Team(final TeamId id, final String name, final Collection<Player> players) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.players = players;
-	}
 
-
-	public TeamId getId() {
+	public String getId() {
 		return id;
 	}
 	
@@ -46,11 +38,11 @@ public class Team {
 	
 	
 	public static class Builder {
-		private TeamId id;
+		private String id;
 		private String name;
 		private Collection<Player> players;
 		
-		public Builder withId(final TeamId id) {
+		public Builder withId(final String id) {
 			this.id = id;
 			return this;
 		}

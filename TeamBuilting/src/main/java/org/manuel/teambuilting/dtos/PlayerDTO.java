@@ -3,7 +3,7 @@
  */
 package org.manuel.teambuilting.dtos;
 
-import org.springframework.data.annotation.Id;
+import org.manuel.teambuilting.model.PlayerId;
 
 import com.mongodb.annotations.Immutable;
 
@@ -12,16 +12,15 @@ import com.mongodb.annotations.Immutable;
  *
  */
 @Immutable
-public class Player {
+public class PlayerDTO {
 	
-	@Id
 	private final PlayerId id;
 	
 	private final String name;
 	
 	private final String address;
 
-	public Player(final Builder builder) {
+	public PlayerDTO(final Builder builder) {
 		this.id = builder.id;
 		this.name = builder.name;
 		this.address = builder.address;
@@ -59,8 +58,8 @@ public class Player {
 			return this;
 		}
 		
-		public Player build() {
-			return new Player(this);
+		public PlayerDTO build() {
+			return new PlayerDTO(this);
 		}
 	}
 

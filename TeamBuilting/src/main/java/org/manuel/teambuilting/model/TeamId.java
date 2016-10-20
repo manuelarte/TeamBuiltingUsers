@@ -1,6 +1,6 @@
-package org.manuel.teambuilting.dtos;
+package org.manuel.teambuilting.model;
 
-public final class TeamId extends DTOId {
+public final class TeamId extends ModelId {
 
 	/**
 	 * 

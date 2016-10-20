@@ -3,8 +3,9 @@
  */
 package org.manuel.teambuilting.services;
 
-import org.manuel.teambuilting.dtos.Team;
-import org.manuel.teambuilting.dtos.TeamRepository;
+import org.manuel.teambuilting.dtos.TeamDTO;
+import org.manuel.teambuilting.model.Team;
+import org.manuel.teambuilting.model.repository.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,15 +17,17 @@ import org.springframework.stereotype.Service;
 public class TeamService {
 	
 	private final TeamRepository teamRepository;
+	private final DTOSConverter dtosConverter;
 
 	@Autowired
-	public TeamService(final TeamRepository teamRepository) {
+	public TeamService(final TeamRepository teamRepository, final DTOSConverter dtosConverter) {
 		this.teamRepository = teamRepository;
+		this.dtosConverter = dtosConverter;
 	}
 	
-	public Team saveTeam(final Team team) {
-		teamRepository.save(team);
-		return null;
+	public TeamDTO saveTeam(final TeamDTO team) {
+		final Team created = teamRepository.save(dtosConverter.convertTeamDTO().apply(team));
+		return dtosConverter.convertTeam().apply(created);
 	}
 
 }

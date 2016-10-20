@@ -3,13 +3,13 @@
  */
 package org.manuel.teambuilting.controllers;
 
-import org.manuel.teambuilting.dtos.Team;
+import org.manuel.teambuilting.dtos.TeamDTO;
 import org.manuel.teambuilting.services.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -28,7 +28,7 @@ public class TeamController {
 	}
 	
 	@RequestMapping(method=RequestMethod.POST)
-    public Team saveTeam(@RequestParam(value="team", required=true) final Team team) {
+	public TeamDTO saveTeam(@RequestBody final TeamDTO team) {
 		Assert.notNull(team);
         return teamService.saveTeam(team);
     }

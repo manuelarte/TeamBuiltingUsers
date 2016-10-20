@@ -1,6 +1,6 @@
-package org.manuel.teambuilting.dtos;
+package org.manuel.teambuilting.model;
 
-public class PlayerId extends DTOId {
+public class PlayerId extends ModelId {
 
 	private static final long serialVersionUID = -3912804536446029179L;
 
