@@ -3,8 +3,6 @@
  */
 package org.manuel.teambuilting.dtos;
 
-import java.util.Collection;
-
 import org.manuel.teambuilting.model.TeamId;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -25,12 +23,10 @@ public class TeamDTO {
 	
 	private final TeamId id;
 	private final String name;
-	private final Collection<PlayerDTO> players;
 	
 	public TeamDTO(final Builder builder) {
 		this.id = builder.id;
 		this.name = builder.name;
-		this. players = builder.players;
 	}
 
 	public TeamId getId() {
@@ -41,16 +37,10 @@ public class TeamDTO {
 		return name;
 	}
 	
-	public Collection<PlayerDTO> getPlayers() {
-		return players;
-	}
-	
-	
 	@JsonPOJOBuilder(buildMethodName = "build", withPrefix = "with")
 	public static class Builder {
 		private TeamId id;
 		private String name;
-		private Collection<PlayerDTO> players;
 		
 		public Builder withId(final TeamId id) {
 			this.id = id;
@@ -59,11 +49,6 @@ public class TeamDTO {
 		
 		public Builder withName(final String name) {
 			this.name = name;
-			return this;
-		}
-		
-		public Builder withPlayers(final Collection<PlayerDTO> players) {
-			this.players = players;
 			return this;
 		}
 		

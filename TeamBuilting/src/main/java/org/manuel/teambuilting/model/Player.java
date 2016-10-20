@@ -15,16 +15,20 @@ import com.mongodb.annotations.Immutable;
 public class Player {
 	
 	@Id
-	private final String id;
+	private String id;
 	
-	private final String name;
+	private String name;
 	
-	private final String address;
+	private String bornAddress;
 
-	public Player(final Builder builder) {
+	public Player() {
+
+	}
+
+	private Player(final Builder builder) {
 		this.id = builder.id;
 		this.name = builder.name;
-		this.address = builder.address;
+		this.bornAddress = builder.bornAddress;
 	}
 	
 	public String getId() {
@@ -35,14 +39,14 @@ public class Player {
 		return name;
 	}
 
-	public String getAddress() {
-		return address;
+	public String getBornAddress() {
+		return bornAddress;
 	}
 	
 	public static class Builder {
 		private String id;
 		private String name;
-		private String address;
+		private String bornAddress;
 		
 		public Builder withId(final String id) {
 			this.id = id;
@@ -54,8 +58,8 @@ public class Player {
 			return this;
 		}
 		
-		public Builder withAddress(final String address) {
-			this.address = address;
+		public Builder withBornAddress(final String bornAddress) {
+			this.bornAddress = bornAddress;
 			return this;
 		}
 		

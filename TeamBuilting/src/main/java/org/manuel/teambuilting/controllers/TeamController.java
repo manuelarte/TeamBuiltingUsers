@@ -3,13 +3,22 @@
  */
 package org.manuel.teambuilting.controllers;
 
+import java.time.LocalDate;
+import java.util.Set;
+
+import org.manuel.teambuilting.dtos.PlayerDTO;
 import org.manuel.teambuilting.dtos.TeamDTO;
+import org.manuel.teambuilting.model.TeamId;
+import org.manuel.teambuilting.services.PlayerToTeamService;
 import org.manuel.teambuilting.services.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.util.Assert;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -21,10 +30,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class TeamController {
 	
 	private final TeamService teamService;
+	private final PlayerToTeamService playerToTeamService;
 
 	@Autowired
-	public TeamController(final TeamService teamService) {
+	public TeamController(final TeamService teamService, final PlayerToTeamService playerToTeamService) {
 		this.teamService = teamService;
+		this.playerToTeamService = playerToTeamService;
 	}
 	
 	@RequestMapping(method=RequestMethod.POST)
@@ -32,5 +43,18 @@ public class TeamController {
 		Assert.notNull(team);
         return teamService.saveTeam(team);
     }
+
+	@RequestMapping(path = "/{teamId}", method = RequestMethod.GET)
+	public TeamDTO getTeam(@PathVariable("teamId") final TeamId teamId) {
+		Assert.notNull(teamId);
+		return teamService.getTeam(teamId);
+	}
+
+	@RequestMapping(path = "/{teamId}/players", method = RequestMethod.GET)
+	public Set<PlayerDTO> getPlayersForTeam(@PathVariable("teamId") final TeamId teamId,
+			@RequestParam(value = "date", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") final LocalDate date) {
+		Assert.notNull(teamId);
+		return playerToTeamService.getPlayersFor(teamId, date);
+	}
 
 }

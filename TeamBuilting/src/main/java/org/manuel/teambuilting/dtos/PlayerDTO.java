@@ -5,6 +5,9 @@ package org.manuel.teambuilting.dtos;
 
 import org.manuel.teambuilting.model.PlayerId;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.mongodb.annotations.Immutable;
 
 /**
@@ -12,18 +15,21 @@ import com.mongodb.annotations.Immutable;
  *
  */
 @Immutable
+@JsonIgnoreProperties
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonDeserialize(builder = PlayerDTO.Builder.class)
 public class PlayerDTO {
 	
 	private final PlayerId id;
 	
 	private final String name;
 	
-	private final String address;
+	private final String bornAddress;
 
 	public PlayerDTO(final Builder builder) {
 		this.id = builder.id;
 		this.name = builder.name;
-		this.address = builder.address;
+		this.bornAddress = builder.bornAddress;
 	}
 	
 	public PlayerId getId() {
@@ -34,14 +40,14 @@ public class PlayerDTO {
 		return name;
 	}
 
-	public String getAddress() {
-		return address;
+	public String getBornAddress() {
+		return bornAddress;
 	}
 	
 	public static class Builder {
 		private PlayerId id;
 		private String name;
-		private String address;
+		private String bornAddress;
 		
 		public Builder withId(final PlayerId id) {
 			this.id = id;
@@ -53,8 +59,8 @@ public class PlayerDTO {
 			return this;
 		}
 		
-		public Builder withAddress(final String address) {
-			this.address = address;
+		public Builder withBornAddress(final String bornAddress) {
+			this.bornAddress = bornAddress;
 			return this;
 		}
 		
