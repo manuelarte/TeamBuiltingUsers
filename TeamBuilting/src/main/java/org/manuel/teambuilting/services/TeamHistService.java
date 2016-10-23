@@ -4,6 +4,8 @@
 package org.manuel.teambuilting.services;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.manuel.teambuilting.dtos.TeamHistDTO;
 import org.manuel.teambuilting.model.TeamHist;
@@ -30,9 +32,14 @@ public class TeamHistService {
 		this.dtosConverter = dtosConverter;
 	}
 
+	public Set<TeamHistDTO> findTeamByName(final String name) {
+		final Set<TeamHist> findByName = teamHistRepository.findByNameLike(name);
+		return findByName.stream().map(dtosConverter.createTeamHistDTO()).collect(Collectors.toSet());
+	}
+
 	public TeamHistDTO saveTeamHist(final TeamHistDTO teamHist) {
 		Assert.notNull(teamHist);
-		final TeamHist saved = teamHistRepository.save(dtosConverter.createTeamHist(teamHist));
+		final TeamHist saved = teamHistRepository.save(dtosConverter.createTeamHist().apply(teamHist));
 		return new TeamHistDTO.Builder(teamHist).withId(new TeamHistId(saved.getId())).build();
 	}
 
@@ -40,12 +47,12 @@ public class TeamHistService {
 		Assert.notNull(teamId);
 		final List<TeamHist> findByTeamId = teamHistRepository.findByTeamIdOrderByFromDateDesc(teamId.getId());
 		final TeamHist teamHist = findByTeamId.get(0);
-		return dtosConverter.createTeamHistDTO(teamHist);
+		return dtosConverter.createTeamHistDTO().apply(teamHist);
 	}
 
 	public TeamHistDTO getTeamHist(final TeamHistId teamHistId) {
 		final TeamHist teamHist = teamHistRepository.findOne(teamHistId.getId());
-		return dtosConverter.createTeamHistDTO(teamHist);
+		return dtosConverter.createTeamHistDTO().apply(teamHist);
 	}
 
 }

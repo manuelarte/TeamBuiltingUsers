@@ -19,6 +19,7 @@ public class TeamHistDTO {
 	private final TeamHistId id;
 	private final TeamId teamId;
 	private final String name;
+	private final String location;
 	private final Date fromDate;
 	private final Date toDate;
 	// emblem
@@ -27,6 +28,7 @@ public class TeamHistDTO {
 		this.id = builder.id;
 		this.teamId = builder.teamId;
 		this.name = builder.name;
+		this.location = builder.location;
 		this.fromDate = builder.fromDate;
 		this.toDate = builder.toDate;
 	}
@@ -43,6 +45,10 @@ public class TeamHistDTO {
 		return name;
 	}
 
+	public String getLocation() {
+		return location;
+	}
+
 	public Date getFromDate() {
 		return fromDate;
 	}
@@ -56,6 +62,7 @@ public class TeamHistDTO {
 		private TeamHistId id;
 		private TeamId teamId;
 		private String name;
+		private String location;
 		private Date fromDate;
 		private Date toDate;
 
@@ -67,6 +74,7 @@ public class TeamHistDTO {
 			this.id = toCopy.id;
 			this.teamId = toCopy.teamId;
 			this.name = toCopy.name;
+			this.location = toCopy.location;
 			this.fromDate = toCopy.fromDate;
 			this.toDate = toCopy.toDate;
 		}
@@ -78,6 +86,11 @@ public class TeamHistDTO {
 
 		public Builder withName(final String name) {
 			this.name = name;
+			return this;
+		}
+
+		public Builder withLocation(final String location) {
+			this.location = location;
 			return this;
 		}
 

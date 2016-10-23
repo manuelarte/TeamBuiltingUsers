@@ -3,7 +3,10 @@
  */
 package org.manuel.teambuilting.model;
 
+import javax.validation.constraints.NotNull;
+
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.mongodb.annotations.Immutable;
 
@@ -12,11 +15,12 @@ import com.mongodb.annotations.Immutable;
  *
  */
 @Immutable
+@Document
 public class Player {
 	
 	@Id
 	private String id;
-	
+	@NotNull
 	private String name;
 	
 	private String bornAddress;

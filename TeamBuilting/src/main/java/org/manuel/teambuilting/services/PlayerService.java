@@ -1,5 +1,8 @@
 package org.manuel.teambuilting.services;
 
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import org.manuel.teambuilting.dtos.PlayerDTO;
 import org.manuel.teambuilting.model.Player;
 import org.manuel.teambuilting.model.repository.PlayerRepository;
@@ -16,6 +19,11 @@ public class PlayerService {
 	public PlayerService(final PlayerRepository playerRepository, final DTOSConverter dtosConverter) {
 		this.playerRepository = playerRepository;
 		this.dtosConverter = dtosConverter;
+	}
+
+	public Set<PlayerDTO> findPlayerByName(final String name) {
+		final Set<Player> players = playerRepository.findByName(name);
+		return players.stream().map(dtosConverter.toPlayerDTO()).collect(Collectors.toSet());
 	}
 
 	public PlayerDTO savePlayer(final PlayerDTO player) {

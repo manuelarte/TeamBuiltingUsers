@@ -3,6 +3,8 @@
  */
 package org.manuel.teambuilting.model;
 
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import com.mongodb.annotations.Immutable;
 
 /**
@@ -10,6 +12,7 @@ import com.mongodb.annotations.Immutable;
  *
  */
 @Immutable
+@Document
 public class Team {
 	
 	private String id;

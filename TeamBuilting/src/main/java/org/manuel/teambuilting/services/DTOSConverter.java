@@ -57,13 +57,13 @@ public class DTOSConverter {
 				.withStartDate(playerToTeam.getStartDate()).withEndDate(playerToTeam.getEndDate()).build();
 	}
 
-	public TeamHist createTeamHist(final TeamHistDTO teamHist) {
-		return new TeamHist.Builder().withTeamId(teamHist.getTeamId().getId()).withName(teamHist.getName())
+	public Function<TeamHistDTO, TeamHist> createTeamHist() {
+		return teamHist -> new TeamHist.Builder().withTeamId(teamHist.getTeamId().getId()).withName(teamHist.getName())
 				.withFromDate(teamHist.getFromDate()).withToDate(teamHist.getToDate()).build();
 	}
 
-	public TeamHistDTO createTeamHistDTO(final TeamHist teamHist) {
-		return new TeamHistDTO.Builder().withId(new TeamHistId(teamHist.getId()))
+	public Function<TeamHist, TeamHistDTO> createTeamHistDTO() {
+		return teamHist -> new TeamHistDTO.Builder().withId(new TeamHistId(teamHist.getId()))
 				.withTeamId(new TeamId(teamHist.getTeamId())).withName(teamHist.getName())
 				.withFromDate(teamHist.getFromDate()).withToDate(teamHist.getToDate()).build();
 	}

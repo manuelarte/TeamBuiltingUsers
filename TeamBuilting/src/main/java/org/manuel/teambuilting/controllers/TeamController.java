@@ -42,7 +42,13 @@ public class TeamController {
 		this.playerToTeamService = playerToTeamService;
 	}
 	
-	@RequestMapping(method=RequestMethod.POST)
+	@RequestMapping(value = "/search", method = RequestMethod.GET)
+	public Set<TeamHistDTO> findTeamByName(@RequestParam(value = "name", required = true) final String name) {
+		Assert.notNull(name);
+		return teamHistService.findTeamByName(name);
+	}
+
+	@RequestMapping(method = RequestMethod.POST)
 	public TeamHistDTO saveTeam(@RequestBody final TeamHistDTO team) {
 		Assert.notNull(team);
 		return teamService.createTeam(team);

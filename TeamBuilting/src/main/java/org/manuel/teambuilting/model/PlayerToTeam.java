@@ -5,7 +5,10 @@ package org.manuel.teambuilting.model;
 
 import java.time.LocalDate;
 
+import javax.validation.constraints.NotNull;
+
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.mongodb.annotations.Immutable;
 
@@ -14,17 +17,18 @@ import com.mongodb.annotations.Immutable;
  *
  */
 @Immutable
+@Document
 public class PlayerToTeam {
 
 	@Id
 	private String id;
-
+	@NotNull
 	private String playerId;
-
+	@NotNull
 	private String teamId;
-
+	@NotNull
 	private LocalDate startDate;
-
+	@NotNull
 	private LocalDate endDate;
 
 	public PlayerToTeam() {

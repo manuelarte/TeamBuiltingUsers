@@ -5,18 +5,27 @@ package org.manuel.teambuilting.model;
 
 import java.util.Date;
 
+import javax.validation.constraints.NotNull;
+
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import com.mongodb.annotations.Immutable;
 
 /**
  * @author Manuel Doncel Martos
  *
  */
+@Immutable
+@Document
 public class TeamHist {
 
 	@Id
 	private String id;
+	@NotNull
 	private String teamId;
 	private String name;
+	private String location;
 	private Date fromDate;
 	private Date toDate;
 	// emblem
@@ -28,6 +37,7 @@ public class TeamHist {
 		this.id = builder.id;
 		this.teamId = builder.teamId;
 		this.name = builder.name;
+		this.location = builder.location;
 		this.fromDate = builder.fromDate;
 		this.toDate = builder.toDate;
 	}
@@ -44,6 +54,10 @@ public class TeamHist {
 		return name;
 	}
 
+	public String getLocation() {
+		return location;
+	}
+
 	public Date getFromDate() {
 		return fromDate;
 	}
@@ -57,6 +71,7 @@ public class TeamHist {
 		private String id;
 		private String teamId;
 		private String name;
+		private String location;
 		private Date fromDate;
 		private Date toDate;
 
@@ -67,6 +82,11 @@ public class TeamHist {
 
 		public Builder withName(final String name) {
 			this.name = name;
+			return this;
+		}
+
+		public Builder withLocation(final String location) {
+			this.location = location;
 			return this;
 		}
 
