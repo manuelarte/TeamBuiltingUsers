@@ -6,6 +6,8 @@ package org.manuel.teambuilting.model;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.PersistenceConstructor;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.mongodb.annotations.Immutable;
@@ -20,19 +22,22 @@ public class Player {
 	
 	@Id
 	private String id;
-	@NotNull
-	private String name;
 	
-	private String bornAddress;
+	@NotNull
+	@Indexed
+	private final String name;
+	
+	private final String bornAddress;
 
-	public Player() {
-
+	@PersistenceConstructor
+	public Player(final String name, final String bornAddress) {
+		this.name = name;
+		this.bornAddress = bornAddress;
 	}
 
 	private Player(final Builder builder) {
+		this(builder.name, builder.bornAddress);
 		this.id = builder.id;
-		this.name = builder.name;
-		this.bornAddress = builder.bornAddress;
 	}
 	
 	public String getId() {

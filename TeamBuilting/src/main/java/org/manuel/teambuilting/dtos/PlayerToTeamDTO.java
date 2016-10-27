@@ -3,7 +3,7 @@
  */
 package org.manuel.teambuilting.dtos;
 
-import java.time.LocalDate;
+import java.util.Date;
 
 import org.manuel.teambuilting.model.PlayerId;
 import org.manuel.teambuilting.model.PlayerToTeamId;
@@ -13,6 +13,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.mongodb.annotations.Immutable;
+import com.sun.istack.internal.Nullable;
 
 /**
  * @author Manuel Doncel Martos
@@ -30,9 +31,10 @@ public class PlayerToTeamDTO {
 
 	private final TeamId teamId;
 
-	private final LocalDate startDate;
+	private final Date startDate;
 
-	private final LocalDate endDate;
+	@Nullable
+	private final Date endDate;
 
 	public PlayerToTeamDTO(final Builder builder) {
 		this.id = builder.id;
@@ -54,11 +56,12 @@ public class PlayerToTeamDTO {
 		return teamId;
 	}
 
-	public LocalDate getStartDate() {
+	public Date getStartDate() {
 		return startDate;
 	}
 
-	public LocalDate getEndDate() {
+	@Nullable
+	public Date getEndDate() {
 		return endDate;
 	}
 
@@ -66,8 +69,9 @@ public class PlayerToTeamDTO {
 		private PlayerToTeamId id;
 		private PlayerId playerId;
 		private TeamId teamId;
-		private LocalDate startDate;
-		private LocalDate endDate;
+		private Date startDate;
+		@Nullable
+		private Date endDate;
 
 		public Builder withId(final PlayerToTeamId id) {
 			this.id = id;
@@ -84,12 +88,12 @@ public class PlayerToTeamDTO {
 			return this;
 		}
 
-		public Builder withStartDate(final LocalDate startDate) {
+		public Builder withStartDate(final Date startDate) {
 			this.startDate = startDate;
 			return this;
 		}
 
-		public Builder withEndDate(final LocalDate endDate) {
+		public Builder withEndDate(@Nullable final Date endDate) {
 			this.endDate = endDate;
 			return this;
 		}

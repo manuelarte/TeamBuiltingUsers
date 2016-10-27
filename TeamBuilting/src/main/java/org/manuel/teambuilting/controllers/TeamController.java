@@ -42,8 +42,8 @@ public class TeamController {
 		this.playerToTeamService = playerToTeamService;
 	}
 	
-	@RequestMapping(value = "/search", method = RequestMethod.GET)
-	public Set<TeamHistDTO> findTeamByName(@RequestParam(value = "name", required = true) final String name) {
+	@RequestMapping(method = RequestMethod.GET)
+	public Set<TeamHistDTO> findTeamByName(@RequestParam(value = "name", defaultValue = "") final String name) {
 		Assert.notNull(name);
 		return teamHistService.findTeamByName(name);
 	}

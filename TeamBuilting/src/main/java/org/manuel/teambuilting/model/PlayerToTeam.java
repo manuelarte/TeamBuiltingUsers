@@ -3,14 +3,17 @@
  */
 package org.manuel.teambuilting.model;
 
-import java.time.LocalDate;
+import java.util.Date;
 
 import javax.validation.constraints.NotNull;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.PersistenceConstructor;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.mongodb.annotations.Immutable;
+import com.sun.istack.internal.Nullable;
 
 /**
  * @author Manuel Doncel Martos
@@ -23,23 +26,30 @@ public class PlayerToTeam {
 	@Id
 	private String id;
 	@NotNull
-	private String playerId;
+	@Indexed
+	private final String playerId;
 	@NotNull
-	private String teamId;
-	@NotNull
-	private LocalDate startDate;
-	@NotNull
-	private LocalDate endDate;
+	@Indexed
+	private final String teamId;
 
-	public PlayerToTeam() {
+	@NotNull
+	private final Date startDate;
+
+	@Nullable
+	private final Date endDate;
+
+	@PersistenceConstructor
+	public PlayerToTeam(final String playerId, final String teamId, final Date startDate,
+			@Nullable final Date endDate) {
+		this.playerId = playerId;
+		this.teamId = teamId;
+		this.startDate = startDate;
+		this.endDate = endDate;
 	}
 
 	private PlayerToTeam(final Builder builder) {
+		this(builder.playerId, builder.teamId, builder.startDate, builder.endDate);
 		this.id = builder.id;
-		this.playerId = builder.playerId;
-		this.teamId = builder.teamId;
-		this.startDate = builder.startDate;
-		this.endDate = builder.endDate;
 	}
 
 	public String getId() {
@@ -54,11 +64,12 @@ public class PlayerToTeam {
 		return teamId;
 	}
 
-	public LocalDate getStartDate() {
+	public Date getStartDate() {
 		return startDate;
 	}
 
-	public LocalDate getEndDate() {
+	@Nullable
+	public Date getEndDate() {
 		return endDate;
 	}
 
@@ -66,8 +77,9 @@ public class PlayerToTeam {
 		private String id;
 		private String playerId;
 		private String teamId;
-		private LocalDate startDate;
-		private LocalDate endDate;
+		private Date startDate;
+		@Nullable
+		private Date endDate;
 
 		public Builder withId(final String id) {
 			this.id = id;
@@ -84,12 +96,12 @@ public class PlayerToTeam {
 			return this;
 		}
 
-		public Builder withStartDate(final LocalDate startDate) {
+		public Builder withStartDate(final Date startDate) {
 			this.startDate = startDate;
 			return this;
 		}
 
-		public Builder withEndDate(final LocalDate endDate) {
+		public Builder withEndDate(@Nullable final Date endDate) {
 			this.endDate = endDate;
 			return this;
 		}

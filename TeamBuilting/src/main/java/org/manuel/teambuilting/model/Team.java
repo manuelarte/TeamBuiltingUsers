@@ -3,6 +3,8 @@
  */
 package org.manuel.teambuilting.model;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.mongodb.annotations.Immutable;
@@ -15,8 +17,10 @@ import com.mongodb.annotations.Immutable;
 @Document
 public class Team {
 	
+	@Id
 	private String id;
 
+	@PersistenceConstructor
 	public Team() {
 	}
 

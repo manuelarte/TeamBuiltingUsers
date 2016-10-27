@@ -23,9 +23,9 @@ public class PlayerController {
 		this.playerService = playerService;
 	}
 
-	@RequestMapping(value = "/search", method = RequestMethod.GET)
-	public Set<PlayerDTO> findPlayerByName(@RequestParam(value = "name", required = true) final String name) {
-		Assert.hasLength(name);
+	@RequestMapping(method = RequestMethod.GET)
+	public Set<PlayerDTO> findPlayerByName(@RequestParam(value = "name", defaultValue = "") final String name) {
+		Assert.notNull(name);
 		return playerService.findPlayerByName(name);
 	}
 
