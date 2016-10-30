@@ -27,16 +27,20 @@ public class Player {
 	@Indexed
 	private final String name;
 	
+	@Indexed
+	private final String nickname;
+
 	private final String bornAddress;
 
 	@PersistenceConstructor
-	public Player(final String name, final String bornAddress) {
+	public Player(final String name, final String nickname, final String bornAddress) {
 		this.name = name;
+		this.nickname = nickname;
 		this.bornAddress = bornAddress;
 	}
 
 	private Player(final Builder builder) {
-		this(builder.name, builder.bornAddress);
+		this(builder.name, builder.nickname, builder.bornAddress);
 		this.id = builder.id;
 	}
 	
@@ -48,6 +52,10 @@ public class Player {
 		return name;
 	}
 
+	public String getNickname() {
+		return nickname;
+	}
+
 	public String getBornAddress() {
 		return bornAddress;
 	}
@@ -55,6 +63,7 @@ public class Player {
 	public static class Builder {
 		private String id;
 		private String name;
+		private String nickname;
 		private String bornAddress;
 		
 		public Builder withId(final String id) {
@@ -67,6 +76,11 @@ public class Player {
 			return this;
 		}
 		
+		public Builder withNickname(final String nickname) {
+			this.nickname = nickname;
+			return this;
+		}
+
 		public Builder withBornAddress(final String bornAddress) {
 			this.bornAddress = bornAddress;
 			return this;

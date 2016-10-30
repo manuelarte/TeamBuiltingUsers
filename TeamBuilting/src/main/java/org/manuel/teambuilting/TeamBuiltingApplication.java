@@ -46,22 +46,23 @@ public class TeamBuiltingApplication implements CommandLineRunner {
 	}
 
 	private void createData() {
-		final PlayerDTO javiLeon = createPlayer("Javier leon", "Soria, Castille and Leon, Spain");
-		final PlayerDTO sanne = createPlayer("Sanne", "Amsterdam, Netherlands");
-		final PlayerDTO mihaiDolghan = createPlayer("Mihai Dolghan", "Bucharest, Romania");
-		final PlayerDTO oscar = createPlayer("Oscar", "Santander, Cantabria, Spain");
-		final PlayerDTO borja = createPlayer("Borja Sacristán", "Madrid, Madrid, Spain");
-		final PlayerDTO manu = createPlayer("Manuel Doncel Martos", "Úbeda, Jaén, 23400 Spain");
-		final PlayerDTO pedro = createPlayer("Pedro Dans", "Coruña, Galicia, Spain");
-		final PlayerDTO dennis = createPlayer("Dennis Bakker", "Madrid, Madrid, Spain");
-		final PlayerDTO karim = createPlayer("Karim", "Guadalajara, Madrid, Spain");
-		final PlayerDTO diego = createPlayer("Diego Ramonde", "Coruña, Galicia, Spain");
-		final PlayerDTO nelson = createPlayer("Nelson Alfonso", "Lisbon, Portugal");
-		final PlayerDTO theo = createPlayer("Theodor Phantender", "Amsterdam, Netherlands");
-		final PlayerDTO daan = createPlayer("Dann Farjon", "Amsterdam, Netherlands");
-		final PlayerDTO tomasVirkick = createPlayer("Tomas Virkick", "Slovakia");
-		final PlayerDTO tomasZ = createPlayer("Tomas Z", "Slovakia");
-		final PlayerDTO kuba = createPlayer("Kuba", "Krakow, Poland");
+		final PlayerDTO javiLeon = createPlayer("Javier leon", "Javi", "Soria, Castille and Leon, Spain");
+		final PlayerDTO sanne = createPlayer("Sanne", "Sanne", "Amsterdam, Netherlands");
+		final PlayerDTO mihaiDolghan = createPlayer("Mihai Dolghan", "Mihai", "Bucharest, Romania");
+		final PlayerDTO oscar = createPlayer("Oscar", "Oscar", "Santander, Cantabria, Spain");
+		final PlayerDTO borja = createPlayer("Borja Sacristán", "Borja", "Madrid, Madrid, Spain");
+		final PlayerDTO manu = createPlayer("Manuel Doncel Martos", "Manu D", "Úbeda, Jaén, 23400 Spain");
+		final PlayerDTO pedro = createPlayer("Pedro Dans", "Pedro", "Coruña, Galicia, Spain");
+		final PlayerDTO dennis = createPlayer("Dennis Bakker", "Dennis", "Madrid, Madrid, Spain");
+		final PlayerDTO karim = createPlayer("Karim", "Karim", "Guadalajara, Madrid, Spain");
+		final PlayerDTO diego = createPlayer("Diego Ramonde", "Diego", "Coruña, Galicia, Spain");
+		final PlayerDTO nelson = createPlayer("Nelson Alfonso", "Nelson", "Lisbon, Portugal");
+		final PlayerDTO theo = createPlayer("Theodor Phantender", "Theo D'Or", "Amsterdam, Netherlands");
+		final PlayerDTO daniel = createPlayer("Daniel Dittmar", "Daniel", "Sydney, Australia");
+		final PlayerDTO daan = createPlayer("Dann Farjon", "Daan", "Amsterdam, Netherlands");
+		final PlayerDTO tomasVirkick = createPlayer("Tomas Virkick", "Virco", "Slovakia");
+		final PlayerDTO tomasZ = createPlayer("Tomas Z", "Tomas", "Slovakia");
+		final PlayerDTO kuba = createPlayer("Kuba", "Kuba", "Krakow, Poland");
 		
 		final Date startDevo2 = toDate(LocalDate.of(1958, 1, 1));
 		final String devoAddress = "Herman Bonpad 4, 1067 SN Amsterdam";
@@ -103,8 +104,9 @@ public class TeamBuiltingApplication implements CommandLineRunner {
 		return teamService.createTeam(teamHist);
 	}
 
-	private PlayerDTO createPlayer(final String name, final String bornAddress) {
-		final PlayerDTO player = new PlayerDTO.Builder().withName(name).withBornAddress(bornAddress).build();
+	private PlayerDTO createPlayer(final String name, final String nickname, final String bornAddress) {
+		final PlayerDTO player = new PlayerDTO.Builder().withName(name).withNickname(nickname)
+				.withBornAddress(bornAddress).build();
 		final Player saved = playerRepository.save(dtosConverter.toPlayer().apply(player));
 		return dtosConverter.toPlayerDTO().apply(saved);
 	}

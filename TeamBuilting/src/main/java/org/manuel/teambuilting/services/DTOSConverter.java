@@ -42,13 +42,13 @@ public class DTOSConverter {
 	}
 
 	public Function<PlayerDTO, Player> toPlayer() {
-		return player -> new Player.Builder().withName(player.getName()).withBornAddress(player.getBornAddress())
-				.build();
+		return player -> new Player.Builder().withName(player.getName()).withNickname(player.getNickname())
+				.withBornAddress(player.getBornAddress()).build();
 	}
 
 	public Function<Player, PlayerDTO> toPlayerDTO() {
 		return player -> new PlayerDTO.Builder().withId(new PlayerId(player.getId())).withName(player.getName())
-				.withBornAddress(player.getBornAddress()).build();
+				.withNickname(player.getNickname()).withBornAddress(player.getBornAddress()).build();
 	}
 
 	public Function<PlayerToTeamDTO, PlayerToTeam> toPlayerToTeam() {

@@ -24,11 +24,14 @@ public class PlayerDTO {
 	
 	private final String name;
 	
+	private final String nickname;
+
 	private final String bornAddress;
 
 	public PlayerDTO(final Builder builder) {
 		this.id = builder.id;
 		this.name = builder.name;
+		this.nickname = builder.nickname;
 		this.bornAddress = builder.bornAddress;
 	}
 	
@@ -40,6 +43,10 @@ public class PlayerDTO {
 		return name;
 	}
 
+	public String getNickname() {
+		return nickname;
+	}
+
 	public String getBornAddress() {
 		return bornAddress;
 	}
@@ -47,6 +54,7 @@ public class PlayerDTO {
 	public static class Builder {
 		private PlayerId id;
 		private String name;
+		private String nickname;
 		private String bornAddress;
 		
 		public Builder withId(final PlayerId id) {
@@ -59,6 +67,11 @@ public class PlayerDTO {
 			return this;
 		}
 		
+		public Builder withNickname(final String nickname) {
+			this.nickname = nickname;
+			return this;
+		}
+
 		public Builder withBornAddress(final String bornAddress) {
 			this.bornAddress = bornAddress;
 			return this;
