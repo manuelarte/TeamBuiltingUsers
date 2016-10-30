@@ -30,22 +30,25 @@ public class TeamHist {
 	@Indexed
 	private final String name;
 	private final String location;
+	private final String emblemPath;
 	private final Date fromDate;
 	private final Date toDate;
 	// emblem
 
 	@PersistenceConstructor
-	public TeamHist(final String teamId, final String name, final String location, final Date fromDate,
+	public TeamHist(final String teamId, final String name, final String location, final String emblemPath,
+			final Date fromDate,
 			final Date toDate) {
 		this.teamId = teamId;
 		this.name = name;
 		this.location = location;
+		this.emblemPath = emblemPath;
 		this.fromDate = fromDate;
 		this.toDate = toDate;
 	}
 
 	public TeamHist(final Builder builder) {
-		this(builder.teamId, builder.name, builder.location, builder.fromDate, builder.toDate);
+		this(builder.teamId, builder.name, builder.location, builder.emblemPath, builder.fromDate, builder.toDate);
 		this.id = builder.id;
 	}
 
@@ -65,6 +68,10 @@ public class TeamHist {
 		return location;
 	}
 
+	public String getEmblemPath() {
+		return emblemPath;
+	}
+
 	public Date getFromDate() {
 		return fromDate;
 	}
@@ -79,6 +86,7 @@ public class TeamHist {
 		private String teamId;
 		private String name;
 		private String location;
+		private String emblemPath;
 		private Date fromDate;
 		private Date toDate;
 
@@ -94,6 +102,11 @@ public class TeamHist {
 
 		public Builder withLocation(final String location) {
 			this.location = location;
+			return this;
+		}
+
+		public Builder withEmblemPath(final String emblemPath) {
+			this.emblemPath = emblemPath;
 			return this;
 		}
 

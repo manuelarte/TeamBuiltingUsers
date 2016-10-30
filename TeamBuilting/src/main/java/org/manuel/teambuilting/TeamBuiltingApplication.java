@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.Optional;
 
 import org.manuel.teambuilting.dtos.PlayerDTO;
 import org.manuel.teambuilting.dtos.PlayerToTeamDTO;
@@ -64,7 +65,7 @@ public class TeamBuiltingApplication implements CommandLineRunner {
 		
 		final Date startDevo2 = toDate(LocalDate.of(1958, 1, 1));
 		final String devoAddress = "Herman Bonpad 4, 1067 SN Amsterdam";
-		final TeamHistDTO devo2 = createTeam("Devo 2", devoAddress, startDevo2);
+		final TeamHistDTO devo2 = createTeam("Devo 2", devoAddress, startDevo2, Optional.empty(), "app/static/team_pictures/devo.jpg");
 		
 		// final Date startDevo2Fake = Date.from(LocalDate.of(1900, 1,
 		// 1).atStartOfDay(ZoneId.systemDefault()).toInstant());
@@ -94,9 +95,11 @@ public class TeamBuiltingApplication implements CommandLineRunner {
 
 	}
 
-	private TeamHistDTO createTeam(final String name, final String location, final Date fromDate) {
+	private TeamHistDTO createTeam(final String name, final String location, final Date fromDate,
+			final Optional<Date> optionalToDate, final String emblemPath) {
 		final TeamHistDTO teamHist = new TeamHistDTO.Builder().withName(name).withLocation(location)
-				.withFromDate(fromDate).build();
+				.withEmblemPath(emblemPath)
+				.withFromDate(fromDate).withToDate(optionalToDate.orElse(null)).build();
 		return teamService.createTeam(teamHist);
 	}
 
@@ -119,4 +122,5 @@ public class TeamBuiltingApplication implements CommandLineRunner {
 	private Date toDate(final LocalDate localDate) {
 		return Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 	}
+
 }
