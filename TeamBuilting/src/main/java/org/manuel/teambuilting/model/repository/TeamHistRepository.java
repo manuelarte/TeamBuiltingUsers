@@ -18,7 +18,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TeamHistRepository extends MongoRepository<TeamHist, String> {
 
-	Set<TeamHist> findByNameLike(final String name);
+	Set<TeamHist> findByNameLikeIgnoreCase(final String name);
 
 	TeamHist findByFromDateBeforeAndToDateAfterAndTeamId(final Date fromDate, final Date toDate, final String teamId);
 

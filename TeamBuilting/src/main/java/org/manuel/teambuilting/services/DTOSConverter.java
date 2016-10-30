@@ -59,12 +59,14 @@ public class DTOSConverter {
 
 	public Function<TeamHistDTO, TeamHist> createTeamHist() {
 		return teamHist -> new TeamHist.Builder().withTeamId(teamHist.getTeamId().getId()).withName(teamHist.getName())
+				.withLocation(teamHist.getLocation())
 				.withFromDate(teamHist.getFromDate()).withToDate(teamHist.getToDate()).build();
 	}
 
 	public Function<TeamHist, TeamHistDTO> createTeamHistDTO() {
 		return teamHist -> new TeamHistDTO.Builder().withId(new TeamHistId(teamHist.getId()))
 				.withTeamId(new TeamId(teamHist.getTeamId())).withName(teamHist.getName())
+				.withLocation(teamHist.getLocation())
 				.withFromDate(teamHist.getFromDate()).withToDate(teamHist.getToDate()).build();
 	}
 

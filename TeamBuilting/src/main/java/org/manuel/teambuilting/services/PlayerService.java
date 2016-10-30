@@ -22,7 +22,7 @@ public class PlayerService {
 	}
 
 	public Set<PlayerDTO> findPlayerByName(final String name) {
-		final Set<Player> players = playerRepository.findByNameLike(name);
+		final Set<Player> players = playerRepository.findByNameLikeIgnoreCase(name);
 		return players.stream().map(dtosConverter.toPlayerDTO()).collect(Collectors.toSet());
 	}
 

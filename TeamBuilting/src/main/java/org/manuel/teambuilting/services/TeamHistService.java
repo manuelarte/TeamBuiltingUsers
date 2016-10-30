@@ -33,7 +33,7 @@ public class TeamHistService {
 	}
 
 	public Set<TeamHistDTO> findTeamByName(final String name) {
-		final Set<TeamHist> findByName = teamHistRepository.findByNameLike(name);
+		final Set<TeamHist> findByName = teamHistRepository.findByNameLikeIgnoreCase(name);
 		return findByName.stream().map(dtosConverter.createTeamHistDTO()).collect(Collectors.toSet());
 	}
 
