@@ -80,6 +80,7 @@ public class TeamBuiltingApplication implements CommandLineRunner {
 		playerToTeamRepository(javiLeon.getId(), devo2.getTeamId(), toDate(september2015), null);
 		playerToTeamRepository(diego.getId(), devo2.getTeamId(), toDate(september2015), null);
 		playerToTeamRepository(nelson.getId(), devo2.getTeamId(), toDate(september2015), null);
+		playerToTeamRepository(daniel.getId(), devo2.getTeamId(), toDate(september2015), null);
 
 		playerToTeamRepository(sanne.getId(), devo2.getTeamId(), toDate(september2015.minusYears(1)), null);
 		playerToTeamRepository(mihaiDolghan.getId(), devo2.getTeamId(), toDate(september2015.minusYears(1)), null);
