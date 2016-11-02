@@ -2,9 +2,10 @@ package org.manuel.teambuilting.controllers;
 
 import java.util.Set;
 
+import javax.inject.Inject;
+
 import org.manuel.teambuilting.dtos.PlayerDTO;
 import org.manuel.teambuilting.services.PlayerService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +19,7 @@ public class PlayerController {
 
 	private final PlayerService playerService;
 
-	@Autowired
+	@Inject
 	public PlayerController(final PlayerService playerService) {
 		this.playerService = playerService;
 	}

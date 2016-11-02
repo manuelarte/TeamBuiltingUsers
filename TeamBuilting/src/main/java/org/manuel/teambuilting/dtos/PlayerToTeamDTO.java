@@ -5,6 +5,8 @@ package org.manuel.teambuilting.dtos;
 
 import java.util.Date;
 
+import javax.validation.constraints.Null;
+
 import org.manuel.teambuilting.model.PlayerId;
 import org.manuel.teambuilting.model.PlayerToTeamId;
 import org.manuel.teambuilting.model.TeamId;
@@ -13,7 +15,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.mongodb.annotations.Immutable;
-import com.sun.istack.internal.Nullable;
 
 /**
  * @author Manuel Doncel Martos
@@ -33,7 +34,7 @@ public class PlayerToTeamDTO {
 
 	private final Date startDate;
 
-	@Nullable
+	@Null
 	private final Date endDate;
 
 	public PlayerToTeamDTO(final Builder builder) {
@@ -60,7 +61,7 @@ public class PlayerToTeamDTO {
 		return startDate;
 	}
 
-	@Nullable
+	@Null
 	public Date getEndDate() {
 		return endDate;
 	}
@@ -70,7 +71,7 @@ public class PlayerToTeamDTO {
 		private PlayerId playerId;
 		private TeamId teamId;
 		private Date startDate;
-		@Nullable
+		@Null
 		private Date endDate;
 
 		public Builder withId(final PlayerToTeamId id) {
@@ -93,7 +94,7 @@ public class PlayerToTeamDTO {
 			return this;
 		}
 
-		public Builder withEndDate(@Nullable final Date endDate) {
+		public Builder withEndDate(@Null final Date endDate) {
 			this.endDate = endDate;
 			return this;
 		}

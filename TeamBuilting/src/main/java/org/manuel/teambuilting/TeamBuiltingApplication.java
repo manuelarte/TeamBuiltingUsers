@@ -6,6 +6,8 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.Optional;
 
+import javax.inject.Inject;
+
 import org.manuel.teambuilting.dtos.PlayerDTO;
 import org.manuel.teambuilting.dtos.PlayerToTeamDTO;
 import org.manuel.teambuilting.dtos.TeamHistDTO;
@@ -16,7 +18,6 @@ import org.manuel.teambuilting.model.repository.PlayerRepository;
 import org.manuel.teambuilting.model.repository.PlayerToTeamRepository;
 import org.manuel.teambuilting.services.DTOSConverter;
 import org.manuel.teambuilting.services.TeamService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -24,16 +25,16 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class TeamBuiltingApplication implements CommandLineRunner {
 
-	@Autowired
+	@Inject
 	private PlayerRepository playerRepository;
 
-	@Autowired
+	@Inject
 	private TeamService teamService;
 
-	@Autowired
+	@Inject
 	private PlayerToTeamRepository playerToTeamRepository;
 
-	@Autowired
+	@Inject
 	private DTOSConverter dtosConverter;
 
 	public static void main(final String[] args) {

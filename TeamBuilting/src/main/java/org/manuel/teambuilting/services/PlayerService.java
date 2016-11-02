@@ -3,10 +3,11 @@ package org.manuel.teambuilting.services;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.inject.Inject;
+
 import org.manuel.teambuilting.dtos.PlayerDTO;
 import org.manuel.teambuilting.model.Player;
 import org.manuel.teambuilting.model.repository.PlayerRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,7 +16,7 @@ public class PlayerService {
 	private final PlayerRepository playerRepository;
 	private final DTOSConverter dtosConverter;
 
-	@Autowired
+	@Inject
 	public PlayerService(final PlayerRepository playerRepository, final DTOSConverter dtosConverter) {
 		this.playerRepository = playerRepository;
 		this.dtosConverter = dtosConverter;

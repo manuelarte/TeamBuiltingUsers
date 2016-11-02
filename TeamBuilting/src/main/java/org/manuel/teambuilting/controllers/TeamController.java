@@ -6,13 +6,14 @@ package org.manuel.teambuilting.controllers;
 import java.time.LocalDate;
 import java.util.Set;
 
+import javax.inject.Inject;
+
 import org.manuel.teambuilting.dtos.PlayerDTO;
 import org.manuel.teambuilting.dtos.TeamHistDTO;
 import org.manuel.teambuilting.model.TeamId;
 import org.manuel.teambuilting.services.PlayerToTeamService;
 import org.manuel.teambuilting.services.TeamHistService;
 import org.manuel.teambuilting.services.TeamService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,7 +35,7 @@ public class TeamController {
 	private final TeamHistService teamHistService;
 	private final PlayerToTeamService playerToTeamService;
 
-	@Autowired
+	@Inject
 	public TeamController(final TeamService teamService, final TeamHistService teamHistService,
 			final PlayerToTeamService playerToTeamService) {
 		this.teamService = teamService;

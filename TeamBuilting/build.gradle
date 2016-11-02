@@ -39,5 +39,7 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-web-services')
 	compile('org.springframework.boot:spring-boot-starter-data-mongodb')
 	
+	compile('javax.inject:javax.inject:1')
+	
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }

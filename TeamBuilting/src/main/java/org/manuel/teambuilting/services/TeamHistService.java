@@ -7,12 +7,13 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.inject.Inject;
+
 import org.manuel.teambuilting.dtos.TeamHistDTO;
 import org.manuel.teambuilting.model.TeamHist;
 import org.manuel.teambuilting.model.TeamHistId;
 import org.manuel.teambuilting.model.TeamId;
 import org.manuel.teambuilting.model.repository.TeamHistRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -26,7 +27,7 @@ public class TeamHistService {
 	private final TeamHistRepository teamHistRepository;
 	private final DTOSConverter dtosConverter;
 	
-	@Autowired
+	@Inject
 	public TeamHistService(final TeamHistRepository teamHistRepository, final DTOSConverter dtosConverter) {
 		this.teamHistRepository = teamHistRepository;
 		this.dtosConverter = dtosConverter;

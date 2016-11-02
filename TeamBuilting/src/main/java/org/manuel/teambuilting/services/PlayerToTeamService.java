@@ -8,13 +8,14 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.inject.Inject;
+
 import org.manuel.teambuilting.dtos.PlayerDTO;
 import org.manuel.teambuilting.model.Player;
 import org.manuel.teambuilting.model.PlayerToTeam;
 import org.manuel.teambuilting.model.TeamId;
 import org.manuel.teambuilting.model.repository.PlayerRepository;
 import org.manuel.teambuilting.model.repository.PlayerToTeamRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -28,7 +29,7 @@ public class PlayerToTeamService {
 	private final PlayerRepository playerRepository;
 	private final DTOSConverter dtosConverter;
 
-	@Autowired
+	@Inject
 	public PlayerToTeamService(final PlayerToTeamRepository playerToTeamRepository,
 			final PlayerRepository playerRepository, final DTOSConverter dtosConverter) {
 		this.playerToTeamRepository = playerToTeamRepository;

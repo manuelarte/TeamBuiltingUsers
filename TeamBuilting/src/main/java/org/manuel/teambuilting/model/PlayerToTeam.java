@@ -6,6 +6,7 @@ package org.manuel.teambuilting.model;
 import java.util.Date;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.PersistenceConstructor;
@@ -13,7 +14,6 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.mongodb.annotations.Immutable;
-import com.sun.istack.internal.Nullable;
 
 /**
  * @author Manuel Doncel Martos
@@ -35,12 +35,12 @@ public class PlayerToTeam {
 	@NotNull
 	private final Date startDate;
 
-	@Nullable
+	@Null
 	private final Date endDate;
 
 	@PersistenceConstructor
 	public PlayerToTeam(final String playerId, final String teamId, final Date startDate,
-			@Nullable final Date endDate) {
+			@Null final Date endDate) {
 		this.playerId = playerId;
 		this.teamId = teamId;
 		this.startDate = startDate;
@@ -68,7 +68,7 @@ public class PlayerToTeam {
 		return startDate;
 	}
 
-	@Nullable
+	@Null
 	public Date getEndDate() {
 		return endDate;
 	}
@@ -78,7 +78,7 @@ public class PlayerToTeam {
 		private String playerId;
 		private String teamId;
 		private Date startDate;
-		@Nullable
+		@Null
 		private Date endDate;
 
 		public Builder withId(final String id) {
@@ -101,7 +101,7 @@ public class PlayerToTeam {
 			return this;
 		}
 
-		public Builder withEndDate(@Nullable final Date endDate) {
+		public Builder withEndDate(@Null final Date endDate) {
 			this.endDate = endDate;
 			return this;
 		}
