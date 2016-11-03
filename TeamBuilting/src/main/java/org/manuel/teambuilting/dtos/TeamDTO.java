@@ -11,6 +11,8 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.mongodb.annotations.Immutable;
 
+import lombok.Getter;
+
 /**
  * @author Manuel Doncel Martos
  *
@@ -19,16 +21,13 @@ import com.mongodb.annotations.Immutable;
 @JsonIgnoreProperties
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonDeserialize(builder = TeamDTO.Builder.class)
+@Getter
 public class TeamDTO {
 	
 	private final TeamId id;
 	
 	public TeamDTO(final Builder builder) {
 		this.id = builder.id;
-	}
-
-	public TeamId getId() {
-		return id;
 	}
 	
 	@JsonPOJOBuilder(buildMethodName = "build", withPrefix = "with")

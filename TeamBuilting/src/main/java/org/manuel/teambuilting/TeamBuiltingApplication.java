@@ -100,15 +100,14 @@ public class TeamBuiltingApplication implements CommandLineRunner {
 
 	private TeamHistDTO createTeam(final String name, final String location, final Date fromDate,
 			final Optional<Date> optionalToDate, final String emblemPath) {
-		final TeamHistDTO teamHist = new TeamHistDTO.Builder().withName(name).withLocation(location)
-				.withEmblemPath(emblemPath)
-				.withFromDate(fromDate).withToDate(optionalToDate.orElse(null)).build();
+		final TeamHistDTO teamHist = TeamHistDTO.builder().name(name).location(location)
+				.emblemPath(emblemPath)
+				.fromDate(fromDate).toDate(optionalToDate.orElse(null)).build();
 		return teamService.createTeam(teamHist);
 	}
 
 	private PlayerDTO createPlayer(final String name, final String nickname, final String bornAddress) {
-		final PlayerDTO player = new PlayerDTO.Builder().withName(name).withNickname(nickname)
-				.withBornAddress(bornAddress).build();
+		final PlayerDTO player = PlayerDTO.builder().name(name).nickname(nickname).bornAddress(bornAddress).build();
 		final Player saved = playerRepository.save(dtosConverter.toPlayer().apply(player));
 		return dtosConverter.toPlayerDTO().apply(saved);
 	}
@@ -116,8 +115,8 @@ public class TeamBuiltingApplication implements CommandLineRunner {
 	private void playerToTeamRepository(final PlayerId playerId, final TeamId teamId, final Date startDate,
 			final Date endDate) {
 
-		final PlayerToTeamDTO playerToTeam = new PlayerToTeamDTO.Builder().withPlayerId(playerId).withTeamId(teamId)
-				.withStartDate(startDate).withEndDate(endDate).build();
+		final PlayerToTeamDTO playerToTeam = PlayerToTeamDTO.builder().playerId(playerId).teamId(teamId)
+				.startDate(startDate).endDate(endDate).build();
 
 		playerToTeamRepository.save(dtosConverter.toPlayerToTeam().apply(playerToTeam));
 

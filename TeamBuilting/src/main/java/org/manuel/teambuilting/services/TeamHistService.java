@@ -41,7 +41,8 @@ public class TeamHistService {
 	public TeamHistDTO saveTeamHist(final TeamHistDTO teamHist) {
 		Assert.notNull(teamHist);
 		final TeamHist saved = teamHistRepository.save(dtosConverter.createTeamHist().apply(teamHist));
-		return new TeamHistDTO.Builder(teamHist).withId(new TeamHistId(saved.getId())).build();
+		return new TeamHistDTO(new TeamHistId(saved.getId()), teamHist.getTeamId(), teamHist.getName(),
+				teamHist.getLocation(), teamHist.getEmblemPath(), teamHist.getFromDate(), teamHist.getToDate());
 	}
 
 	public TeamHistDTO getLastTeamHist(final TeamId teamId) {

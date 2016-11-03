@@ -47,8 +47,8 @@ public class DTOSConverter {
 	}
 
 	public Function<Player, PlayerDTO> toPlayerDTO() {
-		return player -> new PlayerDTO.Builder().withId(new PlayerId(player.getId())).withName(player.getName())
-				.withNickname(player.getNickname()).withBornAddress(player.getBornAddress()).build();
+		return player -> PlayerDTO.builder().id(new PlayerId(player.getId())).name(player.getName())
+				.nickname(player.getNickname()).bornAddress(player.getBornAddress()).build();
 	}
 
 	public Function<PlayerToTeamDTO, PlayerToTeam> toPlayerToTeam() {
@@ -58,16 +58,16 @@ public class DTOSConverter {
 	}
 
 	public Function<TeamHistDTO, TeamHist> createTeamHist() {
-		return teamHist -> new TeamHist.Builder().withTeamId(teamHist.getTeamId().getId()).withName(teamHist.getName())
-				.withLocation(teamHist.getLocation()).withEmblemPath(teamHist.getEmblemPath())
-				.withFromDate(teamHist.getFromDate()).withToDate(teamHist.getToDate()).build();
+		return teamHist -> TeamHist.builder().teamId(teamHist.getTeamId().getId()).name(teamHist.getName())
+				.location(teamHist.getLocation()).emblemPath(teamHist.getEmblemPath()).fromDate(teamHist.getFromDate())
+				.toDate(teamHist.getToDate()).build();
 	}
 
 	public Function<TeamHist, TeamHistDTO> createTeamHistDTO() {
-		return teamHist -> new TeamHistDTO.Builder().withId(new TeamHistId(teamHist.getId()))
-				.withTeamId(new TeamId(teamHist.getTeamId())).withName(teamHist.getName())
-				.withLocation(teamHist.getLocation()).withEmblemPath(teamHist.getEmblemPath())
-				.withFromDate(teamHist.getFromDate()).withToDate(teamHist.getToDate()).build();
+		return teamHist -> TeamHistDTO.builder().id(new TeamHistId(teamHist.getId()))
+				.teamId(new TeamId(teamHist.getTeamId())).name(teamHist.getName()).location(teamHist.getLocation())
+				.emblemPath(teamHist.getEmblemPath()).fromDate(teamHist.getFromDate()).toDate(teamHist.getToDate())
+				.build();
 	}
 
 	public Team createTeam(final TeamDTO team) {

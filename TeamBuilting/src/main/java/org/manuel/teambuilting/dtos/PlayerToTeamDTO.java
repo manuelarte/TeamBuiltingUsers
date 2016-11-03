@@ -16,6 +16,9 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.mongodb.annotations.Immutable;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
 /**
  * @author Manuel Doncel Martos
  *
@@ -24,6 +27,9 @@ import com.mongodb.annotations.Immutable;
 @JsonIgnoreProperties
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonDeserialize(builder = PlayerToTeamDTO.Builder.class)
+@Getter
+@lombok.Builder
+@AllArgsConstructor
 public class PlayerToTeamDTO {
 
 	private final PlayerToTeamId id;
@@ -37,71 +43,7 @@ public class PlayerToTeamDTO {
 	@Null
 	private final Date endDate;
 
-	public PlayerToTeamDTO(final Builder builder) {
-		this.id = builder.id;
-		this.playerId = builder.playerId;
-		this.teamId = builder.teamId;
-		this.startDate = builder.startDate;
-		this.endDate = builder.endDate;
-	}
-
-	public PlayerToTeamId getId() {
-		return id;
-	}
-
-	public PlayerId getPlayerId() {
-		return playerId;
-	}
-
-	public TeamId getTeamId() {
-		return teamId;
-	}
-
-	public Date getStartDate() {
-		return startDate;
-	}
-
-	@Null
-	public Date getEndDate() {
-		return endDate;
-	}
-
 	public static class Builder {
-		private PlayerToTeamId id;
-		private PlayerId playerId;
-		private TeamId teamId;
-		private Date startDate;
-		@Null
-		private Date endDate;
-
-		public Builder withId(final PlayerToTeamId id) {
-			this.id = id;
-			return this;
-		}
-
-		public Builder withPlayerId(final PlayerId playerId) {
-			this.playerId = playerId;
-			return this;
-		}
-
-		public Builder withTeamId(final TeamId teamId) {
-			this.teamId = teamId;
-			return this;
-		}
-
-		public Builder withStartDate(final Date startDate) {
-			this.startDate = startDate;
-			return this;
-		}
-
-		public Builder withEndDate(@Null final Date endDate) {
-			this.endDate = endDate;
-			return this;
-		}
-
-		public PlayerToTeamDTO build() {
-			return new PlayerToTeamDTO(this);
-		}
 	}
 
 }

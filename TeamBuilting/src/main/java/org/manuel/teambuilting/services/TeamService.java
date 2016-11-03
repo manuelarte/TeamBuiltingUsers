@@ -40,7 +40,8 @@ public class TeamService {
 	}
 
 	private TeamHistDTO updateTeamHist(final TeamId teamId, final TeamHistDTO teamHist) {
-		return new TeamHistDTO.Builder(teamHist).withTeamId(teamId).build();
+		return new TeamHistDTO(teamHist.getId(), teamId, teamHist.getName(), teamHist.getLocation(),
+				teamHist.getEmblemPath(), teamHist.getFromDate(), teamHist.getToDate());
 	}
 
 }
