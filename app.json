@@ -1,0 +1,20 @@
+{
+  "name": "TeamBuilting",
+  "scripts": {
+  },
+  "env": {
+    "GRADLE_TASK": {
+      "required": true
+    }
+  },
+  "formation": {
+  },
+  "addons": [
+
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/gradle"
+    }
+  ]
+}
