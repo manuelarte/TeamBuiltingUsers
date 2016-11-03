@@ -5,8 +5,6 @@ package org.manuel.teambuilting.dtos;
 
 import java.util.Date;
 
-import javax.validation.constraints.Null;
-
 import org.manuel.teambuilting.model.PlayerId;
 import org.manuel.teambuilting.model.PlayerToTeamId;
 import org.manuel.teambuilting.model.TeamId;
@@ -40,7 +38,6 @@ public class PlayerToTeamDTO {
 
 	private final Date startDate;
 
-	@Null
 	private final Date endDate;
 
 	public static class Builder {

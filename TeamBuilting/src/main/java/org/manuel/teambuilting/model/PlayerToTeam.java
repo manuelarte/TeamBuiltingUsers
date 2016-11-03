@@ -35,12 +35,10 @@ public class PlayerToTeam {
 	@NotNull
 	private final Date startDate;
 
-	@Null
 	private final Date endDate;
 
 	@PersistenceConstructor
-	public PlayerToTeam(final String playerId, final String teamId, final Date startDate,
-			@Null final Date endDate) {
+	public PlayerToTeam(final String playerId, final String teamId, final Date startDate, final Date endDate) {
 		this.playerId = playerId;
 		this.teamId = teamId;
 		this.startDate = startDate;
@@ -101,7 +99,7 @@ public class PlayerToTeam {
 			return this;
 		}
 
-		public Builder withEndDate(@Null final Date endDate) {
+		public Builder withEndDate(final Date endDate) {
 			this.endDate = endDate;
 			return this;
 		}

@@ -2,6 +2,8 @@ package org.manuel.teambuilting.dtos;
 
 import java.util.Date;
 
+import javax.validation.constraints.NotNull;
+
 import org.manuel.teambuilting.model.TeamHistId;
 import org.manuel.teambuilting.model.TeamId;
 
@@ -23,10 +25,13 @@ import lombok.Getter;
 public class TeamHistDTO {
 
 	private final TeamHistId id;
+	@NotNull
 	private final TeamId teamId;
+	@NotNull
 	private final String name;
 	private final String location;
 	private final String emblemPath;
+	@NotNull
 	private final Date fromDate;
 	private final Date toDate;
 
