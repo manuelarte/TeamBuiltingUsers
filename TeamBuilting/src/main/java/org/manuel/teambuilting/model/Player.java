@@ -3,8 +3,6 @@
  */
 package org.manuel.teambuilting.model;
 
-import java.util.Date;
-
 import javax.validation.constraints.NotNull;
 
 import org.springframework.data.annotation.Id;
