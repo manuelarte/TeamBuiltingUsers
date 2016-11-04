@@ -3,12 +3,19 @@
  */
 package org.manuel.teambuilting.model;
 
+import java.util.Date;
+
+import javax.validation.constraints.NotNull;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.PersistenceConstructor;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.mongodb.annotations.Immutable;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
@@ -18,30 +25,23 @@ import lombok.Getter;
 @Immutable
 @Document
 @Getter
+@lombok.Builder
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Team {
 	
 	@Id
 	private String id;
+	
+	@NotNull
+	@Indexed
+	private final String sport;
 
 	@PersistenceConstructor
-	public Team() {
-	}
-
-	private Team(final Builder builder) {
-		this.id = builder.id;
+	public Team(final String sport) {
+		this.sport = sport;
 	}
 	
 	public static class Builder {
-		private String id;
-
-		public Builder withId(final String id) {
-			this.id = id;
-			return this;
-		}
-
-		public Team build() {
-			return new Team(this);
-		}
 	}
 
 }

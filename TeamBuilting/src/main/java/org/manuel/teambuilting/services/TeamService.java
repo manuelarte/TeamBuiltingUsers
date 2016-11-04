@@ -33,7 +33,7 @@ public class TeamService {
 	
 	public TeamHistDTO createTeam(final TeamHistDTO teamHist) {
 		Assert.notNull(teamHist);
-		final Team team = teamRepository.save(new Team());
+		final Team team = teamRepository.save(new Team("Football"));
 		final TeamHistDTO updatedTeamHist = updateTeamHist(new TeamId(team.getId()), teamHist);
 		return teamHistService.saveTeamHist(updatedTeamHist);
 

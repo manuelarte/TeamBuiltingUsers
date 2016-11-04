@@ -42,8 +42,8 @@ public class DTOSConverter {
 	}
 
 	public Function<PlayerDTO, Player> toPlayer() {
-		return player -> new Player.Builder().withName(player.getName()).withNickname(player.getNickname())
-				.withBornAddress(player.getBornAddress()).build();
+		return player -> Player.builder().name(player.getName()).nickname(player.getNickname())
+				.bornAddress(player.getBornAddress()).build();
 	}
 
 	public Function<Player, PlayerDTO> toPlayerDTO() {
@@ -52,9 +52,9 @@ public class DTOSConverter {
 	}
 
 	public Function<PlayerToTeamDTO, PlayerToTeam> toPlayerToTeam() {
-		return playerToTeam -> new PlayerToTeam.Builder().withPlayerId(playerToTeam.getPlayerId().getId())
-				.withTeamId(playerToTeam.getTeamId().getId())
-				.withStartDate(playerToTeam.getStartDate()).withEndDate(playerToTeam.getEndDate()).build();
+		return playerToTeam -> PlayerToTeam.builder().playerId(playerToTeam.getPlayerId().getId())
+				.teamId(playerToTeam.getTeamId().getId()).startDate(playerToTeam.getStartDate())
+				.endDate(playerToTeam.getEndDate()).build();
 	}
 
 	public Function<TeamHistDTO, TeamHist> createTeamHist() {
@@ -71,7 +71,7 @@ public class DTOSConverter {
 	}
 
 	public Team createTeam(final TeamDTO team) {
-		return new Team.Builder().withId(team.getId().getId()).build();
+		return Team.builder().id(team.getId().getId()).sport(team.getSport()).build();
 	}
 
 }

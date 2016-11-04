@@ -3,14 +3,16 @@
  */
 package org.manuel.teambuilting.dtos;
 
+import javax.validation.constraints.NotNull;
+
 import org.manuel.teambuilting.model.TeamId;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.mongodb.annotations.Immutable;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
@@ -22,26 +24,16 @@ import lombok.Getter;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonDeserialize(builder = TeamDTO.Builder.class)
 @Getter
+@lombok.Builder
+@AllArgsConstructor
 public class TeamDTO {
 	
 	private final TeamId id;
 	
-	public TeamDTO(final Builder builder) {
-		this.id = builder.id;
-	}
+	@NotNull
+	private final String sport;
 	
-	@JsonPOJOBuilder(buildMethodName = "build", withPrefix = "with")
 	public static class Builder {
-		private TeamId id;
-		
-		public Builder withId(final TeamId id) {
-			this.id = id;
-			return this;
-		}
-		
-		public TeamDTO build() {
-			return new TeamDTO(this);
-		}
 	}
 
 }
