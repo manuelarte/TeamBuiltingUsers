@@ -9,8 +9,10 @@ import java.util.Set;
 import javax.inject.Inject;
 
 import org.manuel.teambuilting.dtos.PlayerDTO;
+import org.manuel.teambuilting.dtos.TeamDTO;
 import org.manuel.teambuilting.dtos.TeamHistDTO;
 import org.manuel.teambuilting.model.TeamId;
+import org.manuel.teambuilting.model.TeamSport;
 import org.manuel.teambuilting.services.PlayerToTeamService;
 import org.manuel.teambuilting.services.TeamHistService;
 import org.manuel.teambuilting.services.TeamService;
@@ -50,9 +52,10 @@ public class TeamController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public TeamHistDTO saveTeam(@RequestBody final TeamHistDTO team) {
-		Assert.notNull(team);
-		return teamService.createTeam(team);
+	public TeamHistDTO saveTeam(@RequestBody final TeamHistDTO teamhist) {
+		Assert.notNull(teamhist);
+		final TeamDTO teamDTO = new TeamDTO(null, TeamSport.FOOTBALL.getName());
+		return teamService.createTeam(teamDTO, teamhist);
     }
 
 	@RequestMapping(path = "/{teamId}", method = RequestMethod.GET)

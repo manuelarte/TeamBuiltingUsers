@@ -10,10 +10,12 @@ import javax.inject.Inject;
 
 import org.manuel.teambuilting.dtos.PlayerDTO;
 import org.manuel.teambuilting.dtos.PlayerToTeamDTO;
+import org.manuel.teambuilting.dtos.TeamDTO;
 import org.manuel.teambuilting.dtos.TeamHistDTO;
 import org.manuel.teambuilting.model.Player;
 import org.manuel.teambuilting.model.PlayerId;
 import org.manuel.teambuilting.model.TeamId;
+import org.manuel.teambuilting.model.TeamSport;
 import org.manuel.teambuilting.model.repository.PlayerRepository;
 import org.manuel.teambuilting.model.repository.PlayerToTeamRepository;
 import org.manuel.teambuilting.services.DTOSConverter;
@@ -67,7 +69,8 @@ public class TeamBuiltingApplication implements CommandLineRunner {
 		
 		final Date startDevo2 = toDate(LocalDate.of(1958, 1, 1));
 		final String devoAddress = "Herman Bonpad 4, 1067 SN Amsterdam";
-		final TeamHistDTO devo2 = createTeam("Devo 2", devoAddress, startDevo2, Optional.empty(), "app/static/team_pictures/devo.jpg");
+		final TeamHistDTO devo2 = createTeam(TeamSport.FOOTBALL, "Devo 2", devoAddress, startDevo2, Optional.empty(),
+				"app/static/team_pictures/devo.png");
 		
 		// final Date startDevo2Fake = Date.from(LocalDate.of(1900, 1,
 		// 1).atStartOfDay(ZoneId.systemDefault()).toInstant());
@@ -98,12 +101,13 @@ public class TeamBuiltingApplication implements CommandLineRunner {
 
 	}
 
-	private TeamHistDTO createTeam(final String name, final String location, final Date fromDate,
+	private TeamHistDTO createTeam(final TeamSport sport, final String name, final String location, final Date fromDate,
 			final Optional<Date> optionalToDate, final String emblemPath) {
+		final TeamDTO team = new TeamDTO(null, sport.getName());
 		final TeamHistDTO teamHist = TeamHistDTO.builder().name(name).location(location)
 				.emblemPath(emblemPath)
 				.fromDate(fromDate).toDate(optionalToDate.orElse(null)).build();
-		return teamService.createTeam(teamHist);
+		return teamService.createTeam(team, teamHist);
 	}
 
 	private PlayerDTO createPlayer(final String name, final String nickname, final String bornAddress) {
