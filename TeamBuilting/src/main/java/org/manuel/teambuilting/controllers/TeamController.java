@@ -46,9 +46,10 @@ public class TeamController {
 	}
 	
 	@RequestMapping(method = RequestMethod.GET)
-	public Set<TeamHistDTO> findTeamByName(@RequestParam(value = "name", defaultValue = "") final String name) {
+	public Set<TeamHistDTO> findTeamBy(@RequestParam(value = "sport", defaultValue = "") final String sport,
+			@RequestParam(value = "name", defaultValue = "") final String name) {
 		Assert.notNull(name);
-		return teamHistService.findTeamByName(name);
+		return teamHistService.findTeamBy(sport, name);
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
