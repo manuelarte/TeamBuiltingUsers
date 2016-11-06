@@ -5,7 +5,6 @@ package org.manuel.teambuilting.services;
 
 import java.util.Collection;
 import java.util.Set;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.manuel.teambuilting.dtos.PlayerDTO;
@@ -73,9 +72,9 @@ public class DTOSConverter {
 				.toDate(teamHist.getToDate()).build();
 	}
 
-	public Function<TeamHist, TeamHistDTO> createTeamHistDTO() {
-		return teamHist -> TeamHistDTO.builder().id(new TeamHistId(teamHist.getId()))
-				.teamId(new TeamId(teamHist.getTeamId())).name(teamHist.getName()).location(teamHist.getLocation())
+	public TeamHistDTO createTeamHistDTO(final TeamHist teamHist, final Team team) {
+		return TeamHistDTO.builder().id(new TeamHistId(teamHist.getId())).teamId(new TeamId(teamHist.getTeamId()))
+				.name(teamHist.getName()).sport(team.getSport()).location(teamHist.getLocation())
 				.emblemPath(teamHist.getEmblemPath()).fromDate(teamHist.getFromDate()).toDate(teamHist.getToDate())
 				.build();
 	}

@@ -43,7 +43,8 @@ public class TeamService {
 	}
 
 	private TeamHistDTO updateTeamHist(final TeamId teamId, final TeamHistDTO teamHist) {
-		return new TeamHistDTO(teamHist.getId(), teamId, teamHist.getName(), teamHist.getLocation(),
+		final Team team = teamRepository.findOne(teamId.getId());
+		return new TeamHistDTO(teamHist.getId(), teamId, teamHist.getName(), team.getSport(), teamHist.getLocation(),
 				teamHist.getEmblemPath(), teamHist.getFromDate(), teamHist.getToDate());
 	}
 

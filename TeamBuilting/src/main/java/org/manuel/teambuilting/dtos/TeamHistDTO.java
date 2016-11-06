@@ -29,6 +29,10 @@ public class TeamHistDTO {
 	private final TeamId teamId;
 	@NotNull
 	private final String name;
+	
+	@NotNull
+	private final String sport;
+	
 	private final String location;
 	private final String emblemPath;
 	@NotNull

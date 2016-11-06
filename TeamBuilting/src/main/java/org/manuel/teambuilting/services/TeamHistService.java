@@ -44,26 +44,34 @@ public class TeamHistService {
 		return matchingName.stream()
 				.filter(th -> teamsForSport.stream().map(team -> team.getId())
 						.collect(Collectors.toSet()).contains(th.getTeamId()))
-				.map(dtosConverter.createTeamHistDTO()).collect(Collectors.toSet());
+				.map(th -> dtosConverter.createTeamHistDTO(th, getSportFrom(th))).collect(Collectors.toSet());
 	}
 
 	public TeamHistDTO saveTeamHist(final TeamHistDTO teamHist) {
 		Assert.notNull(teamHist);
+		final Team team = teamRepository.findOne(teamHist.getTeamId().getId());
 		final TeamHist saved = teamHistRepository.save(dtosConverter.createTeamHist(teamHist));
 		return new TeamHistDTO(new TeamHistId(saved.getId()), teamHist.getTeamId(), teamHist.getName(),
-				teamHist.getLocation(), teamHist.getEmblemPath(), teamHist.getFromDate(), teamHist.getToDate());
+				team.getSport(), teamHist.getLocation(), teamHist.getEmblemPath(), teamHist.getFromDate(),
+				teamHist.getToDate());
 	}
 
 	public TeamHistDTO getLastTeamHist(final TeamId teamId) {
 		Assert.notNull(teamId);
+		final Team team = teamRepository.findOne(teamId.getId());
 		final List<TeamHist> findByTeamId = teamHistRepository.findByTeamIdOrderByFromDateDesc(teamId.getId());
 		final TeamHist teamHist = findByTeamId.get(0);
-		return dtosConverter.createTeamHistDTO().apply(teamHist);
+		return dtosConverter.createTeamHistDTO(teamHist, team);
 	}
 
 	public TeamHistDTO getTeamHist(final TeamHistId teamHistId) {
 		final TeamHist teamHist = teamHistRepository.findOne(teamHistId.getId());
-		return dtosConverter.createTeamHistDTO().apply(teamHist);
+		final Team team = teamRepository.findOne(teamHist.getTeamId());
+		return dtosConverter.createTeamHistDTO(teamHist, team);
+	}
+
+	private Team getSportFrom(final TeamHist teamHist) {
+		return teamRepository.findOne(teamHist.getTeamId());
 	}
 
 }

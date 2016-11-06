@@ -136,10 +136,8 @@ public class TeamBuiltingApplication implements CommandLineRunner {
 
 	private void playerToTeamRepository(final PlayerId playerId, final TeamId teamId, final Date startDate,
 			final Date endDate) {
-
 		final PlayerToTeamDTO playerToTeam = PlayerToTeamDTO.builder().playerId(playerId).teamId(teamId)
 				.startDate(startDate).endDate(endDate).build();
-
 		playerToTeamRepository.save(dtosConverter.toPlayerToTeam(playerToTeam));
 
 	}
