@@ -38,12 +38,12 @@ public class Player {
 	private final String nickname;
 	
 	@Indexed
-	private final char sex;
+	private final Character sex;
 
 	private final String bornAddress;
 
 	@PersistenceConstructor
-	public Player(final String name, final String nickname, final char sex, final String bornAddress) {
+	public Player(final String name, final String nickname, final Character sex, final String bornAddress) {
 		this.name = name;
 		this.nickname = nickname;
 		this.sex = sex;

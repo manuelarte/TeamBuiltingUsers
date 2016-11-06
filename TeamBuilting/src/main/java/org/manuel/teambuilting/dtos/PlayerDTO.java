@@ -37,7 +37,7 @@ public class PlayerDTO {
 	
 	private final String nickname;
 	
-	private final char sex;
+	private final Character sex;
 
 	private final String bornAddress;
 

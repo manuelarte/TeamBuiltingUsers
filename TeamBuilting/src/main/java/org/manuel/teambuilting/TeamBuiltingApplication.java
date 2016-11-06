@@ -64,26 +64,29 @@ public class TeamBuiltingApplication implements CommandLineRunner {
 	}
 
 	private void createData() {
-		final PlayerDTO javiLeon = createPlayer("Javier leon", "Javi", "Soria, Castille and Leon, Spain");
-		final PlayerDTO sanne = createPlayer("Sanne", "Sanne", "Amsterdam, Netherlands");
-		final PlayerDTO mihaiDolghan = createPlayer("Mihai Dolghan", "Mihai", "Bucharest, Romania");
-		final PlayerDTO oscar = createPlayer("Oscar", "Oscar", "Santander, Cantabria, Spain");
-		final PlayerDTO borja = createPlayer("Borja Sacristán", "Borja", "Madrid, Madrid, Spain");
-		final PlayerDTO manu = createPlayer("Manuel Doncel Martos", "Manu D", "Úbeda, Jaén, 23400 Spain");
+		final PlayerDTO javiLeon = createPlayer("Javier leon", "Javi", Optional.of('M'),
+				"Soria, Castille and Leon, Spain");
+		final PlayerDTO sanne = createPlayer("Sanne", "Sanne", Optional.of('M'), "Amsterdam, Netherlands");
+		final PlayerDTO mihaiDolghan = createPlayer("Mihai Dolghan", "Mihai", Optional.of('M'), "Bucharest, Romania");
+		final PlayerDTO oscar = createPlayer("Oscar", "Oscar", Optional.of('M'), "Santander, Cantabria, Spain");
+		final PlayerDTO borja = createPlayer("Borja Sacristán", "Borja", Optional.of('M'), "Madrid, Madrid, Spain");
+		final PlayerDTO manu = createPlayer("Manuel Doncel Martos", "Manu D", Optional.of('M'),
+				"Úbeda, Jaén, 23400 Spain");
 		addPlayerDetails(manu.getId(), "Player with offensive vocation", LB,
 				new HashSet<TeamSportPosition>(Arrays.asList(LM, CAM, LW)));
 
-		final PlayerDTO pedro = createPlayer("Pedro Dans", "Pedro", "Coruña, Galicia, Spain");
-		final PlayerDTO dennis = createPlayer("Dennis Bakker", "Dennis", "Madrid, Madrid, Spain");
-		final PlayerDTO karim = createPlayer("Karim", "Karim", "Guadalajara, Madrid, Spain");
-		final PlayerDTO diego = createPlayer("Diego Ramonde", "Diego", "Coruña, Galicia, Spain");
-		final PlayerDTO nelson = createPlayer("Nelson Alfonso", "Nelson", "Lisbon, Portugal");
-		final PlayerDTO theo = createPlayer("Theodor Phantender", "Theo D'Or", "Amsterdam, Netherlands");
-		final PlayerDTO daniel = createPlayer("Daniel Dittmar", "Daniel", "Sydney, Australia");
-		final PlayerDTO daan = createPlayer("Dann Farjon", "Daan", "Amsterdam, Netherlands");
-		final PlayerDTO tomasVirkick = createPlayer("Tomas Virkick", "Virco", "Slovakia");
-		final PlayerDTO tomasZ = createPlayer("Tomas Z", "Tomas", "Slovakia");
-		final PlayerDTO kuba = createPlayer("Kuba", "Kuba", "Krakow, Poland");
+		final PlayerDTO pedro = createPlayer("Pedro Dans", "Pedro", Optional.of('M'), "Coruña, Galicia, Spain");
+		final PlayerDTO dennis = createPlayer("Dennis Bakker", "Dennis", Optional.of('M'), "Madrid, Madrid, Spain");
+		final PlayerDTO karim = createPlayer("Karim", "Karim", Optional.of('M'), "Guadalajara, Madrid, Spain");
+		final PlayerDTO diego = createPlayer("Diego Ramonde", "Diego", Optional.of('M'), "Coruña, Galicia, Spain");
+		final PlayerDTO nelson = createPlayer("Nelson Alfonso", "Nelson", Optional.of('M'), "Lisbon, Portugal");
+		final PlayerDTO theo = createPlayer("Theodor Phantender", "Theo D'Or", Optional.of('M'),
+				"Amsterdam, Netherlands");
+		final PlayerDTO daniel = createPlayer("Daniel Dittmar", "Daniel", Optional.of('M'), "Sydney, Australia");
+		final PlayerDTO daan = createPlayer("Dann Farjon", "Daan", Optional.of('M'), "Amsterdam, Netherlands");
+		final PlayerDTO tomasVirkick = createPlayer("Tomas Virkick", "Virco", Optional.of('M'), "Slovakia");
+		final PlayerDTO tomasZ = createPlayer("Tomas Z", "Tomas", Optional.of('M'), "Slovakia");
+		final PlayerDTO kuba = createPlayer("Kuba", "Kuba", Optional.of('M'), "Krakow, Poland");
 		
 		final Date startDevo2 = toDate(LocalDate.of(1958, 1, 1));
 		final String devoAddress = "Herman Bonpad 4, 1067 SN Amsterdam";
@@ -128,8 +131,11 @@ public class TeamBuiltingApplication implements CommandLineRunner {
 		return teamService.createTeam(team, teamHist);
 	}
 
-	private PlayerDTO createPlayer(final String name, final String nickname, final String bornAddress) {
-		final PlayerDTO player = PlayerDTO.builder().name(name).nickname(nickname).bornAddress(bornAddress).build();
+	private PlayerDTO createPlayer(final String name, final String nickname, final Optional<Character> sex,
+			final String bornAddress) {
+		final PlayerDTO player = PlayerDTO.builder().name(name).nickname(nickname).sex(sex.orElse(null))
+				.bornAddress(bornAddress)
+				.build();
 		final Player saved = playerRepository.save(dtosConverter.toPlayer(player));
 		return dtosConverter.toPlayerDTO(saved);
 	}

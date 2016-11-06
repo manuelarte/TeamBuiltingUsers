@@ -45,7 +45,7 @@ public class DTOSConverter {
 
 	public Player toPlayer(final PlayerDTO player) {
 		return Player.builder().name(player.getName()).nickname(player.getNickname())
-				.bornAddress(player.getBornAddress()).build();
+				.sex(player.getSex()).bornAddress(player.getBornAddress()).build();
 	}
 
 	public PlayerDTO toPlayerDTO(final Player player) {
