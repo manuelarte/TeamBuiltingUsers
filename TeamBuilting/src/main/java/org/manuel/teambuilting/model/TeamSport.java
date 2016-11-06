@@ -1,22 +1,27 @@
 package org.manuel.teambuilting.model;
 
+import java.util.function.Function;
+
 import org.manuel.teambuilting.model.football.FootballPosition;
 import org.manuel.teambuilting.model.football.FutsalPosition;
-import org.manuel.teambuilting.model.football.TeamSportPosition;
 
 import lombok.Getter;
 
 @Getter
 public enum TeamSport {
 
-	FOOTBALL("Football", FootballPosition.class),
-	FUTSAL("Futsal", FutsalPosition.class);
+	FOOTBALL("Football", FootballPosition.values()),
+	FUTSAL("Futsal", FutsalPosition.values());
 
 	private final String name;
-	private final Class<? extends TeamSportPosition> sportPositions;
+	private final TeamSportPosition[] sportPositions;
 	
-	TeamSport(final String name, final Class<? extends TeamSportPosition> sportPositions) {
+	TeamSport(final String name, final TeamSportPosition[] sportPositions) {
 		this.name = name;
 		this.sportPositions = sportPositions;
+	}
+	
+	public Function<String, TeamSportPosition> getSportPosition() {
+		return positionName -> sportPositions[0].getEnumValue(positionName);
 	}
 }

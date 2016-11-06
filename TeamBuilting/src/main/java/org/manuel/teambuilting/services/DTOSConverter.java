@@ -10,11 +10,13 @@ import java.util.stream.Collectors;
 
 import org.manuel.teambuilting.dtos.PlayerDTO;
 import org.manuel.teambuilting.dtos.PlayerToTeamDTO;
+import org.manuel.teambuilting.dtos.PlayerToTeamSportDetailsDTO;
 import org.manuel.teambuilting.dtos.TeamDTO;
 import org.manuel.teambuilting.dtos.TeamHistDTO;
 import org.manuel.teambuilting.model.Player;
 import org.manuel.teambuilting.model.PlayerId;
 import org.manuel.teambuilting.model.PlayerToTeam;
+import org.manuel.teambuilting.model.PlayerToTeamSportDetails;
 import org.manuel.teambuilting.model.Team;
 import org.manuel.teambuilting.model.TeamHist;
 import org.manuel.teambuilting.model.TeamHistId;
@@ -72,6 +74,14 @@ public class DTOSConverter {
 
 	public Team createTeam(final TeamDTO team) {
 		return Team.builder().id(team.getId().getId()).sport(team.getSport()).build();
+	}
+
+	public PlayerToTeamSportDetailsDTO toPlayerToTeamSportDetailsDTO(final PlayerToTeamSportDetails playerToTeamSportDetails) {
+		return PlayerToTeamSportDetailsDTO.builder().id(playerToTeamSportDetails.getId())
+				.playerId(playerToTeamSportDetails.getPlayerId())
+				.sport(playerToTeamSportDetails.getSport()).bio(playerToTeamSportDetails.getBio())
+				.mainPosition(playerToTeamSportDetails.getMainPosition())
+				.otherPositions(playerToTeamSportDetails.getOtherPositions()).build();
 	}
 
 }

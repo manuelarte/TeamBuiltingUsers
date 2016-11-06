@@ -5,6 +5,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface PlayerToTeamSportDetailsRepository extends MongoRepository<PlayerToTeamSportDetails, String> {
 
-	PlayerToTeamSportDetails findByPlayerId(String playerId);
+	PlayerToTeamSportDetails findByPlayerIdAndSportLikeIgnoreCase(String playerId, String sport);
 
 }

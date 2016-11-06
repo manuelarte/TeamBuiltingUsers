@@ -3,12 +3,10 @@
  */
 package org.manuel.teambuilting.model;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.validation.constraints.NotNull;
 
-import org.manuel.teambuilting.model.football.FootballPosition;
-import org.manuel.teambuilting.model.football.TeamSportPosition;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -27,7 +25,7 @@ import lombok.Getter;
 @Document
 @Immutable
 @Getter
-@lombok.Builder
+@lombok.Builder(toBuilder = true)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class PlayerToTeamSportDetails {
 
@@ -35,24 +33,24 @@ public class PlayerToTeamSportDetails {
 	private String id;
 	
 	@NotNull
-	private String sport;
-	
-	@NotNull
 	private final String playerId;
 	
-	public final String bio;
+	@NotNull
+	private final String sport;
+	
+	private final String bio;
 	
 	@NotNull
 	@Indexed
-	private final TeamSportPosition mainPosition;
+	private final String mainPosition;
 	
-	private final List<TeamSportPosition> otherPositions;
+	private final Set<String> otherPositions;
 	
 	@PersistenceConstructor
-	public PlayerToTeamSportDetails(final String playerId, final String sport, final String bio, final TeamSportPosition mainPosition, final List<TeamSportPosition> otherPositions) {
+	public PlayerToTeamSportDetails(final String playerId, final String sport, final String bio, final String mainPosition, final Set<String> otherPositions) {
 		this.playerId = playerId;
 		this.sport = sport;
-		this.bio = bio;
+		this.bio = bio; 
 		this.mainPosition = mainPosition;
 		this.otherPositions = otherPositions;
 	}

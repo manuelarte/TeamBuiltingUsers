@@ -1,5 +1,8 @@
 package org.manuel.teambuilting.model.football;
 
+import org.manuel.teambuilting.model.TeamSport;
+import org.manuel.teambuilting.model.TeamSportPosition;
+
 import lombok.Getter;
 
 /**
@@ -28,10 +31,27 @@ public enum FootballPosition implements TeamSportPosition {
 	LW("Left winger"),
 	RW("Right winger");
 
+	private static final TeamSport SPORT = TeamSport.FOOTBALL;
+	
 	private final String name;
 
 	FootballPosition(final String name) {
 		this.name = name;
+	}
+	
+	@Override
+	public TeamSportPosition getEnumValue(final String positionName) {
+		return FootballPosition.valueOf(positionName);
+	}
+	
+	@Override
+	public String getAbbreviation() {
+		return name();
+	}
+
+	@Override
+	public TeamSport sport() {
+		return SPORT;
 	}
 	
 }

@@ -1,10 +1,19 @@
 package org.manuel.teambuilting;
 
+import static org.manuel.teambuilting.model.football.FootballPosition.CAM;
+import static org.manuel.teambuilting.model.football.FootballPosition.LB;
+import static org.manuel.teambuilting.model.football.FootballPosition.LM;
+import static org.manuel.teambuilting.model.football.FootballPosition.LW;
+
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.ZoneId;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
@@ -14,10 +23,13 @@ import org.manuel.teambuilting.dtos.TeamDTO;
 import org.manuel.teambuilting.dtos.TeamHistDTO;
 import org.manuel.teambuilting.model.Player;
 import org.manuel.teambuilting.model.PlayerId;
+import org.manuel.teambuilting.model.PlayerToTeamSportDetails;
 import org.manuel.teambuilting.model.TeamId;
 import org.manuel.teambuilting.model.TeamSport;
+import org.manuel.teambuilting.model.TeamSportPosition;
 import org.manuel.teambuilting.model.repository.PlayerRepository;
 import org.manuel.teambuilting.model.repository.PlayerToTeamRepository;
+import org.manuel.teambuilting.model.repository.PlayerToTeamSportDetailsRepository;
 import org.manuel.teambuilting.services.DTOSConverter;
 import org.manuel.teambuilting.services.TeamService;
 import org.springframework.boot.CommandLineRunner;
@@ -35,6 +47,9 @@ public class TeamBuiltingApplication implements CommandLineRunner {
 
 	@Inject
 	private PlayerToTeamRepository playerToTeamRepository;
+
+	@Inject
+	private PlayerToTeamSportDetailsRepository playerToTeamSportDetailsRepository;
 
 	@Inject
 	private DTOSConverter dtosConverter;
@@ -55,6 +70,9 @@ public class TeamBuiltingApplication implements CommandLineRunner {
 		final PlayerDTO oscar = createPlayer("Oscar", "Oscar", "Santander, Cantabria, Spain");
 		final PlayerDTO borja = createPlayer("Borja Sacristán", "Borja", "Madrid, Madrid, Spain");
 		final PlayerDTO manu = createPlayer("Manuel Doncel Martos", "Manu D", "Úbeda, Jaén, 23400 Spain");
+		addPlayerDetails(manu.getId(), "Player with offensive vocation", LB,
+				new HashSet<TeamSportPosition>(Arrays.asList(LM, CAM, LW)));
+
 		final PlayerDTO pedro = createPlayer("Pedro Dans", "Pedro", "Coruña, Galicia, Spain");
 		final PlayerDTO dennis = createPlayer("Dennis Bakker", "Dennis", "Madrid, Madrid, Spain");
 		final PlayerDTO karim = createPlayer("Karim", "Karim", "Guadalajara, Madrid, Spain");
@@ -124,6 +142,14 @@ public class TeamBuiltingApplication implements CommandLineRunner {
 
 		playerToTeamRepository.save(dtosConverter.toPlayerToTeam().apply(playerToTeam));
 
+	}
+
+	private void addPlayerDetails(final PlayerId playerId, final String bio, final TeamSportPosition mainPosition,
+			final Set<TeamSportPosition> othersPositions) {
+		final PlayerToTeamSportDetails plyaerDetails = new PlayerToTeamSportDetails(playerId.getId(),
+				mainPosition.sport().getName(), bio, mainPosition.getAbbreviation(), othersPositions.stream()
+						.map(otherPosition -> otherPosition.getAbbreviation()).collect(Collectors.toSet()));
+		playerToTeamSportDetailsRepository.save(plyaerDetails);
 	}
 
 	private Date toDate(final LocalDate localDate) {
