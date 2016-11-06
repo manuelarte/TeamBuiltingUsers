@@ -16,6 +16,7 @@ import org.manuel.teambuilting.dtos.TeamHistDTO;
 import org.manuel.teambuilting.model.Player;
 import org.manuel.teambuilting.model.PlayerId;
 import org.manuel.teambuilting.model.PlayerToTeam;
+import org.manuel.teambuilting.model.PlayerToTeamId;
 import org.manuel.teambuilting.model.PlayerToTeamSportDetails;
 import org.manuel.teambuilting.model.Team;
 import org.manuel.teambuilting.model.TeamHist;
@@ -40,27 +41,34 @@ public class DTOSConverter {
 
 
 	public Set<PlayerDTO> convertPlayers(final Collection<Player> players) {
-		return players.stream().map(toPlayerDTO()).collect(Collectors.toSet());
+		return players.stream().map(player -> toPlayerDTO(player)).collect(Collectors.toSet());
 	}
 
-	public Function<PlayerDTO, Player> toPlayer() {
-		return player -> Player.builder().name(player.getName()).nickname(player.getNickname())
+	public Player toPlayer(final PlayerDTO player) {
+		return Player.builder().name(player.getName()).nickname(player.getNickname())
 				.bornAddress(player.getBornAddress()).build();
 	}
 
-	public Function<Player, PlayerDTO> toPlayerDTO() {
-		return player -> PlayerDTO.builder().id(new PlayerId(player.getId())).name(player.getName())
+	public PlayerDTO toPlayerDTO(final Player player) {
+		return PlayerDTO.builder().id(new PlayerId(player.getId())).name(player.getName())
 				.nickname(player.getNickname()).bornAddress(player.getBornAddress()).build();
 	}
 
-	public Function<PlayerToTeamDTO, PlayerToTeam> toPlayerToTeam() {
-		return playerToTeam -> PlayerToTeam.builder().playerId(playerToTeam.getPlayerId().getId())
+	public PlayerToTeam toPlayerToTeam(final PlayerToTeamDTO playerToTeam) {
+		return PlayerToTeam.builder().id(playerToTeam.getId().getId()).playerId(playerToTeam.getPlayerId().getId())
 				.teamId(playerToTeam.getTeamId().getId()).startDate(playerToTeam.getStartDate())
 				.endDate(playerToTeam.getEndDate()).build();
 	}
 
-	public Function<TeamHistDTO, TeamHist> createTeamHist() {
-		return teamHist -> TeamHist.builder().teamId(teamHist.getTeamId().getId()).name(teamHist.getName())
+	public PlayerToTeamDTO toPlayerToTeamDTO(final PlayerToTeam playerToTeam) {
+		return PlayerToTeamDTO.builder().id(new PlayerToTeamId(playerToTeam.getId()))
+				.playerId(new PlayerId(playerToTeam.getPlayerId()))
+				.teamId(new TeamId(playerToTeam.getTeamId())).startDate(playerToTeam.getStartDate())
+				.endDate(playerToTeam.getEndDate()).build();
+	}
+
+	public TeamHist createTeamHist(final TeamHistDTO teamHist) {
+		return TeamHist.builder().teamId(teamHist.getTeamId().getId()).name(teamHist.getName())
 				.location(teamHist.getLocation()).emblemPath(teamHist.getEmblemPath()).fromDate(teamHist.getFromDate())
 				.toDate(teamHist.getToDate()).build();
 	}

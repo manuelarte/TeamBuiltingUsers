@@ -130,8 +130,8 @@ public class TeamBuiltingApplication implements CommandLineRunner {
 
 	private PlayerDTO createPlayer(final String name, final String nickname, final String bornAddress) {
 		final PlayerDTO player = PlayerDTO.builder().name(name).nickname(nickname).bornAddress(bornAddress).build();
-		final Player saved = playerRepository.save(dtosConverter.toPlayer().apply(player));
-		return dtosConverter.toPlayerDTO().apply(saved);
+		final Player saved = playerRepository.save(dtosConverter.toPlayer(player));
+		return dtosConverter.toPlayerDTO(saved);
 	}
 
 	private void playerToTeamRepository(final PlayerId playerId, final TeamId teamId, final Date startDate,
@@ -140,7 +140,7 @@ public class TeamBuiltingApplication implements CommandLineRunner {
 		final PlayerToTeamDTO playerToTeam = PlayerToTeamDTO.builder().playerId(playerId).teamId(teamId)
 				.startDate(startDate).endDate(endDate).build();
 
-		playerToTeamRepository.save(dtosConverter.toPlayerToTeam().apply(playerToTeam));
+		playerToTeamRepository.save(dtosConverter.toPlayerToTeam(playerToTeam));
 
 	}
 

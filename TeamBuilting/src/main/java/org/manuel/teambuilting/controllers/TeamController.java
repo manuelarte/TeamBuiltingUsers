@@ -45,13 +45,6 @@ public class TeamController {
 		this.playerToTeamService = playerToTeamService;
 	}
 	
-	@RequestMapping(method = RequestMethod.GET)
-	public Set<TeamHistDTO> findTeamBy(@RequestParam(value = "sport", defaultValue = "") final String sport,
-			@RequestParam(value = "name", defaultValue = "") final String name) {
-		Assert.notNull(name);
-		return teamHistService.findTeamBy(sport, name);
-	}
-
 	@RequestMapping(method = RequestMethod.POST)
 	public TeamHistDTO saveTeam(@RequestBody final TeamHistDTO teamhist) {
 		Assert.notNull(teamhist);
@@ -63,6 +56,13 @@ public class TeamController {
 	public TeamHistDTO getLastTeamHistOf(@PathVariable("teamId") final TeamId teamId) {
 		Assert.notNull(teamId);
 		return teamHistService.getLastTeamHist(teamId);
+	}
+
+	@RequestMapping(method = RequestMethod.GET)
+	public Set<TeamHistDTO> findTeamBy(@RequestParam(value = "sport", defaultValue = "") final String sport,
+			@RequestParam(value = "name", defaultValue = "") final String name) {
+		Assert.notNull(name);
+		return teamHistService.findTeamBy(sport, name);
 	}
 
 	@RequestMapping(path = "/{teamId}/players", method = RequestMethod.GET)

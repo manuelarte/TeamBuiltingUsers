@@ -49,7 +49,7 @@ public class TeamHistService {
 
 	public TeamHistDTO saveTeamHist(final TeamHistDTO teamHist) {
 		Assert.notNull(teamHist);
-		final TeamHist saved = teamHistRepository.save(dtosConverter.createTeamHist().apply(teamHist));
+		final TeamHist saved = teamHistRepository.save(dtosConverter.createTeamHist(teamHist));
 		return new TeamHistDTO(new TeamHistId(saved.getId()), teamHist.getTeamId(), teamHist.getName(),
 				teamHist.getLocation(), teamHist.getEmblemPath(), teamHist.getFromDate(), teamHist.getToDate());
 	}

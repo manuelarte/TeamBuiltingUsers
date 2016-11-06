@@ -42,7 +42,7 @@ public class PlayerToTeamService {
 				.findByEndDateAfterOrEndDateIsNullAndTeamId(time, teamId.getId());
 		final Set<Player> players = playersForTeam.stream()
 				.map(playerId -> playerRepository.findOne(playerId.getPlayerId())).collect(Collectors.toSet());
-		return players.stream().map(dtosConverter.toPlayerDTO()).collect(Collectors.toSet());
+		return players.stream().map(player -> dtosConverter.toPlayerDTO(player)).collect(Collectors.toSet());
 	}
 
 }

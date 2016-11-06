@@ -1,10 +1,12 @@
 package org.manuel.teambuilting.controllers;
 
+import java.util.Collection;
 import java.util.Set;
 
 import javax.inject.Inject;
 
 import org.manuel.teambuilting.dtos.PlayerDTO;
+import org.manuel.teambuilting.dtos.PlayerToTeamDTO;
 import org.manuel.teambuilting.dtos.PlayerToTeamSportDetailsDTO;
 import org.manuel.teambuilting.model.PlayerId;
 import org.manuel.teambuilting.services.PlayerService;
@@ -31,10 +33,11 @@ public class PlayerController {
 		this.playerToTeamSportDetailsService = playerToTeamSportDetailsService;
 	}
 
-	@RequestMapping(method = RequestMethod.GET)
-	public Set<PlayerDTO> findPlayerByName(@RequestParam(value = "name", defaultValue = "") final String name) {
-		Assert.notNull(name);
-		return playerService.findPlayerByName(name);
+
+	@RequestMapping(path = "/{playerId}", method = RequestMethod.GET)
+	public PlayerDTO getPlayer(@PathVariable("playerId") final PlayerId playerId) {
+		Assert.notNull(playerId);
+		return playerService.getPlayer(playerId);
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
@@ -43,11 +46,24 @@ public class PlayerController {
 		return playerService.savePlayer(player);
 	}
 
+	@RequestMapping(method = RequestMethod.GET)
+	public Set<PlayerDTO> findPlayerByName(@RequestParam(value = "name", defaultValue = "") final String name) {
+		Assert.notNull(name);
+		return playerService.findPlayerByName(name);
+	}
+
 	@RequestMapping(path = "/{playerId}/details", method = RequestMethod.GET)
 	public PlayerToTeamSportDetailsDTO findPlayerDetails(@PathVariable("playerId") final PlayerId playerId,
 			@RequestParam(value = "sport", defaultValue = "Football") final String sport) {
 		Assert.notNull(playerId);
+		Assert.notNull(sport);
 		return playerToTeamSportDetailsService.findPlayerDetails(playerId, sport);
+	}
+
+	@RequestMapping(path = "/{playerId}/history", method = RequestMethod.GET)
+	public Collection<PlayerToTeamDTO> findPlayerHistory(@PathVariable("playerId") final PlayerId playerId) {
+		Assert.notNull(playerId);
+		return playerService.findPlayerHistory(playerId);
 	}
 
 }
