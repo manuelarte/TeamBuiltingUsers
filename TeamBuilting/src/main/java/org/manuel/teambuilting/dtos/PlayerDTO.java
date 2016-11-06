@@ -3,6 +3,8 @@
  */
 package org.manuel.teambuilting.dtos;
 
+import javax.validation.constraints.NotNull;
+
 import org.manuel.teambuilting.model.PlayerId;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -27,11 +29,15 @@ import lombok.Getter;
 @lombok.Builder
 public class PlayerDTO {
 	
+	@NotNull
 	private final PlayerId id;
 	
+	@NotNull
 	private final String name;
 	
 	private final String nickname;
+	
+	private final char sex;
 
 	private final String bornAddress;
 

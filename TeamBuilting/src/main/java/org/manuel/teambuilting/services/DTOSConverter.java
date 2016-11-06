@@ -50,7 +50,7 @@ public class DTOSConverter {
 
 	public PlayerDTO toPlayerDTO(final Player player) {
 		return PlayerDTO.builder().id(new PlayerId(player.getId())).name(player.getName())
-				.nickname(player.getNickname()).bornAddress(player.getBornAddress()).build();
+				.nickname(player.getNickname()).sex(player.getSex()).bornAddress(player.getBornAddress()).build();
 	}
 
 	public PlayerToTeam toPlayerToTeam(final PlayerToTeamDTO playerToTeam) {
