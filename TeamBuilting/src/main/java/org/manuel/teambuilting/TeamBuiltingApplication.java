@@ -91,7 +91,7 @@ public class TeamBuiltingApplication implements CommandLineRunner {
 		final Date startDevo2 = toDate(LocalDate.of(1958, 1, 1));
 		final String devoAddress = "Herman Bonpad 4, 1067 SN Amsterdam";
 		final TeamHistDTO devo2 = createTeam(TeamSport.FOOTBALL, "Devo 2", devoAddress, startDevo2, Optional.empty(),
-				"app/static/team_pictures/devo.jpg");
+				"app/static/team_pictures/devo.png");
 		
 		// final Date startDevo2Fake = Date.from(LocalDate.of(1900, 1,
 		// 1).atStartOfDay(ZoneId.systemDefault()).toInstant());
