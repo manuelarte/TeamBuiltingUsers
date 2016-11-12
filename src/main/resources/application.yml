@@ -1,10 +1,34 @@
-spring.data.mongodb:
-  database: teambuilting # Database name.
-  host: localhost # Mongo server host.
-  # password: # Login password of the mongo server.
-  port: 27017 # Mongo server port.
-  repositories.enabled: true # Enable Mongo repositories.
-  username: # Login user of the mongo server.
+info:
+  name: teambuilting
+  description: Team Builting Application, share your team to the rest of the world!
+
+
+---
+
+spring:
+  profiles: production
+  data.mongodb:
+    database: teambuilting # Database name.
+    host: ds147537.mlab.com # Mongo server host.
+    port: 47537 # Mongo server port.
+    username: admin # Login user of the mongo server.
+    password: admin # Login password of the mongo server.
+    repositories.enabled: true # Enable Mongo repositories.
+    
+  
+  
+--- 
+  
+spring:
+  profiles: development
+  data.mongodb:
+    database: teambuilting # Database name.
+    host: localhost # Mongo server host.
+    port: 27017 # Mongo server port.
+    repositories.enabled: true # Enable Mongo repositories.
+
+
+
 
 endpoints:
   enabled: true # Enable endpoints.
