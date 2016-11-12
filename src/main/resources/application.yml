@@ -15,8 +15,6 @@ spring:
     password: admin # Login password of the mongo server.
     repositories.enabled: true # Enable Mongo repositories.
     
-  
-  
 --- 
   
 spring:
