@@ -128,7 +128,7 @@ public class TeamBuiltingApplication implements CommandLineRunner {
 
 	private TeamHistDTO createTeam(final TeamSport sport, final String name, final String location, final Date fromDate,
 			final Optional<Date> optionalToDate, final String emblemPath) {
-		final TeamDTO team = new TeamDTO(null, sport.getName());
+		final TeamDTO team = TeamDTO.builder().sport(sport.getName()).build();
 		final TeamHistDTO teamHist = TeamHistDTO.builder().name(name).location(location)
 				.emblemPath(emblemPath)
 				.fromDate(fromDate).toDate(optionalToDate.orElse(null)).build();

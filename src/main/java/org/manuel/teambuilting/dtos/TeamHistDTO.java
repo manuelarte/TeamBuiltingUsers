@@ -18,7 +18,7 @@ import lombok.Getter;
 @Immutable
 @JsonIgnoreProperties
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonDeserialize(builder = TeamHistDTO.TeamHistDTOBuilder.class)
+@JsonDeserialize
 @Getter
 @lombok.Builder
 @AllArgsConstructor
@@ -38,6 +38,5 @@ public class TeamHistDTO {
 	@NotNull
 	private final Date fromDate;
 	private final Date toDate;
-
 
 }

@@ -80,7 +80,7 @@ public class DTOSConverter {
 	}
 
 	public Team createTeam(final TeamDTO team) {
-		return Team.builder().id(team.getId().getId()).sport(team.getSport()).build();
+		return Team.builder().sport(team.getSport()).build();
 	}
 
 	public TeamDTO createTeamDTO(final Team team) {

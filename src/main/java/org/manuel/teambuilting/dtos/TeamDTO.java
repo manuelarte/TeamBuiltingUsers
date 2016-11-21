@@ -12,8 +12,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.mongodb.annotations.Immutable;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 /**
  * @author Manuel Doncel Martos
@@ -22,10 +22,10 @@ import lombok.RequiredArgsConstructor;
 @Immutable
 @JsonIgnoreProperties
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonDeserialize(builder = TeamDTO.TeamDTOBuilder.class)
+@JsonDeserialize
 @Getter
 @lombok.Builder
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class TeamDTO {
 	
 	private final TeamId id;
