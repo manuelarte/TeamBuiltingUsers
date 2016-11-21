@@ -23,7 +23,7 @@ import lombok.Getter;
 @Immutable
 @JsonIgnoreProperties
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonDeserialize(builder = PlayerDTO.Builder.class)
+@JsonDeserialize(builder = PlayerDTO.PlayerDTOBuilder.class)
 @AllArgsConstructor(access = AccessLevel.PUBLIC)
 @Getter
 @lombok.Builder
@@ -40,9 +40,5 @@ public class PlayerDTO {
 	private final Character sex;
 
 	private final String bornAddress;
-
-	public static class Builder {
-		
-	}
 
 }

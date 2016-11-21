@@ -45,10 +45,10 @@ public class TeamController {
 		this.playerToTeamService = playerToTeamService;
 	}
 	
-	@RequestMapping(method = RequestMethod.POST)
+	@RequestMapping(method = RequestMethod.POST, produces = "application/json")
 	public TeamHistDTO saveTeam(@RequestBody final TeamHistDTO teamhist) {
 		Assert.notNull(teamhist);
-		final TeamDTO teamDTO = new TeamDTO(null, TeamSport.FOOTBALL.getName());
+		final TeamDTO teamDTO = new TeamDTO(null, TeamSport.valueOf(teamhist.getSport()).getName());
 		return teamService.createTeam(teamDTO, teamhist);
     }
 

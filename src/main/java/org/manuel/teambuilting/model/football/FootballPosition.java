@@ -13,7 +13,7 @@ import lombok.Getter;
 @Getter
 public enum FootballPosition implements TeamSportPosition {
 
-	GK("goalkeeper"),
+	GK("Goalkeeper"),
 	LB("Left Back"),
 	LCB("Left Center Back"),
 	CB("Center-back"),

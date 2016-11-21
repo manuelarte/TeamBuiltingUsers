@@ -22,7 +22,7 @@ import lombok.RequiredArgsConstructor;
 @Immutable
 @JsonIgnoreProperties
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonDeserialize(builder = TeamDTO.Builder.class)
+@JsonDeserialize(builder = TeamDTO.TeamDTOBuilder.class)
 @Getter
 @lombok.Builder
 @RequiredArgsConstructor
@@ -32,8 +32,5 @@ public class TeamDTO {
 	
 	@NotNull
 	private final String sport;
-	
-	public static class Builder {
-	}
 
 }

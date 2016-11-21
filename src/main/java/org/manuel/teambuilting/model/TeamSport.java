@@ -1,13 +1,14 @@
 package org.manuel.teambuilting.model;
 
-import java.util.function.Function;
-
 import org.manuel.teambuilting.model.football.FootballPosition;
 import org.manuel.teambuilting.model.football.FutsalPosition;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Getter;
 
 @Getter
+@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum TeamSport {
 
 	FOOTBALL("Football", FootballPosition.values()),
@@ -21,7 +22,4 @@ public enum TeamSport {
 		this.sportPositions = sportPositions;
 	}
 	
-	public Function<String, TeamSportPosition> getSportPosition() {
-		return positionName -> sportPositions[0].getEnumValue(positionName);
-	}
 }
