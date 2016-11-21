@@ -83,6 +83,10 @@ public class DTOSConverter {
 		return Team.builder().id(team.getId().getId()).sport(team.getSport()).build();
 	}
 
+	public TeamDTO createTeamDTO(final Team team) {
+		return TeamDTO.builder().id(new TeamId(team.getId())).sport(team.getSport()).build();
+	}
+
 	public PlayerToTeamSportDetailsDTO toPlayerToTeamSportDetailsDTO(final PlayerToTeamSportDetails playerToTeamSportDetails) {
 		return PlayerToTeamSportDetailsDTO.builder().id(playerToTeamSportDetails.getId())
 				.playerId(playerToTeamSportDetails.getPlayerId())

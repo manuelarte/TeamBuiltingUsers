@@ -7,12 +7,12 @@ import java.time.LocalDate;
 import java.util.Set;
 
 import javax.inject.Inject;
+import javax.validation.Valid;
 
 import org.manuel.teambuilting.dtos.PlayerDTO;
 import org.manuel.teambuilting.dtos.TeamDTO;
 import org.manuel.teambuilting.dtos.TeamHistDTO;
 import org.manuel.teambuilting.model.TeamId;
-import org.manuel.teambuilting.model.TeamSport;
 import org.manuel.teambuilting.services.PlayerToTeamService;
 import org.manuel.teambuilting.services.TeamHistService;
 import org.manuel.teambuilting.services.TeamService;
@@ -45,11 +45,16 @@ public class TeamController {
 		this.playerToTeamService = playerToTeamService;
 	}
 	
+	@RequestMapping(path = "/newTeam", method = RequestMethod.POST, produces = "application/json")
+	public TeamDTO createTeam(@Valid @RequestBody final TeamDTO team) {
+		Assert.notNull(team);
+		return teamService.createTeam(team);
+	}
+
 	@RequestMapping(method = RequestMethod.POST, produces = "application/json")
-	public TeamHistDTO saveTeam(@RequestBody final TeamHistDTO teamhist) {
+	public TeamHistDTO saveTeamHist(@Valid @RequestBody final TeamHistDTO teamhist) {
 		Assert.notNull(teamhist);
-		final TeamDTO teamDTO = new TeamDTO(null, TeamSport.valueOf(teamhist.getSport()).getName());
-		return teamService.createTeam(teamDTO, teamhist);
+		return teamHistService.saveTeamHist(teamhist);
     }
 
 	@RequestMapping(path = "/{teamId}", method = RequestMethod.GET)

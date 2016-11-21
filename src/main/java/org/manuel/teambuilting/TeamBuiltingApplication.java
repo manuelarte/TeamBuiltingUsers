@@ -31,6 +31,7 @@ import org.manuel.teambuilting.model.repository.PlayerRepository;
 import org.manuel.teambuilting.model.repository.PlayerToTeamRepository;
 import org.manuel.teambuilting.model.repository.PlayerToTeamSportDetailsRepository;
 import org.manuel.teambuilting.services.DTOSConverter;
+import org.manuel.teambuilting.services.TeamHistService;
 import org.manuel.teambuilting.services.TeamService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -44,6 +45,9 @@ public class TeamBuiltingApplication implements CommandLineRunner {
 
 	@Inject
 	private TeamService teamService;
+
+	@Inject
+	private TeamHistService teamHistService;
 
 	@Inject
 	private PlayerToTeamRepository playerToTeamRepository;
@@ -128,7 +132,8 @@ public class TeamBuiltingApplication implements CommandLineRunner {
 		final TeamHistDTO teamHist = TeamHistDTO.builder().name(name).location(location)
 				.emblemPath(emblemPath)
 				.fromDate(fromDate).toDate(optionalToDate.orElse(null)).build();
-		return teamService.createTeam(team, teamHist);
+		teamService.createTeam(team);
+		return teamHistService.saveTeamHist(teamHist);
 	}
 
 	private PlayerDTO createPlayer(final String name, final String nickname, final Optional<Character> sex,
