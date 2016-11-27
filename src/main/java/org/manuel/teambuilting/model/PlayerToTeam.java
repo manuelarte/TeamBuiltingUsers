@@ -5,6 +5,7 @@ package org.manuel.teambuilting.model;
 
 import java.util.Date;
 
+import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.data.annotation.Id;
@@ -44,6 +45,11 @@ public class PlayerToTeam {
 	private final Date startDate;
 
 	private final Date endDate;
+	
+	@AssertTrue
+	private boolean startDateBeforeEndDate() {
+		return endDate == null ? true : endDate.getTime() > startDate.getTime();
+	}
 
 	@PersistenceConstructor
 	public PlayerToTeam(final String playerId, final String teamId, final Date startDate, final Date endDate) {
@@ -56,5 +62,5 @@ public class PlayerToTeam {
 	public static class Builder {
 	}
 
-
+	
 }

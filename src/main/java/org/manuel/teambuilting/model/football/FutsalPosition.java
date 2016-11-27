@@ -39,9 +39,14 @@ public enum FutsalPosition implements TeamSportPosition {
 	public String getAbbreviation() {
 		return name();
 	}
+	
+	@Override
+	public String getFullName() {
+		return getName();
+	}
 
 	@Override
-	public TeamSportPosition getEnumValue(String positionName) {
+	public TeamSportPosition getEnumValue(final String positionName) {
 		return FutsalPosition.valueOf(positionName);
 	}
 	

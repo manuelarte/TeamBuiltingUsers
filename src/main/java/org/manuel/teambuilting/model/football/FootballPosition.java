@@ -48,6 +48,11 @@ public enum FootballPosition implements TeamSportPosition {
 	public String getAbbreviation() {
 		return name();
 	}
+	
+	@Override
+	public String getFullName() {
+		return getName();
+	}
 
 	@Override
 	public TeamSport sport() {

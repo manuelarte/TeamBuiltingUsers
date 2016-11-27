@@ -5,6 +5,9 @@ package org.manuel.teambuilting.dtos;
 
 import java.util.Date;
 
+import javax.validation.constraints.AssertTrue;
+import javax.validation.constraints.NotNull;
+
 import org.manuel.teambuilting.model.PlayerId;
 import org.manuel.teambuilting.model.PlayerToTeamId;
 import org.manuel.teambuilting.model.TeamId;
@@ -32,12 +35,20 @@ public class PlayerToTeamDTO {
 
 	private final PlayerToTeamId id;
 
+	@NotNull
 	private final PlayerId playerId;
 
+	@NotNull
 	private final TeamId teamId;
 
+	@NotNull
 	private final Date startDate;
 
 	private final Date endDate;
+	
+	@AssertTrue
+	private boolean startDateBeforeEndDate() {
+		return endDate == null ? true : endDate.getTime() > startDate.getTime();
+	}
 
 }
