@@ -13,6 +13,7 @@ public interface TeamSportPosition {
 	@JsonIgnore
 	TeamSportPosition getEnumValue(String positionName);
 
+	@JsonIgnore
 	TeamSport sport();
 
 }

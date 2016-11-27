@@ -10,6 +10,7 @@ import java.util.Optional;
 import javax.validation.constraints.NotNull;
 
 import org.manuel.teambuilting.model.TeamSport;
+import org.manuel.teambuilting.model.TeamSportPosition;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -32,11 +33,11 @@ public class SportController {
 	}
 
 	@RequestMapping(path = "/{teamSportname}", method = RequestMethod.GET)
-	public TeamSport getTeamSport(@PathVariable("teamSportname") @NotNull final String teamSportName) {
+	public List<TeamSportPosition> getTeamSport(@PathVariable("teamSportname") @NotNull final String teamSportName) {
 		final Optional<TeamSport> sport = Arrays.stream(TeamSport.values())
 				.filter(teamSport -> teamSport.getName().equals(teamSportName)).findFirst();
 		if (sport.isPresent()) {
-			return sport.get();
+			return Arrays.asList(sport.get().getSportPositions());
 		} else {
 			throw new IllegalArgumentException();
 		}
