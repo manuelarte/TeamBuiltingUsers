@@ -23,13 +23,12 @@ import lombok.Getter;
 @Immutable
 @JsonIgnoreProperties
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonDeserialize(builder = PlayerDTO.PlayerDTOBuilder.class)
+@JsonDeserialize
 @AllArgsConstructor(access = AccessLevel.PUBLIC)
 @Getter
 @lombok.Builder
 public class PlayerDTO {
 	
-	@NotNull
 	private final PlayerId id;
 	
 	@NotNull

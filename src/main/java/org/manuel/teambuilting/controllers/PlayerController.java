@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Set;
 
 import javax.inject.Inject;
+import javax.validation.Valid;
 
 import org.manuel.teambuilting.dtos.PlayerDTO;
 import org.manuel.teambuilting.dtos.PlayerToTeamDTO;
@@ -33,15 +34,14 @@ public class PlayerController {
 		this.playerToTeamSportDetailsService = playerToTeamSportDetailsService;
 	}
 
-
 	@RequestMapping(path = "/{playerId}", method = RequestMethod.GET)
 	public PlayerDTO getPlayer(@PathVariable("playerId") final PlayerId playerId) {
 		Assert.notNull(playerId);
 		return playerService.getPlayer(playerId);
 	}
 
-	@RequestMapping(method = RequestMethod.POST)
-	public PlayerDTO savePlayer(@RequestBody final PlayerDTO player) {
+	@RequestMapping(method = RequestMethod.POST, produces = "application/json")
+	public PlayerDTO savePlayer(@Valid @RequestBody final PlayerDTO player) {
 		Assert.notNull(player);
 		return playerService.savePlayer(player);
 	}
