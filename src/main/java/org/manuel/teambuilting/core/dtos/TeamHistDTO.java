@@ -34,7 +34,6 @@ public class TeamHistDTO {
 	private final String sport;
 	
 	private final String location;
-	private final String emblemPath;
 	@NotNull
 	private final Date fromDate;
 	private final Date toDate;
