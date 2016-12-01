@@ -71,14 +71,14 @@ public class DTOSConverter {
 	public TeamHist createTeamHist(final TeamHistDTO teamHist) {
 		return TeamHist.builder().id(getIdNullSafe(teamHist.getId())).teamId(teamHist.getTeamId().getId())
 				.name(teamHist.getName())
-				.location(teamHist.getLocation()).emblemPath(teamHist.getEmblemPath()).fromDate(teamHist.getFromDate())
+				.location(teamHist.getLocation()).fromDate(teamHist.getFromDate())
 				.toDate(teamHist.getToDate()).build();
 	}
 
 	public TeamHistDTO createTeamHistDTO(final TeamHist teamHist, final Team team) {
 		return TeamHistDTO.builder().id(new TeamHistId(teamHist.getId())).teamId(new TeamId(teamHist.getTeamId()))
 				.name(teamHist.getName()).sport(team.getSport()).location(teamHist.getLocation())
-				.emblemPath(teamHist.getEmblemPath()).fromDate(teamHist.getFromDate()).toDate(teamHist.getToDate())
+				.fromDate(teamHist.getFromDate()).toDate(teamHist.getToDate())
 				.build();
 	}
 

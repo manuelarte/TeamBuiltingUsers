@@ -36,8 +36,11 @@ import org.manuel.teambuilting.core.services.TeamService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.PropertySources;
 
 @SpringBootApplication
+@PropertySources({ @PropertySource("classpath:application.yml"), @PropertySource("classpath:auth0.properties") })
 public class TeamBuiltingApplication implements CommandLineRunner {
 
 	@Inject

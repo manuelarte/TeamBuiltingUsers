@@ -37,23 +37,17 @@ public class TeamHist {
 	@Indexed
 	private final String name;
 	private final String location;
-	private final String emblemPath;
 	private final Date fromDate;
 	private final Date toDate;
 	// emblem
 
 	@PersistenceConstructor
-	public TeamHist(final String teamId, final String name, final String location, final String emblemPath,
-			final Date fromDate, final Date toDate) {
+	public TeamHist(final String teamId, final String name, final String location, final Date fromDate, final Date toDate) {
 		this.teamId = teamId;
 		this.name = name;
 		this.location = location;
-		this.emblemPath = emblemPath;
 		this.fromDate = fromDate;
 		this.toDate = toDate;
-	}
-
-	public static class Builder {
 	}
 
 }
