@@ -3,6 +3,7 @@
  */
 package org.manuel.teambuilting.core.config;
 
+import com.auth0.spring.security.api.Auth0SecurityConfig;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,8 +11,6 @@ import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-
-import com.auth0.spring.security.api.Auth0SecurityConfig;
 
 /**
  * @author Manuel Doncel Martos
@@ -37,9 +36,8 @@ public class AppConfig extends Auth0SecurityConfig {
 
 	@Override
 	protected void authorizeRequests(final HttpSecurity http) throws Exception {
-		http.authorizeRequests().antMatchers("/sports").permitAll()
-		// .anyRequest().authenticated()
-		;
+		http.authorizeRequests().antMatchers("/sports").permitAll() //
+	 							.anyRequest().authenticated() ;
 	}
 
 }

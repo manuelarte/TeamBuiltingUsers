@@ -36,11 +36,8 @@ import org.manuel.teambuilting.core.services.TeamService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.annotation.PropertySources;
 
 @SpringBootApplication
-@PropertySources({ @PropertySource("classpath:application.yml"), @PropertySource("classpath:auth0.properties") })
 public class TeamBuiltingApplication implements CommandLineRunner {
 
 	@Inject
@@ -67,7 +64,7 @@ public class TeamBuiltingApplication implements CommandLineRunner {
 
 	@Override
 	public void run(final String... args) throws Exception {
-		// createData();
+		//createData();
 	}
 
 	private void createData() {
@@ -76,16 +73,16 @@ public class TeamBuiltingApplication implements CommandLineRunner {
 		final PlayerDTO sanne = createPlayer("Sanne", "Sanne", Optional.of('M'), "Amsterdam, Netherlands");
 		final PlayerDTO mihaiDolghan = createPlayer("Mihai Dolghan", "Mihai", Optional.of('M'), "Bucharest, Romania");
 		final PlayerDTO oscar = createPlayer("Oscar", "Oscar", Optional.of('M'), "Santander, Cantabria, Spain");
-		final PlayerDTO borja = createPlayer("Borja Sacristán", "Borja", Optional.of('M'), "Madrid, Madrid, Spain");
+		final PlayerDTO borja = createPlayer("Borja Sacristan", "Borja", Optional.of('M'), "Madrid, Madrid, Spain");
 		final PlayerDTO manu = createPlayer("Manuel Doncel Martos", "Manu D", Optional.of('M'),
-				"Úbeda, Jaén, 23400 Spain");
+				"Ubeda, Jaen, 23400 Spain");
 		addPlayerDetails(manu.getId(), "Player with offensive vocation", LB,
 				new HashSet<TeamSportPosition>(Arrays.asList(LM, CAM, LW)));
 
-		final PlayerDTO pedro = createPlayer("Pedro Dans", "Pedro", Optional.of('M'), "Coruña, Galicia, Spain");
+		final PlayerDTO pedro = createPlayer("Pedro Dans", "Pedro", Optional.of('M'), "Coruna, Galicia, Spain");
 		final PlayerDTO dennis = createPlayer("Dennis Bakker", "Dennis", Optional.of('M'), "Madrid, Madrid, Spain");
 		final PlayerDTO karim = createPlayer("Karim", "Karim", Optional.of('M'), "Guadalajara, Madrid, Spain");
-		final PlayerDTO diego = createPlayer("Diego Ramonde", "Diego", Optional.of('M'), "Coruña, Galicia, Spain");
+		final PlayerDTO diego = createPlayer("Diego Ramonde", "Diego", Optional.of('M'), "Coruna, Galicia, Spain");
 		final PlayerDTO nelson = createPlayer("Nelson Alfonso", "Nelson", Optional.of('M'), "Lisbon, Portugal");
 		final PlayerDTO theo = createPlayer("Theodor Phantender", "Theo D'Or", Optional.of('M'),
 				"Amsterdam, Netherlands");
@@ -97,8 +94,8 @@ public class TeamBuiltingApplication implements CommandLineRunner {
 		
 		final Date startDevo2 = toDate(LocalDate.of(1958, 1, 1));
 		final String devoAddress = "Herman Bonpad 4, 1067 SN Amsterdam";
-		final TeamHistDTO devo2 = createTeam(TeamSport.FOOTBALL, "Devo 2", devoAddress, startDevo2, Optional.empty(),
-				"app/static/team_pictures/devo.png");
+		final TeamHistDTO devo2 = createTeam(TeamSport.FOOTBALL, "Devo'58 Zaterdag 2", devoAddress, startDevo2,
+				Optional.empty());
 		
 		// final Date startDevo2Fake = Date.from(LocalDate.of(1900, 1,
 		// 1).atStartOfDay(ZoneId.systemDefault()).toInstant());
@@ -130,12 +127,11 @@ public class TeamBuiltingApplication implements CommandLineRunner {
 	}
 
 	private TeamHistDTO createTeam(final TeamSport sport, final String name, final String location, final Date fromDate,
-			final Optional<Date> optionalToDate, final String emblemPath) {
-		final TeamDTO team = TeamDTO.builder().sport(sport.getName()).build();
-		final TeamHistDTO teamHist = TeamHistDTO.builder().name(name).location(location)
-				.emblemPath(emblemPath)
+			final Optional<Date> optionalToDate) {
+		TeamDTO team = TeamDTO.builder().sport(sport.getName()).build();
+		team = teamService.createTeam(team);
+		final TeamHistDTO teamHist = TeamHistDTO.builder().name(name).teamId(team.getId()).location(location)
 				.fromDate(fromDate).toDate(optionalToDate.orElse(null)).build();
-		teamService.createTeam(team);
 		return teamHistService.saveTeamHist(teamHist);
 	}
 

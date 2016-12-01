@@ -52,7 +52,7 @@ public class TeamHistService {
 		final Team team = teamRepository.findOne(teamHist.getTeamId().getId());
 		final TeamHist saved = teamHistRepository.save(dtosConverter.createTeamHist(teamHist));
 		return new TeamHistDTO(new TeamHistId(saved.getId()), teamHist.getTeamId(), teamHist.getName(),
-				team.getSport(), teamHist.getLocation(), teamHist.getEmblemPath(), teamHist.getFromDate(),
+				team.getSport(), teamHist.getLocation(), teamHist.getFromDate(),
 				teamHist.getToDate());
 	}
 
