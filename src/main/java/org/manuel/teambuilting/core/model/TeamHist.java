@@ -39,8 +39,7 @@ public class TeamHist {
 	private final String location;
 	private final Date fromDate;
 	private final Date toDate;
-	// emblem
-
+	
 	@PersistenceConstructor
 	public TeamHist(final String teamId, final String name, final String location, final Date fromDate, final Date toDate) {
 		this.teamId = teamId;
