@@ -6,6 +6,7 @@ import org.manuel.teambuilting.core.dtos.PlayerToTeamSportDetailsDTO;
 import org.manuel.teambuilting.core.model.PlayerId;
 import org.manuel.teambuilting.core.model.PlayerToTeamSportDetails;
 import org.manuel.teambuilting.core.model.repository.PlayerToTeamSportDetailsRepository;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 /**
@@ -33,6 +34,7 @@ public class PlayerToTeamSportDetailsService {
 		return dtosConverter.toPlayerToTeamSportDetailsDTO(playerDetails);
 	}
 
+	@PreAuthorize("hasAuthority('ROLE_USER')")
 	public PlayerToTeamSportDetailsDTO savePlayerDetails(final PlayerToTeamSportDetailsDTO playerDetails) {
 		final PlayerToTeamSportDetails saved = playerToTeamSportDetailsRepository
 				.save(dtosConverter.toPlayerToTeamSportDetails(playerDetails));

@@ -9,6 +9,7 @@ import org.manuel.teambuilting.core.dtos.PlayerDTO;
 import org.manuel.teambuilting.core.model.Player;
 import org.manuel.teambuilting.core.model.PlayerId;
 import org.manuel.teambuilting.core.model.repository.PlayerRepository;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -28,6 +29,7 @@ public class PlayerService {
 		return dtosConverter.toPlayerDTO(player);
 	}
 
+	@PreAuthorize("hasAuthority('ROLE_USER')")
 	public PlayerDTO savePlayer(final PlayerDTO player) {
 		final Player created = playerRepository.save(dtosConverter.toPlayer(player));
 		return dtosConverter.toPlayerDTO(created);

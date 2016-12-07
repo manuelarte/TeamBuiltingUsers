@@ -18,6 +18,7 @@ import org.manuel.teambuilting.core.model.PlayerToTeam;
 import org.manuel.teambuilting.core.model.TeamId;
 import org.manuel.teambuilting.core.model.repository.PlayerRepository;
 import org.manuel.teambuilting.core.model.repository.PlayerToTeamRepository;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 /**
@@ -55,6 +56,7 @@ public class PlayerToTeamService {
 				.collect(Collectors.toSet());
 	}
 
+	@PreAuthorize("hasAuthority('ROLE_USER')")
 	public PlayerToTeamDTO savePlayerToTeam(final PlayerToTeamDTO playerToTeamDTO) {
 		final PlayerToTeam saved = playerToTeamRepository.save(dtosConverter.toPlayerToTeam(playerToTeamDTO));
 		return dtosConverter.toPlayerToTeamDTO(saved);
