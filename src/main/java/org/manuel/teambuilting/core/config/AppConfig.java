@@ -36,8 +36,9 @@ public class AppConfig extends Auth0SecurityConfig {
 
 	@Override
 	protected void authorizeRequests(final HttpSecurity http) throws Exception {
-		http.authorizeRequests().antMatchers("/sports").permitAll() //
-	 							.anyRequest().authenticated() ;
+		http.authorizeRequests().anyRequest().permitAll()
+	 							//.anyRequest().authenticated()
+		;
 	}
 
 }

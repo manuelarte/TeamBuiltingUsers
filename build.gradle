@@ -1,3 +1,6 @@
+group 'org.manuel.teambuilting'
+version '0.1.0-SNAPSHOT'
+
 buildscript {
 	ext {
 		springBootVersion = '2.0.0.BUILD-SNAPSHOT'
@@ -13,12 +16,12 @@ buildscript {
 }
 
 apply plugin: 'java'
-apply plugin: 'eclipse'
+apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
 
 jar {
 	baseName = 'teambuilting'
-	version = '0.0.1-SNAPSHOT'
+	version = '0.1.0-SNAPSHOT'
 }
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
