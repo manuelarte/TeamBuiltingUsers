@@ -16,6 +16,7 @@ import org.manuel.teambuilting.core.model.TeamHistId;
 import org.manuel.teambuilting.core.model.TeamId;
 import org.manuel.teambuilting.core.model.repository.TeamHistRepository;
 import org.manuel.teambuilting.core.model.repository.TeamRepository;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -44,9 +45,10 @@ public class TeamHistService {
 		return matchingName.stream()
 				.filter(th -> teamsForSport.stream().map(team -> team.getId())
 						.collect(Collectors.toSet()).contains(th.getTeamId()))
-				.map(th -> dtosConverter.createTeamHistDTO(th, getSportFrom(th))).collect(Collectors.toSet());
+				.map(th -> dtosConverter.createTeamHistDTO(th, getTeamFrom(th))).collect(Collectors.toSet());
 	}
 
+	@PreAuthorize("hasAuthority('ROLE_USER')")
 	public TeamHistDTO saveTeamHist(final TeamHistDTO teamHist) {
 		Assert.notNull(teamHist);
 		final Team team = teamRepository.findOne(teamHist.getTeamId().getId());
@@ -70,7 +72,7 @@ public class TeamHistService {
 		return dtosConverter.createTeamHistDTO(teamHist, team);
 	}
 
-	private Team getSportFrom(final TeamHist teamHist) {
+	private Team getTeamFrom(final TeamHist teamHist) {
 		return teamRepository.findOne(teamHist.getTeamId());
 	}
 

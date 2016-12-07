@@ -9,6 +9,7 @@ import org.manuel.teambuilting.core.dtos.TeamDTO;
 import org.manuel.teambuilting.core.model.Team;
 import org.manuel.teambuilting.core.model.repository.TeamHistRepository;
 import org.manuel.teambuilting.core.model.repository.TeamRepository;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -29,7 +30,8 @@ public class TeamService {
 		this.teamRepository = teamRepository;
 		this.dtosConverter = dtosConverter;
 	}
-	
+
+	@PreAuthorize("hasAuthority('ROLE_USER')")
 	public TeamDTO createTeam(final TeamDTO team) {
 		Assert.notNull(team);
 		final Team savedTeam = teamRepository.save(dtosConverter.createTeam(team));
