@@ -41,6 +41,8 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-web')
 	compile('org.springframework.boot:spring-boot-starter-web-services')
 	compile('com.auth0:auth0-spring-security-api:0.3.2')
+
+	compile("org.springframework.boot:spring-boot-starter-amqp")
 	
 	compile('org.springframework.boot:spring-boot-starter-data-mongodb')
 	

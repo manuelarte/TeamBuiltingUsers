@@ -3,6 +3,18 @@ info:
   description: Team Builting Application, share your team to the rest of the world!
 
 
+spring:
+  rabbitmq:
+    uri: amqp://uzoukkav:xN719DwSB64TPZ5dbclQ12LJ0o7lZ2tU@spotted-monkey.rmq.cloudamqp.com/uzoukkav
+
+---
+
+# Queue configuration
+messaging:
+  teamexchange:
+    name: teambuilting.teamqueue
+    crudroutingkey: changed
+
 ---
 
 spring:
