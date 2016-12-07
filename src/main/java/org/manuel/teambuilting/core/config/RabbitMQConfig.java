@@ -52,6 +52,4 @@ public class RabbitMQConfig implements RabbitListenerConfigurer {
         return new RabbitTemplate(rabbitConnectionFactory());
     }
 
-
-
 }
