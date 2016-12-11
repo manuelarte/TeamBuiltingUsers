@@ -9,6 +9,8 @@ import java.util.Set;
 import javax.inject.Inject;
 import javax.validation.Valid;
 
+import com.auth0.spring.security.api.Auth0JWTToken;
+import org.manuel.teambuilting.core.config.Auth0Client;
 import org.manuel.teambuilting.core.dtos.PlayerDTO;
 import org.manuel.teambuilting.core.dtos.TeamDTO;
 import org.manuel.teambuilting.core.dtos.TeamHistDTO;
@@ -17,6 +19,9 @@ import org.manuel.teambuilting.core.services.PlayerToTeamService;
 import org.manuel.teambuilting.core.services.TeamHistService;
 import org.manuel.teambuilting.core.services.TeamService;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -36,13 +41,15 @@ public class TeamController {
 	private final TeamService teamService;
 	private final TeamHistService teamHistService;
 	private final PlayerToTeamService playerToTeamService;
+	private final Auth0Client auth0Client;
 
 	@Inject
 	public TeamController(final TeamService teamService, final TeamHistService teamHistService,
-			final PlayerToTeamService playerToTeamService) {
+			final PlayerToTeamService playerToTeamService, final Auth0Client auth0Client) {
 		this.teamService = teamService;
 		this.teamHistService = teamHistService;
 		this.playerToTeamService = playerToTeamService;
+		this.auth0Client = auth0Client;
 	}
 	
 	@RequestMapping(path = "/newTeam", method = RequestMethod.POST, produces = "application/json")
@@ -66,7 +73,6 @@ public class TeamController {
 	@RequestMapping(method = RequestMethod.GET)
 	public Set<TeamHistDTO> findTeamBy(@RequestParam(value = "sport", defaultValue = "") final String sport,
 			@RequestParam(value = "name", defaultValue = "") final String name) {
-		Assert.notNull(name);
 		return teamHistService.findTeamBy(sport, name);
 	}
 
@@ -75,6 +81,19 @@ public class TeamController {
 			@RequestParam(value = "date", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") final LocalDate date) {
 		Assert.notNull(teamId);
 		return playerToTeamService.getPlayersFor(teamId, date);
+	}
+
+	/**
+	 *  Simple illustration only
+	 */
+	private void adminChecks(final Auth0JWTToken principal) {
+		for(final GrantedAuthority grantedAuthority: principal.getAuthorities()) {
+			final String authority = grantedAuthority.getAuthority();
+			if (("ROLE_ADMIN".equals(authority))) {
+				// just a simple callout to demonstrate role based authorization at service level
+				// non-Admin user would be rejected trying to call this service
+			}
+		}
 	}
 
 }

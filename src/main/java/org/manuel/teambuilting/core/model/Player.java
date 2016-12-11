@@ -5,6 +5,7 @@ package org.manuel.teambuilting.core.model;
 
 import javax.validation.constraints.NotNull;
 
+import lombok.Builder;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -23,7 +24,7 @@ import lombok.Getter;
 @Immutable
 @Document
 @Getter
-@lombok.Builder
+@Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Player {
 	

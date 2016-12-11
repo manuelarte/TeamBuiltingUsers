@@ -38,7 +38,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class TeamBuiltingApplication implements CommandLineRunner {
+public class TeamBuiltingCoreApplication implements CommandLineRunner {
 
 	@Inject
 	private PlayerRepository playerRepository;
@@ -59,7 +59,7 @@ public class TeamBuiltingApplication implements CommandLineRunner {
 	private DTOSConverter dtosConverter;
 
 	public static void main(final String[] args) {
-		SpringApplication.run(TeamBuiltingApplication.class, args);
+		SpringApplication.run(TeamBuiltingCoreApplication.class, args);
 	}
 
 	@Override

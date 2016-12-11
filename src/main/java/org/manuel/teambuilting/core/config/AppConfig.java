@@ -36,9 +36,8 @@ public class AppConfig extends Auth0SecurityConfig {
 
 	@Override
 	protected void authorizeRequests(final HttpSecurity http) throws Exception {
-		http.authorizeRequests().anyRequest().permitAll()
-	 							//.anyRequest().authenticated()
-		;
+		http.authorizeRequests().antMatchers("/users/**").authenticated()
+						.anyRequest().permitAll();
 	}
 
 }

@@ -7,9 +7,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 /**
- * 
  * @author Manuel Doncel Martos
- *
  */
 @Repository
 public interface TeamRepository extends MongoRepository<Team, String> {

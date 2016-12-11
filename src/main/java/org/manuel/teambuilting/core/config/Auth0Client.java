@@ -23,6 +23,11 @@ public class Auth0Client {
         this.client = this.auth0.newAuthenticationAPIClient();
     }
 
+    public UserProfile getUser(final Auth0JWTToken token) {
+        final Request<UserProfile> request = client.tokenInfo(token.getJwt());
+        return request.execute();
+    }
+
     public String getEmail(final Auth0JWTToken token) {
         final Request<UserProfile> request = client.tokenInfo(token.getJwt());
         final UserProfile profile = request.execute();
