@@ -2,6 +2,7 @@ package org.manuel.teambuilting.core.model;
 
 import com.mongodb.annotations.Immutable;
 import lombok.*;
+import org.manuel.teambuilting.core.validations.PlayerExists;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -28,6 +29,7 @@ public class UserData {
     @Indexed
     private String userId;
 
+    @PlayerExists
     private String playerId;
 
     private Set<String> adminOfTeams;

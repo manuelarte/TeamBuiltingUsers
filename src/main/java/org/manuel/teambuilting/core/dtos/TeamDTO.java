@@ -3,17 +3,15 @@
  */
 package org.manuel.teambuilting.core.dtos;
 
-import javax.validation.constraints.NotNull;
-
-import org.manuel.teambuilting.core.model.TeamId;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.mongodb.annotations.Immutable;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.manuel.teambuilting.core.model.TeamId;
+
+import javax.validation.constraints.NotNull;
 
 /**
  * @author Manuel Doncel Martos
@@ -27,7 +25,7 @@ import lombok.Getter;
 @lombok.Builder
 @AllArgsConstructor
 public class TeamDTO {
-	
+
 	private final TeamId id;
 	
 	@NotNull

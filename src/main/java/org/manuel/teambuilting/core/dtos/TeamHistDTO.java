@@ -1,19 +1,17 @@
 package org.manuel.teambuilting.core.dtos;
 
-import java.util.Date;
-
-import javax.validation.constraints.NotNull;
-
-import org.manuel.teambuilting.core.model.TeamHistId;
-import org.manuel.teambuilting.core.model.TeamId;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.mongodb.annotations.Immutable;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.manuel.teambuilting.core.model.TeamHistId;
+import org.manuel.teambuilting.core.model.TeamId;
+import org.manuel.teambuilting.core.validations.TeamExists;
+
+import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 @Immutable
 @JsonIgnoreProperties
@@ -26,6 +24,7 @@ public class TeamHistDTO {
 
 	private final TeamHistId id;
 	@NotNull
+	@TeamExists
 	private final TeamId teamId;
 	@NotNull
 	private final String name;

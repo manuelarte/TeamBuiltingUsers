@@ -3,12 +3,6 @@
  */
 package org.manuel.teambuilting.core.services;
 
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import javax.inject.Inject;
-
 import org.manuel.teambuilting.core.dtos.TeamHistDTO;
 import org.manuel.teambuilting.core.model.Team;
 import org.manuel.teambuilting.core.model.TeamHist;
@@ -16,9 +10,15 @@ import org.manuel.teambuilting.core.model.TeamHistId;
 import org.manuel.teambuilting.core.model.TeamId;
 import org.manuel.teambuilting.core.model.repository.TeamHistRepository;
 import org.manuel.teambuilting.core.model.repository.TeamRepository;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+
+import javax.inject.Inject;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author Manuel Doncel Martos
@@ -39,6 +39,7 @@ public class TeamHistService {
 		this.dtosConverter = dtosConverter;
 	}
 
+	@Cacheable
 	public Set<TeamHistDTO> findTeamBy(final String sport, final String name) {
 		final Set<Team> teamsForSport = teamRepository.findBySportLikeIgnoreCase(sport);
 		final Set<TeamHist> matchingName = teamHistRepository.findByNameLikeIgnoreCase(name);
