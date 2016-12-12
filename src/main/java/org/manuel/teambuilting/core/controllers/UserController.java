@@ -2,7 +2,6 @@ package org.manuel.teambuilting.core.controllers;
 
 import com.auth0.spring.security.api.Auth0JWTToken;
 import org.manuel.teambuilting.core.config.Auth0Client;
-import org.manuel.teambuilting.core.model.PlayerId;
 import org.manuel.teambuilting.core.model.UserData;
 import org.manuel.teambuilting.core.services.UserService;
 import org.springframework.security.core.Authentication;
@@ -38,11 +37,7 @@ public class UserController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public UserData updateUserData(@RequestBody final PlayerId playerId) {
-        final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        final String userId = auth0Client.getUser((Auth0JWTToken) auth).getId();
-        final UserData userData = userService.getOrCreateUserData(userId);
-        userData.setPlayerId(playerId.getId());
+    public UserData updateUserData(@RequestBody final UserData userData) {
         return userService.update(userData);
     }
 
