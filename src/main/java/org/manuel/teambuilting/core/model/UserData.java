@@ -1,6 +1,5 @@
 package org.manuel.teambuilting.core.model;
 
-import com.mongodb.annotations.Immutable;
 import lombok.*;
 import org.manuel.teambuilting.core.validations.PlayerExists;
 import org.springframework.data.annotation.Id;
@@ -14,7 +13,6 @@ import java.util.Set;
 /**
  * @author Manuel on 11/12/2016.
  */
-@Immutable
 @Component
 @Builder(toBuilder = true)
 @Getter
@@ -30,6 +28,7 @@ public class UserData {
     private String userId;
 
     @PlayerExists
+    @Setter
     private String playerId;
 
     private Set<String> adminOfTeams;
