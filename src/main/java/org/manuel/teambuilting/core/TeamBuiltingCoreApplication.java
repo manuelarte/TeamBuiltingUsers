@@ -17,10 +17,9 @@ import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
-import org.manuel.teambuilting.core.dtos.PlayerDTO;
-import org.manuel.teambuilting.core.dtos.PlayerToTeamDTO;
 import org.manuel.teambuilting.core.model.Player;
 import org.manuel.teambuilting.core.model.PlayerId;
+import org.manuel.teambuilting.core.model.PlayerToTeam;
 import org.manuel.teambuilting.core.model.PlayerToTeamSportDetails;
 import org.manuel.teambuilting.core.model.Team;
 import org.manuel.teambuilting.core.model.TeamId;
@@ -29,7 +28,6 @@ import org.manuel.teambuilting.core.model.TeamSportPosition;
 import org.manuel.teambuilting.core.model.repository.PlayerRepository;
 import org.manuel.teambuilting.core.model.repository.PlayerToTeamRepository;
 import org.manuel.teambuilting.core.model.repository.PlayerToTeamSportDetailsRepository;
-import org.manuel.teambuilting.core.services.DTOSConverter;
 import org.manuel.teambuilting.core.services.TeamCommandService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -50,9 +48,6 @@ public class TeamBuiltingCoreApplication implements CommandLineRunner {
 	@Inject
 	private PlayerToTeamSportDetailsRepository playerToTeamSportDetailsRepository;
 
-	@Inject
-	private DTOSConverter dtosConverter;
-
 	public static void main(final String[] args) {
 		SpringApplication.run(TeamBuiltingCoreApplication.class, args);
 	}
@@ -63,29 +58,29 @@ public class TeamBuiltingCoreApplication implements CommandLineRunner {
 	}
 
 	private void createData() {
-		final PlayerDTO javiLeon = createPlayer("Javier leon", "Javi", Optional.of('M'),
+		final Player javiLeon = createPlayer("Javier leon", "Javi", Optional.of('M'),
 				"Soria, Castille and Leon, Spain");
-		final PlayerDTO sanne = createPlayer("Sanne", "Sanne", Optional.of('M'), "Amsterdam, Netherlands");
-		final PlayerDTO mihaiDolghan = createPlayer("Mihai Dolghan", "Mihai", Optional.of('M'), "Bucharest, Romania");
-		final PlayerDTO oscar = createPlayer("Oscar", "Oscar", Optional.of('M'), "Santander, Cantabria, Spain");
-		final PlayerDTO borja = createPlayer("Borja Sacristan", "Borja", Optional.of('M'), "Madrid, Madrid, Spain");
-		final PlayerDTO manu = createPlayer("Manuel Doncel Martos", "Manu D", Optional.of('M'),
+		final Player sanne = createPlayer("Sanne", "Sanne", Optional.of('M'), "Amsterdam, Netherlands");
+		final Player mihaiDolghan = createPlayer("Mihai Dolghan", "Mihai", Optional.of('M'), "Bucharest, Romania");
+		final Player oscar = createPlayer("Oscar", "Oscar", Optional.of('M'), "Santander, Cantabria, Spain");
+		final Player borja = createPlayer("Borja Sacristan", "Borja", Optional.of('M'), "Madrid, Madrid, Spain");
+		final Player manu = createPlayer("Manuel Doncel Martos", "Manu D", Optional.of('M'),
 				"Ubeda, Jaen, 23400 Spain");
 		addPlayerDetails(manu.getId(), "Player with offensive vocation", LB,
 				new HashSet<TeamSportPosition>(Arrays.asList(LM, CAM, LW)));
 
-		final PlayerDTO pedro = createPlayer("Pedro Dans", "Pedro", Optional.of('M'), "Coruna, Galicia, Spain");
-		final PlayerDTO dennis = createPlayer("Dennis Bakker", "Dennis", Optional.of('M'), "Madrid, Madrid, Spain");
-		final PlayerDTO karim = createPlayer("Karim", "Karim", Optional.of('M'), "Guadalajara, Madrid, Spain");
-		final PlayerDTO diego = createPlayer("Diego Ramonde", "Diego", Optional.of('M'), "Coruna, Galicia, Spain");
-		final PlayerDTO nelson = createPlayer("Nelson Alfonso", "Nelson", Optional.of('M'), "Lisbon, Portugal");
-		final PlayerDTO theo = createPlayer("Theodor Phantender", "Theo D'Or", Optional.of('M'),
+		final Player pedro = createPlayer("Pedro Dans", "Pedro", Optional.of('M'), "Coruna, Galicia, Spain");
+		final Player dennis = createPlayer("Dennis Bakker", "Dennis", Optional.of('M'), "Madrid, Madrid, Spain");
+		final Player karim = createPlayer("Karim", "Karim", Optional.of('M'), "Guadalajara, Madrid, Spain");
+		final Player diego = createPlayer("Diego Ramonde", "Diego", Optional.of('M'), "Coruna, Galicia, Spain");
+		final Player nelson = createPlayer("Nelson Alfonso", "Nelson", Optional.of('M'), "Lisbon, Portugal");
+		final Player theo = createPlayer("Theodor Phantender", "Theo D'Or", Optional.of('M'),
 				"Amsterdam, Netherlands");
-		final PlayerDTO daniel = createPlayer("Daniel Dittmar", "Daniel", Optional.of('M'), "Sydney, Australia");
-		final PlayerDTO daan = createPlayer("Dann Farjon", "Daan", Optional.of('M'), "Amsterdam, Netherlands");
-		final PlayerDTO tomasVirkick = createPlayer("Tomas Virkick", "Virco", Optional.of('M'), "Slovakia");
-		final PlayerDTO tomasZ = createPlayer("Tomas Z", "Tomas", Optional.of('M'), "Slovakia");
-		final PlayerDTO kuba = createPlayer("Kuba", "Kuba", Optional.of('M'), "Krakow, Poland");
+		final Player daniel = createPlayer("Daniel Dittmar", "Daniel", Optional.of('M'), "Sydney, Australia");
+		final Player daan = createPlayer("Dann Farjon", "Daan", Optional.of('M'), "Amsterdam, Netherlands");
+		final Player tomasVirkick = createPlayer("Tomas Virkick", "Virco", Optional.of('M'), "Slovakia");
+		final Player tomasZ = createPlayer("Tomas Z", "Tomas", Optional.of('M'), "Slovakia");
+		final Player kuba = createPlayer("Kuba", "Kuba", Optional.of('M'), "Krakow, Poland");
 		
 		final Date startDevo2 = toDate(LocalDate.of(1958, 1, 1));
 		final String devoAddress = "Herman Bonpad 4, 1067 SN Amsterdam";
@@ -128,26 +123,25 @@ public class TeamBuiltingCoreApplication implements CommandLineRunner {
 		return teamCommandService.createTeam(team);
 	}
 
-	private PlayerDTO createPlayer(final String name, final String nickname, final Optional<Character> sex,
+	private Player createPlayer(final String name, final String nickname, final Optional<Character> sex,
 			final String bornAddress) {
-		final PlayerDTO player = PlayerDTO.builder().name(name).nickname(nickname).sex(sex.orElse(null))
+		final Player player = Player.builder().name(name).nickname(nickname).sex(sex.orElse(null))
 				.bornAddress(bornAddress)
 				.build();
-		final Player saved = playerRepository.save(dtosConverter.toPlayer(player));
-		return dtosConverter.toPlayerDTO(saved);
+		return playerRepository.save(player);
 	}
 
-	private void playerToTeamRepository(final PlayerId playerId, final String teamId, final Date startDate,
+	private void playerToTeamRepository(final String playerId, final String teamId, final Date startDate,
 			final Date endDate) {
-		final PlayerToTeamDTO playerToTeam = PlayerToTeamDTO.builder().playerId(playerId).teamId(new TeamId(teamId))
+		final PlayerToTeam playerToTeam = PlayerToTeam.builder().playerId(playerId).teamId(teamId)
 				.fromDate(startDate).toDate(endDate).build();
-		playerToTeamRepository.save(dtosConverter.toPlayerToTeam(playerToTeam));
+		playerToTeamRepository.save(playerToTeam);
 
 	}
 
-	private void addPlayerDetails(final PlayerId playerId, final String bio, final TeamSportPosition mainPosition,
+	private void addPlayerDetails(final String playerId, final String bio, final TeamSportPosition mainPosition,
 			final Set<TeamSportPosition> othersPositions) {
-		final PlayerToTeamSportDetails plyaerDetails = new PlayerToTeamSportDetails(playerId.getId(),
+		final PlayerToTeamSportDetails plyaerDetails = new PlayerToTeamSportDetails(playerId,
 				mainPosition.sport().getName(), bio, mainPosition.getAbbreviation(), othersPositions.stream()
 						.map(otherPosition -> otherPosition.getAbbreviation()).collect(Collectors.toSet()));
 		playerToTeamSportDetailsRepository.save(plyaerDetails);

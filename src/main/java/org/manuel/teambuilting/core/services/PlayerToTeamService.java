@@ -10,8 +10,6 @@ import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
-import org.manuel.teambuilting.core.dtos.PlayerDTO;
-import org.manuel.teambuilting.core.dtos.PlayerToTeamDTO;
 import org.manuel.teambuilting.core.model.Player;
 import org.manuel.teambuilting.core.model.PlayerId;
 import org.manuel.teambuilting.core.model.PlayerToTeam;
@@ -30,36 +28,29 @@ public class PlayerToTeamService {
 
 	private final PlayerToTeamRepository playerToTeamRepository;
 	private final PlayerRepository playerRepository;
-	private final DTOSConverter dtosConverter;
 
 	@Inject
 	public PlayerToTeamService(final PlayerToTeamRepository playerToTeamRepository,
-			final PlayerRepository playerRepository,
-			final DTOSConverter dtosConverter) {
+			final PlayerRepository playerRepository) {
 		this.playerToTeamRepository = playerToTeamRepository;
 		this.playerRepository = playerRepository;
-		this.dtosConverter = dtosConverter;
 	}
 
-	public Set<PlayerDTO> getPlayersFor(final TeamId teamId, final LocalDate time) {
+	public Set<Player> getPlayersFor(final TeamId teamId, final LocalDate time) {
 		final Collection<PlayerToTeam> playersForTeam = playerToTeamRepository
 				.findByEndDateAfterOrEndDateIsNullAndTeamId(time, teamId.getId());
 		final Set<Player> players = playersForTeam.stream()
 				.map(playerId -> playerRepository.findOne(playerId.getPlayerId())).collect(Collectors.toSet());
-		return players.stream().map(player -> dtosConverter.toPlayerDTO(player)).collect(Collectors.toSet());
+		return players.stream().map(player -> player).collect(Collectors.toSet());
 	}
 
-	public Collection<PlayerToTeamDTO> findPlayerHistory(final PlayerId playerId) {
-		final Collection<PlayerToTeam> allTeamsPlayerHasPlayed = playerToTeamRepository
-				.findByPlayerId(playerId.getId());
-		return allTeamsPlayerHasPlayed.stream().map(playerToTeam -> dtosConverter.toPlayerToTeamDTO(playerToTeam))
-				.collect(Collectors.toSet());
+	public Collection<PlayerToTeam> findPlayerHistory(final PlayerId playerId) {
+		return playerToTeamRepository.findByPlayerId(playerId.getId());
 	}
 
-	@PreAuthorize("hasAuthority('ROLE_USER')")
-	public PlayerToTeamDTO savePlayerToTeam(final PlayerToTeamDTO playerToTeamDTO) {
-		final PlayerToTeam saved = playerToTeamRepository.save(dtosConverter.toPlayerToTeam(playerToTeamDTO));
-		return dtosConverter.toPlayerToTeamDTO(saved);
+	@PreAuthorize("hasAuthority('user') or hasAuthority('admin')")
+	public PlayerToTeam savePlayerToTeam(final PlayerToTeam playerToTeamDTO) {
+		return playerToTeamRepository.save(playerToTeamDTO);
 	}
 
 }

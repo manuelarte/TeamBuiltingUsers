@@ -3,6 +3,8 @@
  */
 package org.manuel.teambuilting.core.model;
 
+import com.mongodb.annotations.Immutable;
+
 import java.util.Date;
 
 import javax.validation.constraints.AssertTrue;
@@ -12,8 +14,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import com.mongodb.annotations.Immutable;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -42,21 +42,21 @@ public class PlayerToTeam {
 	private final String teamId;
 
 	@NotNull
-	private final Date startDate;
+	private final Date fromDate;
 
-	private final Date endDate;
+	private final Date toDate;
 	
 	@AssertTrue
 	private boolean startDateBeforeEndDate() {
-		return endDate == null ? true : endDate.getTime() > startDate.getTime();
+		return toDate == null ? true : toDate.getTime() > fromDate.getTime();
 	}
 
 	@PersistenceConstructor
-	public PlayerToTeam(final String playerId, final String teamId, final Date startDate, final Date endDate) {
+	public PlayerToTeam(final String playerId, final String teamId, final Date fromDate, final Date toDate) {
 		this.playerId = playerId;
 		this.teamId = teamId;
-		this.startDate = startDate;
-		this.endDate = endDate;
+		this.fromDate = fromDate;
+		this.toDate = toDate;
 	}
 
 	public static class Builder {

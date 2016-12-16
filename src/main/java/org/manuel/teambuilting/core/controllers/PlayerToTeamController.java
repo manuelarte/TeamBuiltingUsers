@@ -5,8 +5,8 @@ import java.util.Collection;
 import javax.inject.Inject;
 import javax.validation.Valid;
 
-import org.manuel.teambuilting.core.dtos.PlayerToTeamDTO;
 import org.manuel.teambuilting.core.model.PlayerId;
+import org.manuel.teambuilting.core.model.PlayerToTeam;
 import org.manuel.teambuilting.core.services.PlayerToTeamService;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,16 +27,16 @@ public class PlayerToTeamController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
-	public Collection<PlayerToTeamDTO> findPlayerHistory(@PathVariable("playerId") final PlayerId playerId) {
+	public Collection<PlayerToTeam> findPlayerHistory(@PathVariable("playerId") final PlayerId playerId) {
 		Assert.notNull(playerId);
 		return playerToTeamService.findPlayerHistory(playerId);
 	}
 
 	@RequestMapping(method = RequestMethod.POST, produces = "application/json")
-	public PlayerToTeamDTO savePlayerToTeam(@PathVariable("playerId") final PlayerId playerId,
-			@Valid @RequestBody final PlayerToTeamDTO playerToTeam) {
+	public PlayerToTeam savePlayerToTeam(@PathVariable("playerId") final PlayerId playerId,
+			@Valid @RequestBody final PlayerToTeam playerToTeam) {
 		Assert.notNull(playerToTeam);
-		Assert.isTrue(playerToTeam.getPlayerId().getId().equals(playerId.getId()));
+		Assert.isTrue(playerToTeam.getPlayerId().equals(playerId.getId()));
 		return playerToTeamService.savePlayerToTeam(playerToTeam);
 	}
 

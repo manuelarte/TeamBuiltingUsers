@@ -2,7 +2,6 @@ package org.manuel.teambuilting.core.services;
 
 import javax.inject.Inject;
 
-import org.manuel.teambuilting.core.dtos.PlayerToTeamSportDetailsDTO;
 import org.manuel.teambuilting.core.model.PlayerId;
 import org.manuel.teambuilting.core.model.PlayerToTeamSportDetails;
 import org.manuel.teambuilting.core.model.repository.PlayerToTeamSportDetailsRepository;
@@ -18,27 +17,18 @@ public class PlayerToTeamSportDetailsService {
 
 	private final PlayerToTeamSportDetailsRepository playerToTeamSportDetailsRepository;
 
-	private final DTOSConverter dtosConverter;
-
 	@Inject
-	public PlayerToTeamSportDetailsService(final PlayerToTeamSportDetailsRepository playerToTeamSportDetailsRepository,
-			final DTOSConverter dtosConverter) {
+	public PlayerToTeamSportDetailsService(final PlayerToTeamSportDetailsRepository playerToTeamSportDetailsRepository) {
 		this.playerToTeamSportDetailsRepository = playerToTeamSportDetailsRepository;
-		this.dtosConverter = dtosConverter;
 	}
 
-	public PlayerToTeamSportDetailsDTO findPlayerDetails(final PlayerId playerId, final String sport) {
-		final PlayerToTeamSportDetails playerDetails = playerToTeamSportDetailsRepository
-				.findByPlayerIdAndSportLikeIgnoreCase(playerId.getId(), sport);
-
-		return dtosConverter.toPlayerToTeamSportDetailsDTO(playerDetails);
+	public PlayerToTeamSportDetails findPlayerDetails(final PlayerId playerId, final String sport) {
+		return playerToTeamSportDetailsRepository.findByPlayerIdAndSportLikeIgnoreCase(playerId.getId(), sport);
 	}
 
-	@PreAuthorize("hasAuthority('ROLE_USER')")
-	public PlayerToTeamSportDetailsDTO savePlayerDetails(final PlayerToTeamSportDetailsDTO playerDetails) {
-		final PlayerToTeamSportDetails saved = playerToTeamSportDetailsRepository
-				.save(dtosConverter.toPlayerToTeamSportDetails(playerDetails));
-		return dtosConverter.toPlayerToTeamSportDetailsDTO(saved);
+	@PreAuthorize("hasAuthority('user') or hasAuthority('admin')")
+	public PlayerToTeamSportDetails savePlayerDetails(final PlayerToTeamSportDetails playerDetails) {
+		return playerToTeamSportDetailsRepository.save(playerDetails);
 	}
 
 }

@@ -12,7 +12,7 @@ import javax.inject.Inject;
 import javax.validation.Valid;
 
 import org.manuel.teambuilting.core.config.Auth0Client;
-import org.manuel.teambuilting.core.dtos.PlayerDTO;
+import org.manuel.teambuilting.core.model.Player;
 import org.manuel.teambuilting.core.model.Team;
 import org.manuel.teambuilting.core.model.TeamId;
 import org.manuel.teambuilting.core.services.PlayerToTeamService;
@@ -69,7 +69,7 @@ public class TeamController {
 	}
 
 	@RequestMapping(path = "/{teamId}/players", method = RequestMethod.GET)
-	public Set<PlayerDTO> getPlayersForTeam(@PathVariable("teamId") final TeamId teamId,
+	public Set<Player> getPlayersForTeam(@PathVariable("teamId") final TeamId teamId,
 			@RequestParam(value = "date", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") final LocalDate date) {
 		Assert.notNull(teamId);
 		return playerToTeamService.getPlayersFor(teamId, date);
