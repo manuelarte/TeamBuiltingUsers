@@ -57,9 +57,9 @@ public class TeamController {
 		return teamCommandService.createTeam(team);
     }
 
-	@RequestMapping(path = "/{teamId}", method = RequestMethod.GET)
-	public Team getTeamOf(@PathVariable("teamId") final TeamId teamId) {
-		return teamQueryService.getTeam(teamId);
+	@RequestMapping(path = "/{id}", method = RequestMethod.GET)
+	public Team getTeamOf(@PathVariable("id") final TeamId id) {
+		return teamQueryService.getTeam(id);
 	}
 
 	@RequestMapping(method = RequestMethod.GET)

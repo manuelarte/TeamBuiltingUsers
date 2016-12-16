@@ -3,6 +3,9 @@
  */
 package org.manuel.teambuilting.core.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.mongodb.annotations.Immutable;
 
 import java.util.Date;
@@ -16,7 +19,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 
 /**
  * @author Manuel Doncel Martos
@@ -24,9 +27,12 @@ import lombok.Getter;
  */
 @Immutable
 @Document
-@Getter
+@Data
 @lombok.Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
+@JsonIgnoreProperties
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonDeserialize
 public class Team {
 
 	@Id
@@ -34,15 +40,19 @@ public class Team {
 
 	@NotNull
 	@Indexed
-	private final String name;
-	private final String location;
+	private String name;
+	private String location;
 	@NotNull
 	@Indexed
-	private final String sport;
+	private String sport;
 
-	private final String bio;
-	private final Date fromDate;
-	private final Date toDate;
+	private String bio;
+	private Date fromDate;
+	private Date toDate;
+
+	public Team() {
+
+	}
 
 	@PersistenceConstructor
 	public Team(final String name, final String location, final String sport, final String bio, final Date fromDate, final Date toDate) {

@@ -38,7 +38,7 @@ public class TeamCommandService {
 		this.rabbitTemplate = rabbitTemplate;
 	}
 
-	@PreAuthorize("hasAuthority('ROLE_USER')")
+	@PreAuthorize("hasAuthority('user') or hasAuthority('admin')")
 	public Team createTeam(final Team team) {
 		Assert.notNull(team);
 		final Team savedTeam = teamRepository.save(team);
