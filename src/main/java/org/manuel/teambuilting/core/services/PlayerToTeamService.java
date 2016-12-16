@@ -38,10 +38,9 @@ public class PlayerToTeamService {
 
 	public Set<Player> getPlayersFor(final TeamId teamId, final LocalDate time) {
 		final Collection<PlayerToTeam> playersForTeam = playerToTeamRepository
-				.findByEndDateAfterOrEndDateIsNullAndTeamId(time, teamId.getId());
-		final Set<Player> players = playersForTeam.stream()
+				.findByToDateAfterOrToDateIsNullAndTeamId(time, teamId.getId());
+		return playersForTeam.stream()
 				.map(playerId -> playerRepository.findOne(playerId.getPlayerId())).collect(Collectors.toSet());
-		return players.stream().map(player -> player).collect(Collectors.toSet());
 	}
 
 	public Collection<PlayerToTeam> findPlayerHistory(final PlayerId playerId) {

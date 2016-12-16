@@ -25,7 +25,7 @@ public interface PlayerToTeamRepository extends MongoRepository<PlayerToTeam, St
 	 * @param teamId
 	 * @return
 	 */
-	Collection<PlayerToTeam> findByEndDateAfterOrEndDateIsNullAndTeamId(LocalDate date, String teamId);
+	Collection<PlayerToTeam> findByToDateAfterOrToDateIsNullAndTeamId(LocalDate date, String teamId);
 
 	Collection<PlayerToTeam> findByPlayerId(String playerId);
 
