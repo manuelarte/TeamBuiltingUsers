@@ -7,16 +7,19 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.mongodb.annotations.Immutable;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+
+import java.util.Date;
+
+import javax.validation.constraints.AssertTrue;
+import javax.validation.constraints.NotNull;
+
 import org.manuel.teambuilting.core.model.PlayerId;
 import org.manuel.teambuilting.core.model.PlayerToTeamId;
 import org.manuel.teambuilting.core.model.TeamId;
 import org.manuel.teambuilting.core.validations.TeamExists;
 
-import javax.validation.constraints.AssertTrue;
-import javax.validation.constraints.NotNull;
-import java.util.Date;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 /**
  * @author Manuel Doncel Martos
@@ -41,13 +44,13 @@ public class PlayerToTeamDTO {
 	private final TeamId teamId;
 
 	@NotNull
-	private final Date startDate;
+	private final Date fromDate;
 
-	private final Date endDate;
+	private final Date toDate;
 	
 	@AssertTrue
 	private boolean startDateBeforeEndDate() {
-		return endDate == null ? true : endDate.getTime() > startDate.getTime();
+		return toDate == null ? true : toDate.getTime() > fromDate.getTime();
 	}
 
 }

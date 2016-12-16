@@ -19,11 +19,10 @@ import javax.inject.Inject;
 
 import org.manuel.teambuilting.core.dtos.PlayerDTO;
 import org.manuel.teambuilting.core.dtos.PlayerToTeamDTO;
-import org.manuel.teambuilting.core.dtos.TeamDTO;
-import org.manuel.teambuilting.core.dtos.TeamHistDTO;
 import org.manuel.teambuilting.core.model.Player;
 import org.manuel.teambuilting.core.model.PlayerId;
 import org.manuel.teambuilting.core.model.PlayerToTeamSportDetails;
+import org.manuel.teambuilting.core.model.Team;
 import org.manuel.teambuilting.core.model.TeamId;
 import org.manuel.teambuilting.core.model.TeamSport;
 import org.manuel.teambuilting.core.model.TeamSportPosition;
@@ -31,8 +30,7 @@ import org.manuel.teambuilting.core.model.repository.PlayerRepository;
 import org.manuel.teambuilting.core.model.repository.PlayerToTeamRepository;
 import org.manuel.teambuilting.core.model.repository.PlayerToTeamSportDetailsRepository;
 import org.manuel.teambuilting.core.services.DTOSConverter;
-import org.manuel.teambuilting.core.services.TeamHistService;
-import org.manuel.teambuilting.core.services.TeamService;
+import org.manuel.teambuilting.core.services.TeamCommandService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -44,10 +42,7 @@ public class TeamBuiltingCoreApplication implements CommandLineRunner {
 	private PlayerRepository playerRepository;
 
 	@Inject
-	private TeamService teamService;
-
-	@Inject
-	private TeamHistService teamHistService;
+	private TeamCommandService teamCommandService;
 
 	@Inject
 	private PlayerToTeamRepository playerToTeamRepository;
@@ -64,7 +59,7 @@ public class TeamBuiltingCoreApplication implements CommandLineRunner {
 
 	@Override
 	public void run(final String... args) throws Exception {
-		//createData();
+		// createData();
 	}
 
 	private void createData() {
@@ -94,7 +89,7 @@ public class TeamBuiltingCoreApplication implements CommandLineRunner {
 		
 		final Date startDevo2 = toDate(LocalDate.of(1958, 1, 1));
 		final String devoAddress = "Herman Bonpad 4, 1067 SN Amsterdam";
-		final TeamHistDTO devo2 = createTeam(TeamSport.FOOTBALL, "Devo'58 Zaterdag 2", devoAddress, startDevo2,
+		final Team devo2 = createTeam(TeamSport.FOOTBALL, "Devo'58 Zaterdag 2", devoAddress, startDevo2,
 				Optional.empty());
 		
 		// final Date startDevo2Fake = Date.from(LocalDate.of(1900, 1,
@@ -105,34 +100,32 @@ public class TeamBuiltingCoreApplication implements CommandLineRunner {
 		// .withToDate(startDevo2).build());
 		
 		final LocalDate september2015 = LocalDate.of(2015, Month.SEPTEMBER.getValue(), 1);
-		playerToTeamRepository(manu.getId(), devo2.getTeamId(), toDate(september2015), null);
-		playerToTeamRepository(javiLeon.getId(), devo2.getTeamId(), toDate(september2015), null);
-		playerToTeamRepository(diego.getId(), devo2.getTeamId(), toDate(september2015), null);
-		playerToTeamRepository(nelson.getId(), devo2.getTeamId(), toDate(september2015), null);
-		playerToTeamRepository(daniel.getId(), devo2.getTeamId(), toDate(september2015), null);
+		playerToTeamRepository(manu.getId(), devo2.getId(), toDate(september2015), null);
+		playerToTeamRepository(javiLeon.getId(), devo2.getId(), toDate(september2015), null);
+		playerToTeamRepository(diego.getId(), devo2.getId(), toDate(september2015), null);
+		playerToTeamRepository(nelson.getId(), devo2.getId(), toDate(september2015), null);
+		playerToTeamRepository(daniel.getId(), devo2.getId(), toDate(september2015), null);
 
-		playerToTeamRepository(sanne.getId(), devo2.getTeamId(), toDate(september2015.minusYears(1)), null);
-		playerToTeamRepository(mihaiDolghan.getId(), devo2.getTeamId(), toDate(september2015.minusYears(1)), null);
-		playerToTeamRepository(oscar.getId(), devo2.getTeamId(), toDate(september2015.minusYears(1)), null);
-		playerToTeamRepository(borja.getId(), devo2.getTeamId(), toDate(september2015.minusYears(1)), null);
-		playerToTeamRepository(pedro.getId(), devo2.getTeamId(), toDate(september2015.minusYears(1)), null);
-		playerToTeamRepository(dennis.getId(), devo2.getTeamId(), toDate(september2015.minusYears(1)), null);
-		playerToTeamRepository(karim.getId(), devo2.getTeamId(), toDate(september2015.minusYears(1)), null);
-		playerToTeamRepository(theo.getId(), devo2.getTeamId(), toDate(september2015.minusYears(1)), null);
-		playerToTeamRepository(daan.getId(), devo2.getTeamId(), toDate(september2015.minusYears(1)), null);
-		playerToTeamRepository(tomasVirkick.getId(), devo2.getTeamId(), toDate(september2015.minusYears(1)), null);
-		playerToTeamRepository(tomasZ.getId(), devo2.getTeamId(), toDate(september2015.minusYears(1)), null);
-		playerToTeamRepository(kuba.getId(), devo2.getTeamId(), toDate(september2015.minusYears(1)), null);
+		playerToTeamRepository(sanne.getId(), devo2.getId(), toDate(september2015.minusYears(1)), null);
+		playerToTeamRepository(mihaiDolghan.getId(), devo2.getId(), toDate(september2015.minusYears(1)), null);
+		playerToTeamRepository(oscar.getId(), devo2.getId(), toDate(september2015.minusYears(1)), null);
+		playerToTeamRepository(borja.getId(), devo2.getId(), toDate(september2015.minusYears(1)), null);
+		playerToTeamRepository(pedro.getId(), devo2.getId(), toDate(september2015.minusYears(1)), null);
+		playerToTeamRepository(dennis.getId(), devo2.getId(), toDate(september2015.minusYears(1)), null);
+		playerToTeamRepository(karim.getId(), devo2.getId(), toDate(september2015.minusYears(1)), null);
+		playerToTeamRepository(theo.getId(), devo2.getId(), toDate(september2015.minusYears(1)), null);
+		playerToTeamRepository(daan.getId(), devo2.getId(), toDate(september2015.minusYears(1)), null);
+		playerToTeamRepository(tomasVirkick.getId(), devo2.getId(), toDate(september2015.minusYears(1)), null);
+		playerToTeamRepository(tomasZ.getId(), devo2.getId(), toDate(september2015.minusYears(1)), null);
+		playerToTeamRepository(kuba.getId(), devo2.getId(), toDate(september2015.minusYears(1)), null);
 
 	}
 
-	private TeamHistDTO createTeam(final TeamSport sport, final String name, final String location, final Date fromDate,
+	private Team createTeam(final TeamSport sport, final String name, final String location, final Date fromDate,
 			final Optional<Date> optionalToDate) {
-		TeamDTO team = TeamDTO.builder().sport(sport.getName()).build();
-		team = teamService.createTeam(team);
-		final TeamHistDTO teamHist = TeamHistDTO.builder().name(name).teamId(team.getId()).location(location)
+		final Team team = Team.builder().name(name).location(location).sport(sport.getName())
 				.fromDate(fromDate).toDate(optionalToDate.orElse(null)).build();
-		return teamHistService.saveTeamHist(teamHist);
+		return teamCommandService.createTeam(team);
 	}
 
 	private PlayerDTO createPlayer(final String name, final String nickname, final Optional<Character> sex,
@@ -144,10 +137,10 @@ public class TeamBuiltingCoreApplication implements CommandLineRunner {
 		return dtosConverter.toPlayerDTO(saved);
 	}
 
-	private void playerToTeamRepository(final PlayerId playerId, final TeamId teamId, final Date startDate,
+	private void playerToTeamRepository(final PlayerId playerId, final String teamId, final Date startDate,
 			final Date endDate) {
-		final PlayerToTeamDTO playerToTeam = PlayerToTeamDTO.builder().playerId(playerId).teamId(teamId)
-				.startDate(startDate).endDate(endDate).build();
+		final PlayerToTeamDTO playerToTeam = PlayerToTeamDTO.builder().playerId(playerId).teamId(new TeamId(teamId))
+				.fromDate(startDate).toDate(endDate).build();
 		playerToTeamRepository.save(dtosConverter.toPlayerToTeam(playerToTeam));
 
 	}

@@ -3,25 +3,23 @@
  */
 package org.manuel.teambuilting.core.controllers;
 
+import com.auth0.spring.security.api.Auth0JWTToken;
+
 import java.time.LocalDate;
 import java.util.Set;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
 
-import com.auth0.spring.security.api.Auth0JWTToken;
 import org.manuel.teambuilting.core.config.Auth0Client;
 import org.manuel.teambuilting.core.dtos.PlayerDTO;
-import org.manuel.teambuilting.core.dtos.TeamDTO;
-import org.manuel.teambuilting.core.dtos.TeamHistDTO;
+import org.manuel.teambuilting.core.model.Team;
 import org.manuel.teambuilting.core.model.TeamId;
 import org.manuel.teambuilting.core.services.PlayerToTeamService;
-import org.manuel.teambuilting.core.services.TeamHistService;
-import org.manuel.teambuilting.core.services.TeamService;
+import org.manuel.teambuilting.core.services.TeamCommandService;
+import org.manuel.teambuilting.core.services.TeamQueryService;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -38,42 +36,36 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/teams")
 public class TeamController {
 	
-	private final TeamService teamService;
-	private final TeamHistService teamHistService;
+	private final TeamCommandService teamCommandService;
+	private final TeamQueryService teamQueryService;
+
 	private final PlayerToTeamService playerToTeamService;
+
 	private final Auth0Client auth0Client;
 
+
 	@Inject
-	public TeamController(final TeamService teamService, final TeamHistService teamHistService,
-			final PlayerToTeamService playerToTeamService, final Auth0Client auth0Client) {
-		this.teamService = teamService;
-		this.teamHistService = teamHistService;
+	public TeamController(final TeamCommandService teamCommandService, final TeamQueryService teamQueryService, final PlayerToTeamService playerToTeamService, final Auth0Client auth0Client) {
+		this.teamCommandService = teamCommandService;
+		this.teamQueryService = teamQueryService;
 		this.playerToTeamService = playerToTeamService;
 		this.auth0Client = auth0Client;
 	}
-	
-	@RequestMapping(path = "/newTeam", method = RequestMethod.POST, produces = "application/json")
-	public TeamDTO createTeam(@Valid @RequestBody final TeamDTO team) {
-		Assert.notNull(team);
-		return teamService.createTeam(team);
-	}
 
 	@RequestMapping(method = RequestMethod.POST, produces = "application/json")
-	public TeamHistDTO saveTeamHist(@Valid @RequestBody final TeamHistDTO teamhist) {
-		Assert.notNull(teamhist);
-		return teamHistService.saveTeamHist(teamhist);
+	public Team saveTeam(@Valid @RequestBody final Team team) {
+		return teamCommandService.createTeam(team);
     }
 
 	@RequestMapping(path = "/{teamId}", method = RequestMethod.GET)
-	public TeamHistDTO getLastTeamHistOf(@PathVariable("teamId") final TeamId teamId) {
-		Assert.notNull(teamId);
-		return teamHistService.getLastTeamHist(teamId);
+	public Team getTeamOf(@PathVariable("teamId") final TeamId teamId) {
+		return teamQueryService.getTeam(teamId);
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
-	public Set<TeamHistDTO> findTeamBy(@RequestParam(value = "sport", defaultValue = "") final String sport,
+	public Set<Team> findTeamBy(@RequestParam(value = "sport", defaultValue = "") final String sport,
 			@RequestParam(value = "name", defaultValue = "") final String name) {
-		return teamHistService.findTeamBy(sport, name);
+		return teamQueryService.findTeamBy(sport, name);
 	}
 
 	@RequestMapping(path = "/{teamId}/players", method = RequestMethod.GET)

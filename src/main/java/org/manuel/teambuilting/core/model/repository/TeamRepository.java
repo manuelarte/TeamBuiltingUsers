@@ -1,5 +1,6 @@
 package org.manuel.teambuilting.core.model.repository;
 
+import java.util.Date;
 import java.util.Set;
 
 import org.manuel.teambuilting.core.model.Team;
@@ -13,5 +14,9 @@ import org.springframework.stereotype.Repository;
 public interface TeamRepository extends MongoRepository<Team, String> {
 
 	Set<Team> findBySportLikeIgnoreCase(String sport);
+
+	Set<Team> findByNameLikeIgnoreCase(final String name);
+
+	Team findByFromDateBeforeAndToDateAfter(final Date fromDate, final Date toDate);
 
 }
