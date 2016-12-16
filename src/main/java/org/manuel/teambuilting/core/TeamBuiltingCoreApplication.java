@@ -18,11 +18,9 @@ import java.util.stream.Collectors;
 import javax.inject.Inject;
 
 import org.manuel.teambuilting.core.model.Player;
-import org.manuel.teambuilting.core.model.PlayerId;
 import org.manuel.teambuilting.core.model.PlayerToTeam;
 import org.manuel.teambuilting.core.model.PlayerToTeamSportDetails;
 import org.manuel.teambuilting.core.model.Team;
-import org.manuel.teambuilting.core.model.TeamId;
 import org.manuel.teambuilting.core.model.TeamSport;
 import org.manuel.teambuilting.core.model.TeamSportPosition;
 import org.manuel.teambuilting.core.model.repository.PlayerRepository;
