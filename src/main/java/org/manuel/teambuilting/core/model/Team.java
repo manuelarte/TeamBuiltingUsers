@@ -39,14 +39,17 @@ public class Team {
 	@NotNull
 	@Indexed
 	private final String sport;
+
+	private final String bio;
 	private final Date fromDate;
 	private final Date toDate;
 
 	@PersistenceConstructor
-	public Team(final String name, final String location, final String sport, final Date fromDate, final Date toDate) {
+	public Team(final String name, final String location, final String sport, final String bio, final Date fromDate, final Date toDate) {
 		this.name = name;
 		this.location = location;
 		this.sport = sport;
+		this.bio = bio;
 		this.fromDate = fromDate;
 		this.toDate = toDate;
 	}
