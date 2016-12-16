@@ -3,6 +3,12 @@
  */
 package org.manuel.teambuilting.core.services;
 
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import javax.inject.Inject;
+
 import org.manuel.teambuilting.core.dtos.TeamHistDTO;
 import org.manuel.teambuilting.core.model.Team;
 import org.manuel.teambuilting.core.model.TeamHist;
@@ -10,15 +16,12 @@ import org.manuel.teambuilting.core.model.TeamHistId;
 import org.manuel.teambuilting.core.model.TeamId;
 import org.manuel.teambuilting.core.model.repository.TeamHistRepository;
 import org.manuel.teambuilting.core.model.repository.TeamRepository;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-
-import javax.inject.Inject;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * @author Manuel Doncel Martos
@@ -27,15 +30,24 @@ import java.util.stream.Collectors;
 @Service
 public class TeamHistService {
 
+	@Value("${messaging.event.amqp.exchange}")
+	private String exchange;
+
+	@Value("${messaging.event.amqp.team-crud-routing-key}")
+	private String crudRoutingKey;
+
+
 	private final TeamRepository teamRepository;
 	private final TeamHistRepository teamHistRepository;
+	private final RabbitTemplate rabbitTemplate;
 	private final DTOSConverter dtosConverter;
 	
 	@Inject
 	public TeamHistService(final TeamRepository teamRepository, final TeamHistRepository teamHistRepository,
-			final DTOSConverter dtosConverter) {
+			final RabbitTemplate rabbitTemplate, final DTOSConverter dtosConverter) {
 		this.teamRepository = teamRepository;
 		this.teamHistRepository = teamHistRepository;
+		this.rabbitTemplate = rabbitTemplate;
 		this.dtosConverter = dtosConverter;
 	}
 

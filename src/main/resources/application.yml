@@ -11,9 +11,10 @@ spring:
 
 # Queue configuration
 messaging:
-  teamexchange:
-    name: teambuilting.teamqueue
-    crudroutingkey: changed
+  event.amqp:
+    exchange: teambuilting.team.ex
+    name: team.queue
+    team-crud-routing-key: team.crud
 
 ---
 
@@ -36,6 +37,11 @@ spring:
     host: localhost # Mongo server host.
     port: 27017 # Mongo server port.
     repositories.enabled: true # Enable Mongo repositories.
+  rabbitmq:
+    username: guest
+    password: guest
+    host: localhost
+    port: 5672
 
 
 
