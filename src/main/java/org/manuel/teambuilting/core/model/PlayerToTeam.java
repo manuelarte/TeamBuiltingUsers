@@ -58,9 +58,5 @@ public class PlayerToTeam {
 		this.fromDate = fromDate;
 		this.toDate = toDate;
 	}
-
-	public static class Builder {
-	}
-
 	
 }
