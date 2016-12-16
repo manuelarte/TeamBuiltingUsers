@@ -13,7 +13,7 @@ spring:
 messaging:
   event.amqp:
     exchange: teambuilting.ex
-    name: team.queue
+    queue: team.queue
     team-crud-routing-key: team.crud
 
 ---

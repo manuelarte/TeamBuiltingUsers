@@ -50,7 +50,7 @@ public class TeamQueryService {
 	public Team getTeam(@NotNull final TeamId teamId) {
 		Assert.notNull(teamId);
 		final Team retrieved = repository.findOne(teamId.getId());
-		sendMessage(retrieved, "RETRIEVED");
+		sendMessage(retrieved, "VISITED");
 		return retrieved;
 	}
 
