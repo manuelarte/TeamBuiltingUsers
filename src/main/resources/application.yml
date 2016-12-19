@@ -2,11 +2,6 @@ info:
   name: teambuiltingcore
   description: Team Builting Application, share your team to the rest of the world!
 
-
-spring:
-  rabbitmq:
-    uri: amqp://uzoukkav:xN719DwSB64TPZ5dbclQ12LJ0o7lZ2tU@spotted-monkey.rmq.cloudamqp.com/uzoukkav
-
 ---
 
 # Queue configuration
@@ -27,6 +22,11 @@ spring:
     username: admin # Login user of the mongo server.
     password: admin # Login password of the mongo server.
     repositories.enabled: true # Enable Mongo repositories.
+  rabbitmq:
+      username: uzoukkav
+      virtual-host: uzoukkav
+      password: xN719DwSB64TPZ5dbclQ12LJ0o7lZ2tU
+      host: spotted-monkey.rmq.cloudamqp.com
     
 --- 
   
@@ -42,7 +42,6 @@ spring:
     password: guest
     host: localhost
     port: 5672
-
 
 
 
