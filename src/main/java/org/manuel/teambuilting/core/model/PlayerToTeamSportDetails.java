@@ -32,19 +32,24 @@ public class PlayerToTeamSportDetails {
 	
 	@NotNull
 	@PlayerExists
-	private final String playerId;
+	private String playerId;
 	
 	@NotNull
-	private final String sport;
+	@Indexed(unique=true)
+	private String sport;
 	
-	private final String bio;
+	private String bio;
 	
 	@NotNull
 	@Indexed
-	private final String mainPosition;
+	private String mainPosition;
 	
-	private final Set<String> otherPositions;
-	
+	private Set<String> otherPositions;
+
+	public PlayerToTeamSportDetails() {
+
+	}
+
 	@PersistenceConstructor
 	public PlayerToTeamSportDetails(final String playerId, final String sport, final String bio, final String mainPosition, final Set<String> otherPositions) {
 		this.playerId = playerId;
@@ -52,9 +57,6 @@ public class PlayerToTeamSportDetails {
 		this.bio = bio; 
 		this.mainPosition = mainPosition;
 		this.otherPositions = otherPositions;
-	}
-	
-	public static class Builder {
 	}
 
 }

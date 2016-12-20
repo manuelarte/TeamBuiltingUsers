@@ -1,12 +1,13 @@
 package org.manuel.teambuilting.core.services;
 
-import javax.inject.Inject;
-
 import org.manuel.teambuilting.core.model.PlayerId;
 import org.manuel.teambuilting.core.model.PlayerToTeamSportDetails;
 import org.manuel.teambuilting.core.model.repository.PlayerToTeamSportDetailsRepository;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
+
+import javax.inject.Inject;
+import java.util.Set;
 
 /**
  * @author Manuel Doncel Martos
@@ -22,8 +23,8 @@ public class PlayerToTeamSportDetailsService {
 		this.playerToTeamSportDetailsRepository = playerToTeamSportDetailsRepository;
 	}
 
-	public PlayerToTeamSportDetails findPlayerDetails(final PlayerId playerId, final String sport) {
-		return playerToTeamSportDetailsRepository.findByPlayerIdAndSportLikeIgnoreCase(playerId.getId(), sport);
+	public Set<PlayerToTeamSportDetails> findPlayerDetails(final PlayerId playerId) {
+		return playerToTeamSportDetailsRepository.findByPlayerId(playerId.getId());
 	}
 
 	@PreAuthorize("hasAuthority('user') or hasAuthority('admin')")

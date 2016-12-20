@@ -1,10 +1,5 @@
 package org.manuel.teambuilting.core.controllers;
 
-import java.util.Set;
-
-import javax.inject.Inject;
-import javax.validation.Valid;
-
 import org.manuel.teambuilting.core.config.Auth0Client;
 import org.manuel.teambuilting.core.model.Player;
 import org.manuel.teambuilting.core.model.PlayerId;
@@ -15,12 +10,11 @@ import org.manuel.teambuilting.core.services.PlayerToTeamSportDetailsService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.Assert;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.inject.Inject;
+import javax.validation.Valid;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/players")
@@ -69,11 +63,9 @@ public class PlayerController {
 	}
 
 	@RequestMapping(path = "/{playerId}/details", method = RequestMethod.GET)
-	public PlayerToTeamSportDetails findPlayerDetails(@PathVariable("playerId") final PlayerId playerId,
-			@RequestParam(value = "sport", defaultValue = "Football") final String sport) {
+	public Set<PlayerToTeamSportDetails> findPlayerDetails(@PathVariable("playerId") final PlayerId playerId) {
 		Assert.notNull(playerId);
-		Assert.notNull(sport);
-		return playerToTeamSportDetailsService.findPlayerDetails(playerId, sport);
+		return playerToTeamSportDetailsService.findPlayerDetails(playerId);
 	}
 
 	@RequestMapping(path = "/{playerId}/details", method = RequestMethod.POST)
