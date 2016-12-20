@@ -17,7 +17,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @author Manuel Doncel Martos
@@ -25,8 +26,9 @@ import lombok.Getter;
  */
 @Immutable
 @Document
-@Getter
+@Data
 @lombok.Builder
+@NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class PlayerToTeam {
 
@@ -35,16 +37,16 @@ public class PlayerToTeam {
 
 	@NotNull
 	@Indexed
-	private final String playerId;
+	private String playerId;
 
 	@NotNull
 	@Indexed
-	private final String teamId;
+	private String teamId;
 
 	@NotNull
-	private final Date fromDate;
+	private Date fromDate;
 
-	private final Date toDate;
+	private Date toDate;
 	
 	@AssertTrue
 	private boolean startDateBeforeEndDate() {
