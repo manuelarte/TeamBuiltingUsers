@@ -4,17 +4,21 @@
 package org.manuel.teambuilting.core.model;
 
 import com.mongodb.annotations.Immutable;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+
+import java.util.Set;
+
+import javax.validation.constraints.NotNull;
+
 import org.manuel.teambuilting.core.validations.PlayerExists;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.validation.constraints.NotNull;
-import java.util.Set;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * @author Manuel Doncel Martos
@@ -23,7 +27,8 @@ import java.util.Set;
 @Document
 @Immutable
 @Getter
-@lombok.Builder(toBuilder = true)
+@lombok.Builder
+@NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class PlayerToTeamSportDetails {
 
@@ -35,7 +40,7 @@ public class PlayerToTeamSportDetails {
 	private String playerId;
 	
 	@NotNull
-	@Indexed(unique=true)
+	@Indexed
 	private String sport;
 	
 	private String bio;
@@ -45,10 +50,6 @@ public class PlayerToTeamSportDetails {
 	private String mainPosition;
 	
 	private Set<String> otherPositions;
-
-	public PlayerToTeamSportDetails() {
-
-	}
 
 	@PersistenceConstructor
 	public PlayerToTeamSportDetails(final String playerId, final String sport, final String bio, final String mainPosition, final Set<String> otherPositions) {

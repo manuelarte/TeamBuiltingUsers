@@ -1,19 +1,18 @@
 package org.manuel.teambuilting.core.validations;
 
-import org.manuel.teambuilting.core.model.Player;
-import org.manuel.teambuilting.core.model.PlayerId;
-import org.manuel.teambuilting.core.model.repository.PlayerRepository;
-import org.springframework.stereotype.Component;
-
 import javax.inject.Inject;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
+
+import org.manuel.teambuilting.core.model.Player;
+import org.manuel.teambuilting.core.model.repository.PlayerRepository;
+import org.springframework.stereotype.Component;
 
 /**
  * @author Manuel on 12/12/2016.
  */
 @Component
-public class PlayerExistsValidator implements ConstraintValidator<PlayerExists, PlayerId> {
+public class PlayerExistsValidator implements ConstraintValidator<PlayerExists, String> {
 
     private final PlayerRepository playerRepository;
 
@@ -28,8 +27,8 @@ public class PlayerExistsValidator implements ConstraintValidator<PlayerExists, 
     }
 
     @Override
-    public boolean isValid(final PlayerId playerId, final ConstraintValidatorContext context) {
-        final Player retrieved = playerRepository.findOne(playerId.getId());
+    public boolean isValid(final String playerId, final ConstraintValidatorContext context) {
+        final Player retrieved = playerRepository.findOne(playerId);
         return retrieved != null;
     }
 }
