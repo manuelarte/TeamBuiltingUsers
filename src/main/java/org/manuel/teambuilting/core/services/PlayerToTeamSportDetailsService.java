@@ -1,5 +1,7 @@
 package org.manuel.teambuilting.core.services;
 
+import java.util.Set;
+
 import javax.inject.Inject;
 
 import org.manuel.teambuilting.core.model.PlayerId;
@@ -22,8 +24,12 @@ public class PlayerToTeamSportDetailsService {
 		this.playerToTeamSportDetailsRepository = playerToTeamSportDetailsRepository;
 	}
 
-	public PlayerToTeamSportDetails findPlayerDetails(final PlayerId playerId, final String sport) {
-		return playerToTeamSportDetailsRepository.findByPlayerIdAndSportLikeIgnoreCase(playerId.getId(), sport);
+	public Set<PlayerToTeamSportDetails> findPlayerDetails(final PlayerId playerId) {
+		return playerToTeamSportDetailsRepository.findByPlayerId(playerId.getId());
+	}
+
+	public PlayerToTeamSportDetails findPlayerDetailsForSport(final PlayerId playerId, final String sport) {
+		return playerToTeamSportDetailsRepository.findByPlayerIdAndSportIgnoringCase(playerId.getId(), sport);
 	}
 
 	@PreAuthorize("hasAuthority('user') or hasAuthority('admin')")

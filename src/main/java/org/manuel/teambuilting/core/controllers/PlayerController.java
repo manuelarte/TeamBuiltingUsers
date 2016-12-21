@@ -69,11 +69,16 @@ public class PlayerController {
 	}
 
 	@RequestMapping(path = "/{playerId}/details", method = RequestMethod.GET)
-	public PlayerToTeamSportDetails findPlayerDetails(@PathVariable("playerId") final PlayerId playerId,
-			@RequestParam(value = "sport", defaultValue = "Football") final String sport) {
+	public Set<PlayerToTeamSportDetails> findPlayerDetails(@PathVariable("playerId") final PlayerId playerId) {
+		Assert.notNull(playerId);
+		return playerToTeamSportDetailsService.findPlayerDetails(playerId);
+	}
+
+	@RequestMapping(path = "/{playerId}/details/{sport}", method = RequestMethod.GET)
+	public PlayerToTeamSportDetails findPlayerDetailsForSport(@PathVariable("playerId") final PlayerId playerId, @PathVariable("sport") final String sport) {
 		Assert.notNull(playerId);
 		Assert.notNull(sport);
-		return playerToTeamSportDetailsService.findPlayerDetails(playerId, sport);
+		return playerToTeamSportDetailsService.findPlayerDetailsForSport(playerId, sport);
 	}
 
 	@RequestMapping(path = "/{playerId}/details", method = RequestMethod.POST)
