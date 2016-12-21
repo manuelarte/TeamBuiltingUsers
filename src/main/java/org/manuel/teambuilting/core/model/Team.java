@@ -20,6 +20,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @author Manuel Doncel Martos
@@ -29,6 +30,7 @@ import lombok.Data;
 @Document
 @Data
 @lombok.Builder
+@NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @JsonIgnoreProperties
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -50,9 +52,7 @@ public class Team {
 	private Date fromDate;
 	private Date toDate;
 
-	public Team() {
-
-	}
+	private String emblemLink;
 
 	@PersistenceConstructor
 	public Team(final String name, final String location, final String sport, final String bio, final Date fromDate, final Date toDate) {

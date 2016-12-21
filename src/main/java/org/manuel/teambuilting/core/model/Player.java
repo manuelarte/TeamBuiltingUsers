@@ -51,6 +51,8 @@ public class Player {
 
 	private String bornAddress;
 
+	private String imageLink;
+
 	public Player() {
 
 	}
