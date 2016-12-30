@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 import javax.inject.Inject;
 import javax.validation.constraints.NotNull;
 
-import org.manuel.teambuilting.core.messages.TeamChangedMessage;
+import org.manuel.teambuilting.core.messages.TeamEventMessage;
 import org.manuel.teambuilting.core.model.Team;
 import org.manuel.teambuilting.core.model.TeamId;
 import org.manuel.teambuilting.core.model.repository.TeamRepository;
@@ -55,7 +55,7 @@ public class TeamQueryService {
 	}
 
 	private void sendMessage(final Team savedTeam, final String changeType) {
-		final TeamChangedMessage message = new TeamChangedMessage(savedTeam, changeType);
+		final TeamEventMessage message = new TeamEventMessage(savedTeam, changeType);
 		rabbitTemplate.convertAndSend(teamExchangeName, crudRoutingKey, message);
 	}
 }
