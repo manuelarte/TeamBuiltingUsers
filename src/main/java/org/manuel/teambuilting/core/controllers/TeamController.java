@@ -3,14 +3,8 @@
  */
 package org.manuel.teambuilting.core.controllers;
 
+import com.auth0.authentication.result.UserProfile;
 import com.auth0.spring.security.api.Auth0JWTToken;
-
-import java.time.LocalDate;
-import java.util.Set;
-
-import javax.inject.Inject;
-import javax.validation.Valid;
-
 import org.manuel.teambuilting.core.config.Auth0Client;
 import org.manuel.teambuilting.core.model.Player;
 import org.manuel.teambuilting.core.model.Team;
@@ -19,14 +13,17 @@ import org.manuel.teambuilting.core.services.PlayerToTeamService;
 import org.manuel.teambuilting.core.services.TeamCommandService;
 import org.manuel.teambuilting.core.services.TeamQueryService;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.Assert;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.inject.Inject;
+import javax.validation.Valid;
+import java.time.LocalDate;
+import java.util.Optional;
+import java.util.Set;
 
 /**
  * @author Manuel Doncel Martos
@@ -59,7 +56,8 @@ public class TeamController {
 
 	@RequestMapping(path = "/{id}", method = RequestMethod.GET)
 	public Team getTeamOf(@PathVariable("id") final TeamId id) {
-		return teamQueryService.getTeam(id);
+		final Optional<UserProfile> userProfile = getUserProfile();
+		return teamQueryService.getTeam(id, userProfile);
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
@@ -88,4 +86,8 @@ public class TeamController {
 		}
 	}
 
+	public Optional<UserProfile> getUserProfile() {
+		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		return auth instanceof Auth0JWTToken ? Optional.of(auth0Client.getUser((Auth0JWTToken) auth)) : Optional.empty();
+	}
 }
