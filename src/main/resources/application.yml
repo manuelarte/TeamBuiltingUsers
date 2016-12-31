@@ -8,8 +8,9 @@ info:
 messaging:
   event.amqp:
     exchange: teambuilting.ex
-    queue: team.queue
-    team-crud-routing-key: team.crud
+    queue: teambuilting.queue
+    team-event-routing-key: team.event
+    player-event-routing-key: player.event
 
 ---
 
