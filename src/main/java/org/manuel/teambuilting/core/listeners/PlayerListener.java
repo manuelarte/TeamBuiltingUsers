@@ -21,5 +21,6 @@ public class PlayerListener {
     @RabbitHandler
     public void handle(final PlayerDeletedMessage message) {
         System.out.println(message);
+        // apply subscriber to event patter, and delete all the player history and player position
     }
 }
