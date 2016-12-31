@@ -2,9 +2,6 @@ package org.manuel.teambuilting.core.config;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import java.text.SimpleDateFormat;
-
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
@@ -12,6 +9,8 @@ import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.text.SimpleDateFormat;
 
 /**
  * @author Manuel Doncel Martos
@@ -26,7 +25,7 @@ public class RabbitMQConfig  {
     private String teamExchangeName;
 
     @Value("${messaging.event.amqp.queue}")
-    private String teamQueueName;
+    private String queueName;
 
     @Bean
     public TopicExchange topicExchange() {
@@ -34,7 +33,7 @@ public class RabbitMQConfig  {
     }
 
     public Queue queue() {
-        return new Queue(teamQueueName, true);
+        return new Queue(queueName, true);
     }
 
     @Bean(name = "eventMessageConverter")
@@ -47,6 +46,5 @@ public class RabbitMQConfig  {
         converter.setJsonObjectMapper(jsonObjectMapper);
         return converter;
     }
-
 
 }
