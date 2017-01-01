@@ -1,9 +1,14 @@
 package org.manuel.teambuilting.core.listeners;
 
 import org.manuel.teambuilting.core.messages.PlayerDeletedMessage;
+import org.manuel.teambuilting.core.model.PlayerToTeamSportDetails;
+import org.manuel.teambuilting.core.repositories.PlayerToTeamRepository;
+import org.manuel.teambuilting.core.repositories.PlayerToTeamSportDetailsRepository;
 import org.springframework.amqp.core.ExchangeTypes;
 import org.springframework.amqp.rabbit.annotation.*;
 import org.springframework.context.annotation.Configuration;
+
+import javax.inject.Inject;
 
 /**
  * Listener for the player topic
@@ -18,9 +23,19 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class PlayerListener {
 
+
+    private final PlayerToTeamRepository playerToTeamRepository;
+    private final PlayerToTeamSportDetailsRepository playerToTeamSportDetailsRepository;
+
+    @Inject
+    public PlayerListener(final PlayerToTeamRepository playerToTeamRepository, final PlayerToTeamSportDetailsRepository playerToTeamSportDetailsRepository) {
+        this.playerToTeamRepository = playerToTeamRepository;
+        this.playerToTeamSportDetailsRepository = playerToTeamSportDetailsRepository;
+    }
+
     @RabbitHandler
     public void handle(final PlayerDeletedMessage message) {
-        System.out.println(message);
-        // apply subscriber to event patter, and delete all the player history and player position
+        playerToTeamRepository.delete(playerToTeamRepository.findByPlayerId(message.getPlayer().getId()));
+        playerToTeamSportDetailsRepository.delete(playerToTeamSportDetailsRepository.findByPlayerId(message.getPlayer().getId()));
     }
 }
