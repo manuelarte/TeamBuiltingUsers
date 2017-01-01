@@ -5,7 +5,7 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 import org.manuel.teambuilting.core.model.Player;
-import org.manuel.teambuilting.core.model.repository.PlayerRepository;
+import org.manuel.teambuilting.core.repositories.PlayerRepository;
 import org.springframework.stereotype.Component;
 
 /**

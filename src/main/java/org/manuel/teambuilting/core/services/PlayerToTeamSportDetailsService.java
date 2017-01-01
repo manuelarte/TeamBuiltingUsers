@@ -6,7 +6,7 @@ import javax.inject.Inject;
 
 import org.manuel.teambuilting.core.model.PlayerId;
 import org.manuel.teambuilting.core.model.PlayerToTeamSportDetails;
-import org.manuel.teambuilting.core.model.repository.PlayerToTeamSportDetailsRepository;
+import org.manuel.teambuilting.core.repositories.PlayerToTeamSportDetailsRepository;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 

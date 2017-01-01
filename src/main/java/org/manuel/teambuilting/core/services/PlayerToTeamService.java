@@ -4,8 +4,8 @@
 package org.manuel.teambuilting.core.services;
 
 import org.manuel.teambuilting.core.model.*;
-import org.manuel.teambuilting.core.model.repository.PlayerRepository;
-import org.manuel.teambuilting.core.model.repository.PlayerToTeamRepository;
+import org.manuel.teambuilting.core.repositories.PlayerRepository;
+import org.manuel.teambuilting.core.repositories.PlayerToTeamRepository;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 

@@ -1,7 +1,7 @@
 package org.manuel.teambuilting.core.services;
 
 import org.manuel.teambuilting.core.model.UserData;
-import org.manuel.teambuilting.core.model.repository.UserRepository;
+import org.manuel.teambuilting.core.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 

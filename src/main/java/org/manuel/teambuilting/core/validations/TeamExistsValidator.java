@@ -2,7 +2,7 @@ package org.manuel.teambuilting.core.validations;
 
 import org.manuel.teambuilting.core.model.Team;
 import org.manuel.teambuilting.core.model.TeamId;
-import org.manuel.teambuilting.core.model.repository.TeamRepository;
+import org.manuel.teambuilting.core.repositories.TeamRepository;
 import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;

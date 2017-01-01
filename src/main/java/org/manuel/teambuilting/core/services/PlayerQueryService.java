@@ -2,7 +2,7 @@ package org.manuel.teambuilting.core.services;
 
 import org.manuel.teambuilting.core.model.Player;
 import org.manuel.teambuilting.core.model.PlayerId;
-import org.manuel.teambuilting.core.model.repository.PlayerRepository;
+import org.manuel.teambuilting.core.repositories.PlayerRepository;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

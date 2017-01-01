@@ -6,7 +6,7 @@ import org.manuel.teambuilting.core.config.Auth0Client;
 import org.manuel.teambuilting.core.messages.PlayerDeletedMessage;
 import org.manuel.teambuilting.core.model.Player;
 import org.manuel.teambuilting.core.model.PlayerId;
-import org.manuel.teambuilting.core.model.repository.PlayerRepository;
+import org.manuel.teambuilting.core.repositories.PlayerRepository;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;

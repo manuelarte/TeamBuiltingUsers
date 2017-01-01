@@ -4,7 +4,7 @@ import com.auth0.authentication.result.UserProfile;
 import org.manuel.teambuilting.core.messages.TeamEventMessage;
 import org.manuel.teambuilting.core.model.Team;
 import org.manuel.teambuilting.core.model.TeamId;
-import org.manuel.teambuilting.core.model.repository.TeamRepository;
+import org.manuel.teambuilting.core.repositories.TeamRepository;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;

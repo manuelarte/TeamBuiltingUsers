@@ -1,4 +1,4 @@
-package org.manuel.teambuilting.core.model.repository;
+package org.manuel.teambuilting.core.repositories;
 
 import org.manuel.teambuilting.core.model.UserData;
 import org.springframework.data.mongodb.repository.MongoRepository;

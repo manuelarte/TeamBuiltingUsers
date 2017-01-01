@@ -8,7 +8,7 @@ import com.auth0.spring.security.api.Auth0JWTToken;
 import org.manuel.teambuilting.core.config.Auth0Client;
 import org.manuel.teambuilting.core.messages.TeamEventMessage;
 import org.manuel.teambuilting.core.model.Team;
-import org.manuel.teambuilting.core.model.repository.TeamRepository;
+import org.manuel.teambuilting.core.repositories.TeamRepository;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
