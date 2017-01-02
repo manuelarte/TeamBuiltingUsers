@@ -1,11 +1,13 @@
 package org.manuel.teambuilting.core.messages;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import org.manuel.teambuilting.core.model.Team;
+import java.util.Date;
 
 import javax.validation.constraints.NotNull;
-import java.util.Date;
+
+import org.manuel.teambuilting.core.model.Team;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
 /**
  * @author Manuel Doncel Martos
@@ -18,7 +20,7 @@ public class TeamEventMessage {
     @NotNull
     private final Team team;
 
-    private final String user_id;
+    private final String userId;
 
     @NotNull
     private final String eventType;

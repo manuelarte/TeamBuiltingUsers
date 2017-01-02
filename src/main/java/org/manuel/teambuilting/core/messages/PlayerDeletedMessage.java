@@ -1,11 +1,13 @@
 package org.manuel.teambuilting.core.messages;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import org.manuel.teambuilting.core.model.Player;
+import java.util.Date;
 
 import javax.validation.constraints.NotNull;
-import java.util.Date;
+
+import org.manuel.teambuilting.core.model.Player;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
 /**
  * Event Message to show that a player was deleted
@@ -21,7 +23,7 @@ public class PlayerDeletedMessage {
     private final Player player;
 
     @NotNull
-    private final String user_id;
+    private final String userId;
 
     @NotNull
     private final Date date;
