@@ -2,6 +2,11 @@ package org.manuel.teambuilting.core.services;
 
 import com.auth0.authentication.result.UserProfile;
 import com.auth0.spring.security.api.Auth0JWTToken;
+
+import java.util.Date;
+
+import javax.inject.Inject;
+
 import org.manuel.teambuilting.core.config.Auth0Client;
 import org.manuel.teambuilting.core.messages.PlayerDeletedMessage;
 import org.manuel.teambuilting.core.model.Player;
@@ -14,17 +19,14 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import javax.inject.Inject;
-import java.util.Date;
-
 @Service
 public class PlayerCommandService {
 
 	@Value("${messaging.event.amqp.exchange}")
-	private String teamExchangeName;
+	private String exchangeName;
 
 	@Value("${messaging.event.amqp.player-deleted-routing-key}")
-	private String crudRoutingKey;
+	private String playerDeletedRoutingKey;
 
 
 	private final PlayerRepository playerRepository;
@@ -53,7 +55,7 @@ public class PlayerCommandService {
 
 	private void sendPlayerDeletedMessage(final Player player, final UserProfile userProfile) {
 		final PlayerDeletedMessage message = new PlayerDeletedMessage(player, userProfile.getId(), new Date());
-		rabbitTemplate.convertAndSend(teamExchangeName, crudRoutingKey, message);
+		rabbitTemplate.convertAndSend(exchangeName, playerDeletedRoutingKey, message);
 	}
 
 }
