@@ -30,8 +30,10 @@ import org.manuel.teambuilting.core.services.TeamCommandService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 @SpringBootApplication
+@EnableAspectJAutoProxy
 public class TeamBuiltingCoreApplication implements CommandLineRunner {
 
 	@Inject
