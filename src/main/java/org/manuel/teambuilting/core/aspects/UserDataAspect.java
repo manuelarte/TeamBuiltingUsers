@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
  */
 @Aspect
 @Component
-public class NotVeryUsefulAspect {
+public class UserDataAspect {
 
 	@AfterReturning("@annotation(org.manuel.teambuilting.core.aspects.UserDataSave)")
 	public void test(final JoinPoint call) {
