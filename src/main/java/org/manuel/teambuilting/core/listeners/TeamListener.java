@@ -21,6 +21,6 @@ public class TeamListener {
 		exchange = @Exchange(durable = "true", value = "${messaging.event.amqp.exchange}", type = ExchangeTypes.TOPIC),
 		key = "${messaging.event.amqp.team-event-routing-key}") )
 	public void teamVisited(final @Payload TeamEventMessage message) {
-		System.out.println(message);
+		// System.out.println(message);
 	}
 }
