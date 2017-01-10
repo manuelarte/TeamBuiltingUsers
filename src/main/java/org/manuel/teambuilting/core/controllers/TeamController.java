@@ -5,6 +5,14 @@ package org.manuel.teambuilting.core.controllers;
 
 import com.auth0.authentication.result.UserProfile;
 import com.auth0.spring.security.api.Auth0JWTToken;
+
+import java.time.LocalDate;
+import java.util.Optional;
+import java.util.Set;
+
+import javax.inject.Inject;
+import javax.validation.Valid;
+
 import org.manuel.teambuilting.core.config.Auth0Client;
 import org.manuel.teambuilting.core.model.Player;
 import org.manuel.teambuilting.core.model.Team;
@@ -17,20 +25,19 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.Assert;
-import org.springframework.web.bind.annotation.*;
-
-import javax.inject.Inject;
-import javax.validation.Valid;
-import java.time.LocalDate;
-import java.util.Optional;
-import java.util.Set;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author Manuel Doncel Martos
  *
  */
 @RestController
-@RequestMapping("/teams")
+@RequestMapping("/core/teams")
 public class TeamController {
 	
 	private final TeamCommandService teamCommandService;

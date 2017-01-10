@@ -1,6 +1,9 @@
 package org.manuel.teambuilting.core.controllers;
 
 import com.auth0.spring.security.api.Auth0JWTToken;
+
+import javax.inject.Inject;
+
 import org.manuel.teambuilting.core.config.Auth0Client;
 import org.manuel.teambuilting.core.model.UserData;
 import org.manuel.teambuilting.core.services.UserService;
@@ -11,13 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.inject.Inject;
-
 /**
  * @author Manuel Doncel Martos on 11/12/2016.
  */
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/core/users")
 public class UserController {
 
     private final UserService userService;

@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
  *
  */
 @RestController
-@RequestMapping("/sports")
+@RequestMapping("/core/sports")
 public class SportController {
 
 	public SportController() {
