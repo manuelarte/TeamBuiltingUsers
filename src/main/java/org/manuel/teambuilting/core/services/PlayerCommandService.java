@@ -53,8 +53,8 @@ public class PlayerCommandService {
 	public void deletePlayer(final PlayerId playerId) {
 		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		final UserProfile userProfile = auth0Client.getUser((Auth0JWTToken) auth);
-		sendPlayerDeletedMessage(playerRepository.findOne(playerId.getId()), userProfile);
 		playerRepository.delete(playerId.getId());
+		sendPlayerDeletedMessage(playerRepository.findOne(playerId.getId()), userProfile);
 	}
 
 	private void sendPlayerDeletedMessage(final Player player, final UserProfile userProfile) {
