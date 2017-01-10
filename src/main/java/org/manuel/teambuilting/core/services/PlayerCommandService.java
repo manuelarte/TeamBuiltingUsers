@@ -7,6 +7,8 @@ import java.util.Date;
 
 import javax.inject.Inject;
 
+import org.manuel.teambuilting.core.aspects.UserDataDeletePlayer;
+import org.manuel.teambuilting.core.aspects.UserDataSave;
 import org.manuel.teambuilting.core.config.Auth0Client;
 import org.manuel.teambuilting.core.messages.PlayerDeletedMessage;
 import org.manuel.teambuilting.core.model.Player;
@@ -41,11 +43,13 @@ public class PlayerCommandService {
 	}
 
 	@PreAuthorize("hasAuthority('user') or hasAuthority('admin')")
+	@UserDataSave
 	public Player savePlayer(final Player player) {
 		return playerRepository.save(player);
 	}
 
 	@PreAuthorize("hasAuthority('user') or hasAuthority('admin')")
+	@UserDataDeletePlayer
 	public void deletePlayer(final PlayerId playerId) {
 		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		final UserProfile userProfile = auth0Client.getUser((Auth0JWTToken) auth);
