@@ -55,13 +55,13 @@ public class TeamQueryService {
 		Assert.notNull(teamId);
         Assert.notNull(userProfile);
 		final Team retrieved = repository.findOne(teamId.getId());
-		sendMessage(retrieved, "VISITED", userProfile);
+		sendMessage(retrieved, userProfile);
 		return retrieved;
 	}
 
-	private void sendMessage(final Team savedTeam, final String changeType, final Optional<UserProfile> userProfile) {
+	private void sendMessage(final Team savedTeam, final Optional<UserProfile> userProfile) {
 		final String userId = userProfile.isPresent() ? userProfile.get().getId() : null;
-		final TeamVisitedMessage message = new TeamVisitedMessage(savedTeam, userId, changeType, new Date());
+		final TeamVisitedMessage message = new TeamVisitedMessage(savedTeam, userId, new Date());
 		rabbitTemplate.convertAndSend(teamExchangeName, teamEventRoutingKey, message);
 	}
 }
