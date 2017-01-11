@@ -11,19 +11,16 @@ import lombok.Data;
 
 /**
  * @author Manuel Doncel Martos
- * @since 07/12/2016.
+ * @since 11/01/2017.
  */
 @Data
 @AllArgsConstructor
-public class TeamEventMessage {
+public class TeamDeletedMessage {
 
     @NotNull
     private final Team team;
 
     private final String userId;
-
-    @NotNull
-    private final String eventType;
 
     @NotNull
     private final Date date;

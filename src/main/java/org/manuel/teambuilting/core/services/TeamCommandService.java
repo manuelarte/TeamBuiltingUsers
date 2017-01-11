@@ -6,7 +6,7 @@ package org.manuel.teambuilting.core.services;
 import com.auth0.authentication.result.UserProfile;
 import com.auth0.spring.security.api.Auth0JWTToken;
 import org.manuel.teambuilting.core.config.Auth0Client;
-import org.manuel.teambuilting.core.messages.TeamEventMessage;
+import org.manuel.teambuilting.core.messages.TeamVisitedMessage;
 import org.manuel.teambuilting.core.model.Team;
 import org.manuel.teambuilting.core.repositories.TeamRepository;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -58,7 +58,7 @@ public class TeamCommandService {
 	}
 
 	private void sendMessage(final Team savedTeam, final String changeType, final UserProfile userProfile) {
-		final TeamEventMessage message = new TeamEventMessage(savedTeam, userProfile.getId(), changeType, new Date());
+		final TeamVisitedMessage message = new TeamVisitedMessage(savedTeam, userProfile.getId(), changeType, new Date());
 		rabbitTemplate.convertAndSend(teamExchangeName, teamEventRoutingKey, message);
 	}
 
