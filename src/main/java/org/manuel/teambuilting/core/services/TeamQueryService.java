@@ -30,8 +30,8 @@ public class TeamQueryService {
 	@Value("${messaging.event.amqp.exchange}")
 	private String teamExchangeName;
 
-	@Value("${messaging.event.amqp.team-event-routing-key}")
-	private String teamEventRoutingKey;
+	@Value("${messaging.event.amqp.team-visited-routing-key}")
+	private String teamVisitedRoutingKey;
 
 	private final TeamRepository repository;
 	private final RabbitTemplate rabbitTemplate;
@@ -62,6 +62,6 @@ public class TeamQueryService {
 	private void sendMessage(final Team savedTeam, final Optional<UserProfile> userProfile) {
 		final String userId = userProfile.isPresent() ? userProfile.get().getId() : null;
 		final TeamVisitedMessage message = new TeamVisitedMessage(savedTeam, userId, new Date());
-		rabbitTemplate.convertAndSend(teamExchangeName, teamEventRoutingKey, message);
+		rabbitTemplate.convertAndSend(teamExchangeName, teamVisitedRoutingKey, message);
 	}
 }
