@@ -5,8 +5,13 @@ package org.manuel.teambuilting.core.services;
 
 import com.auth0.authentication.result.UserProfile;
 import com.auth0.spring.security.api.Auth0JWTToken;
+
+import java.util.Date;
+
+import javax.inject.Inject;
+
 import org.manuel.teambuilting.core.config.Auth0Client;
-import org.manuel.teambuilting.core.messages.TeamVisitedMessage;
+import org.manuel.teambuilting.core.messages.TeamCreatedMessage;
 import org.manuel.teambuilting.core.model.Team;
 import org.manuel.teambuilting.core.repositories.TeamRepository;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -16,9 +21,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-
-import javax.inject.Inject;
-import java.util.Date;
 
 /**
  * @author Manuel Doncel Martos
@@ -53,12 +55,12 @@ public class TeamCommandService {
 		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		final UserProfile userProfile = auth0Client.getUser((Auth0JWTToken) auth);
 		final Team savedTeam = teamRepository.save(team);
-		sendMessage(savedTeam, "CREATED", userProfile);
+		sendTeamCreatedMessage(savedTeam, userProfile);
 		return savedTeam;
 	}
 
-	private void sendMessage(final Team savedTeam, final String changeType, final UserProfile userProfile) {
-		final TeamVisitedMessage message = new TeamVisitedMessage(savedTeam, userProfile.getId(), changeType, new Date());
+	private void sendTeamCreatedMessage(final Team savedTeam, final UserProfile userProfile) {
+		final TeamCreatedMessage message = new TeamCreatedMessage(savedTeam, userProfile.getId(), new Date());
 		rabbitTemplate.convertAndSend(teamExchangeName, teamEventRoutingKey, message);
 	}
 
