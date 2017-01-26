@@ -30,7 +30,7 @@ import lombok.NoArgsConstructor;
 @lombok.Builder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class PlayerToTeam {
+public class PlayerToTeam implements TimeSlice {
 
 	@Id
 	private String id;
