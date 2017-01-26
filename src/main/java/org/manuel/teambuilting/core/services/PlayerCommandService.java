@@ -24,10 +24,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class PlayerCommandService {
 
-	@Value("${messaging.event.amqp.exchange}")
+	@Value("${messaging.event.amqp.exchange.name}")
 	private String exchangeName;
 
-	@Value("${messaging.event.amqp.player-deleted-routing-key}")
+	@Value("${messaging.event.amqp.player.queue.player-deleted-routing-key}")
 	private String playerDeletedRoutingKey;
 
 

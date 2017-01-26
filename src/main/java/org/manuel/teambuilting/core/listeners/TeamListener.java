@@ -15,8 +15,8 @@ import org.springframework.context.annotation.Configuration;
  * @since 16-12-2016
  */
 @RabbitListener(bindings = @QueueBinding(
-	value = @Queue(durable = "true", value = "${messaging.event.amqp.queue}"),
-	exchange = @Exchange(durable = "true", value = "${messaging.event.amqp.exchange}", type = ExchangeTypes.TOPIC),
+	value = @Queue(durable = "true", value = "${messaging.event.amqp.team.queue.name}"),
+	exchange = @Exchange(durable = "${messaging.event.amqp.exchange.durable}", value = "${messaging.event.amqp.exchange.name}", type = ExchangeTypes.TOPIC),
 	key = "team.#"))
 @Configuration
 public class TeamListener {

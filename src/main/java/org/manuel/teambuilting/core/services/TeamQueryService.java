@@ -27,10 +27,10 @@ import org.springframework.util.Assert;
 @Service
 public class TeamQueryService {
 
-	@Value("${messaging.event.amqp.exchange}")
+	@Value("${messaging.event.amqp.exchange.name}")
 	private String teamExchangeName;
 
-	@Value("${messaging.event.amqp.team-visited-routing-key}")
+	@Value("${messaging.event.amqp.team.queue.team-visited-routing-key}")
 	private String teamVisitedRoutingKey;
 
 	private final TeamRepository repository;

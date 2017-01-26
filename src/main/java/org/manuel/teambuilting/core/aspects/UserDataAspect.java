@@ -48,7 +48,7 @@ public class UserDataAspect {
 	}
 
 	@After(value = "@annotation(org.manuel.teambuilting.core.aspects.UserDataDeletePlayer)")
-	public void deleteEntityToUserData(final JoinPoint call) {
+	public void deletePlayerFromUserData(final JoinPoint call) {
 		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		final UserProfile user = auth0Client.getUser((Auth0JWTToken) auth);
 		final UserData userData = userService.getOrCreateUserData(user.getId());

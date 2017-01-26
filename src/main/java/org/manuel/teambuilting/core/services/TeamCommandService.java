@@ -29,10 +29,10 @@ import org.springframework.util.Assert;
 @Service
 public class TeamCommandService {
 
-	@Value("${messaging.event.amqp.exchange}")
+	@Value("${messaging.event.amqp.exchange.name}")
 	private String teamExchangeName;
 
-	@Value("${messaging.event.amqp.team-created-routing-key}")
+	@Value("${messaging.event.amqp.team.queue.team-created-routing-key}")
 	private String teamCreatedRoutingKey;
 
 

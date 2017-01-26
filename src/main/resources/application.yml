@@ -7,13 +7,20 @@ info:
 # Queue configuration
 messaging:
   event.amqp:
-    exchange: teambuilting.ex
-    queue: teambuilting.queue
-    team-created-routing-key: team.created
-    team-deleted-routing-key: team.deleted
-    team-visited-routing-key: team.visited
-    player-visited-routing-key: player.visited
-    player-deleted-routing-key: player.deleted
+    exchange:
+      name: teambuilting.ex
+      durable: true
+    team:
+      queue:
+        name: teambuilting.queue
+        team-created-routing-key: team.created
+        team-deleted-routing-key: team.deleted
+        team-visited-routing-key: team.visited
+    player:
+      queue:
+        name: teambuilting.queue
+        player-visited-routing-key: player.visited
+        player-deleted-routing-key: player.deleted
 
 ---
 
