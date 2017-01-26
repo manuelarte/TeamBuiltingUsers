@@ -1,11 +1,15 @@
 package org.manuel.teambuilting.core.integration;
 
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 
 import javax.inject.Inject;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.manuel.teambuilting.core.exceptions.ValidationRuntimeException;
 import org.manuel.teambuilting.core.model.Player;
 import org.manuel.teambuilting.core.model.PlayerToTeam;
@@ -15,6 +19,12 @@ import org.manuel.teambuilting.core.repositories.PlayerToTeamRepository;
 import org.manuel.teambuilting.core.repositories.TeamRepository;
 import org.manuel.teambuilting.core.services.PlayerToTeamService;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * Test Suit to check that it is not possible to store wrong player history
@@ -22,6 +32,7 @@ import org.springframework.boot.test.context.SpringBootTest;
  * @author manuel.doncel.martos
  * @since 13-1-2017
  */
+@RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 public class PlayerHistoryTest {
 
@@ -36,6 +47,11 @@ public class PlayerHistoryTest {
 
 	@Inject
 	private PlayerToTeamService playerToTeamService;
+
+	@BeforeClass
+	public static void beforeClass() {
+		setSecurityContext();
+	}
 
 	@Test(expected = ValidationRuntimeException.class)
 	public void testSaveAnotherEntryForTheSameTeamAndInsideTimeFrame() {
@@ -74,6 +90,55 @@ public class PlayerHistoryTest {
 		cal.setTime(date);
 		cal.add(calendarField, number);
 		return cal.getTime();
+	}
+
+	private static void setSecurityContext() {
+		final SecurityContext securityContext = new SecurityContext() {
+			@Override
+			public Authentication getAuthentication() {
+				return new Authentication() {
+					@Override
+					public Collection<? extends GrantedAuthority> getAuthorities() {
+						return Arrays.asList(new SimpleGrantedAuthority("user"), new SimpleGrantedAuthority("admin"));
+					}
+
+					@Override
+					public Object getCredentials() {
+						return null;
+					}
+
+					@Override
+					public Object getDetails() {
+						return null;
+					}
+
+					@Override
+					public Object getPrincipal() {
+						return null;
+					}
+
+					@Override
+					public boolean isAuthenticated() {
+						return true;
+					}
+
+					@Override
+					public void setAuthenticated(final boolean isAuthenticated) throws IllegalArgumentException {
+
+					}
+
+					@Override
+					public String getName() {
+						return null;
+					}
+				};
+			}
+
+			@Override
+			public void setAuthentication(final Authentication authentication) {
+			}
+		};
+		SecurityContextHolder.setContext(securityContext);
 	}
 
 }
