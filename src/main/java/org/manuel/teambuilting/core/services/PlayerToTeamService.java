@@ -3,17 +3,22 @@
  */
 package org.manuel.teambuilting.core.services;
 
-import org.manuel.teambuilting.core.model.*;
-import org.manuel.teambuilting.core.repositories.PlayerRepository;
-import org.manuel.teambuilting.core.repositories.PlayerToTeamRepository;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Service;
-
-import javax.inject.Inject;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import javax.inject.Inject;
+
+import org.manuel.teambuilting.core.model.Player;
+import org.manuel.teambuilting.core.model.PlayerId;
+import org.manuel.teambuilting.core.model.PlayerToTeam;
+import org.manuel.teambuilting.core.model.PlayerToTeamId;
+import org.manuel.teambuilting.core.model.TeamId;
+import org.manuel.teambuilting.core.repositories.PlayerRepository;
+import org.manuel.teambuilting.core.repositories.PlayerToTeamRepository;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Service;
 
 /**
  * @author Manuel Doncel Martos
@@ -44,8 +49,14 @@ public class PlayerToTeamService {
 	}
 
 	@PreAuthorize("hasAuthority('user') or hasAuthority('admin')")
-	public PlayerToTeam savePlayerToTeam(final PlayerToTeam playerToTeamDTO) {
-		return playerToTeamRepository.save(playerToTeamDTO);
+	public PlayerToTeam savePlayerToTeam(final PlayerToTeam playerToTeam) {
+		// check that inside the team
+		// check that previous entries there is no overlap
+
+		final Collection<PlayerToTeam> historyOfThePlayerInTheTeam = playerToTeamRepository
+			.findByPlayerIdAndTeamId(playerToTeam.getPlayerId(), playerToTeam.getTeamId());
+
+		return playerToTeamRepository.save(playerToTeam);
 	}
 
 	@PreAuthorize("hasAuthority('user') or hasAuthority('admin')")

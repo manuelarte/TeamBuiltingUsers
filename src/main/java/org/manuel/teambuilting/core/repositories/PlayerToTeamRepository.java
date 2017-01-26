@@ -29,4 +29,6 @@ public interface PlayerToTeamRepository extends MongoRepository<PlayerToTeam, St
 
 	Collection<PlayerToTeam> findByPlayerId(String playerId);
 
+	Collection<PlayerToTeam> findByPlayerIdAndTeamId(String playerId, String teamId);
+
 }

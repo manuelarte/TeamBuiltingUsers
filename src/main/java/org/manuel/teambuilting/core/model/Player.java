@@ -58,11 +58,12 @@ public class Player {
 	}
 
 	@PersistenceConstructor
-	public Player(final String name, final String nickname, final Character sex, final String bornAddress) {
+	public Player(final String name, final String nickname, final Character sex, final String bornAddress, final String imageLink) {
 		this.name = name;
 		this.nickname = nickname;
 		this.sex = sex;
 		this.bornAddress = bornAddress;
+		this.imageLink = imageLink;
 	}
 
 }
