@@ -6,7 +6,6 @@ import java.util.Date;
 import javax.inject.Inject;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.manuel.teambuilting.core.exceptions.ValidationRuntimeException;
 import org.manuel.teambuilting.core.model.Player;
 import org.manuel.teambuilting.core.model.PlayerToTeam;
@@ -16,7 +15,6 @@ import org.manuel.teambuilting.core.repositories.PlayerToTeamRepository;
 import org.manuel.teambuilting.core.repositories.TeamRepository;
 import org.manuel.teambuilting.core.services.PlayerToTeamService;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * Test Suit to check that it is not possible to store wrong player history
@@ -24,7 +22,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  * @author manuel.doncel.martos
  * @since 13-1-2017
  */
-@RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 public class PlayerHistoryTest {
 

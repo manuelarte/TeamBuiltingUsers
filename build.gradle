@@ -23,10 +23,10 @@ plugins {
 // Define the classes that should not be analysed for code coverage both in Jacoco and Sonar
 def excludedClasses() {
 	return [
-			'**/org/manuel/teambuilting/experience/**/*Controller*.*',
-			'**/org/manuel/teambuilting/experience/config/*.*',
-			'**/org/manuel/teambuilting/experience/messages/*.*',
-			'**/org/manuel/teambuilting/experience/listeners/*.*',
+			'**/org/manuel/teambuilting/core/controllers/*.*',
+			'**/org/manuel/teambuilting/core/config/*.*',
+			'**/org/manuel/teambuilting/core/messages/*.*',
+			'**/org/manuel/teambuilting/core/listeners/*.*',
 	]
 }
 
@@ -53,34 +53,77 @@ jar {
 	baseName = "${microserviceName}"
 	version = project.version
 }
+
+contacts {
+	'manuel.doncel.martos@gmail.com' {
+		roles 'developer'
+	}
+}
+
+facets {
+	integrationTest {
+		parentSourceSet = 'main'
+		testTaskName = 'integrationTest'
+		includeInCheckLifecycle = false
+	}
+}
+
+allure {
+	clean = false
+	allureReportDir = "$buildDir/reports/allure"
+}
+
+test {
+	outputs.dir snippetsDir
+}
+
+integrationTest {
+	outputs.dir snippetsDir
+}
+
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-repositories {
-	mavenCentral()
-	maven { url "https://repo.spring.io/snapshot" }
-	maven { url "https://repo.spring.io/milestone" }
+// Jacoco configuration, include only the classes that involve logic
+jacocoTestReport {
+	reports {
+		html {
+			enabled true
+		}
+	}
 }
 
+configurations {
+	agent
+	all {
+		exclude group: 'org.apache.geronimo.specs', module: 'geronimo-jta_1.1_spec'
+	}
+}
+
+repositories {
+	mavenLocal()
+	maven { url 'https://repo.spring.io/milestone' }
+	mavenCentral()
+}
 
 dependencies {
-	compile('org.springframework.boot:spring-boot-starter-actuator')
-	compile('org.springframework.boot:spring-boot-actuator-docs')
-	compile('org.springframework.boot:spring-boot-starter-web')
-	compile('org.springframework.boot:spring-boot-starter-web-services')
-	compile("org.springframework:spring-aspects:5.0.0.M4")
-	compile('com.auth0:auth0-spring-security-api:0.3.2')
+	compile 'org.springframework.boot:spring-boot-starter-actuator'
+	compile 'org.springframework.boot:spring-boot-actuator-docs'
+	compile 'org.springframework.boot:spring-boot-starter-web'
+	compile 'org.springframework.boot:spring-boot-starter-web-services'
+	compile "org.springframework:spring-aspects:5.0.0.M4"
+	compile 'com.auth0:auth0-spring-security-api:0.3.2'
 
-	compile("org.springframework.boot:spring-boot-starter-amqp")
+	compile "org.springframework.boot:spring-boot-starter-amqp"
 	
-	compile('org.springframework.boot:spring-boot-starter-data-mongodb')
+	compile 'org.springframework.boot:spring-boot-starter-data-mongodb'
 	
-	compile('javax.inject:javax.inject:1')
+	compile 'javax.inject:javax.inject:1'
 	
-	compileOnly('org.projectlombok:lombok')
-	
-	testCompile('org.springframework.boot:spring-boot-starter-test')
-	testCompile group: "de.flapdoodle.embed", name: "de.flapdoodle.embed.mongo", version: "1.50.3"
+	compileOnly 'org.projectlombok:lombok'
+
+	integrationTestCompile 'org.springframework.boot:spring-boot-starter-test'
+	integrationTestCompile group: "de.flapdoodle.embed", name: "de.flapdoodle.embed.mongo", version: "1.50.3"
 	
 }
 
