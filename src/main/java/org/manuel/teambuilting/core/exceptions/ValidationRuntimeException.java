@@ -1,5 +1,6 @@
 package org.manuel.teambuilting.core.exceptions;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
@@ -7,6 +8,7 @@ import lombok.Data;
  * @since 13-1-2017
  */
 @Data
+@AllArgsConstructor
 public class ValidationRuntimeException extends RuntimeException {
 
 	private String errorCode;

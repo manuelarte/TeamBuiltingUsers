@@ -3,22 +3,18 @@
  */
 package org.manuel.teambuilting.core.services;
 
-import java.time.LocalDate;
-import java.util.Collection;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import javax.inject.Inject;
-
-import org.manuel.teambuilting.core.model.Player;
-import org.manuel.teambuilting.core.model.PlayerId;
-import org.manuel.teambuilting.core.model.PlayerToTeam;
-import org.manuel.teambuilting.core.model.PlayerToTeamId;
-import org.manuel.teambuilting.core.model.TeamId;
+import org.manuel.teambuilting.core.exceptions.ValidationRuntimeException;
+import org.manuel.teambuilting.core.model.*;
 import org.manuel.teambuilting.core.repositories.PlayerRepository;
 import org.manuel.teambuilting.core.repositories.PlayerToTeamRepository;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
+
+import javax.inject.Inject;
+import java.time.LocalDate;
+import java.util.Collection;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author Manuel Doncel Martos
@@ -50,12 +46,11 @@ public class PlayerToTeamService {
 
 	@PreAuthorize("hasAuthority('user') or hasAuthority('admin')")
 	public PlayerToTeam savePlayerToTeam(final PlayerToTeam playerToTeam) {
-		// check that inside the team
-		// check that previous entries there is no overlap
-
-		final Collection<PlayerToTeam> historyOfThePlayerInTheTeam = playerToTeamRepository
-			.findByPlayerIdAndTeamId(playerToTeam.getPlayerId(), playerToTeam.getTeamId());
-
+		final Collection<PlayerToTeam> historyOfThePlayerInTheTeamOverlapped = playerToTeamRepository
+			.findByPlayerIdAndTeamId(playerToTeam.getPlayerId(), playerToTeam.getTeamId()).stream().filter(entry -> isOverlapping(playerToTeam, entry)).collect(Collectors.toList());
+        if (!historyOfThePlayerInTheTeamOverlapped.isEmpty()) {
+            throw new ValidationRuntimeException("", "Entry overlapped", "Entry overlapped");
+        }
 		return playerToTeamRepository.save(playerToTeam);
 	}
 
@@ -63,4 +58,11 @@ public class PlayerToTeamService {
 	public void deletePlayerToTeam(PlayerToTeamId playerToTeamId) {
 		playerToTeamRepository.delete(playerToTeamId.getId());
     }
+
+	private <T extends TimeSlice> boolean isOverlapping(final T entryOne, final T entryTwo) {
+        final boolean entryOneInsideEntryTwo = entryOne.getFromDate().after(entryTwo.getFromDate()) &&  entryOne.getToDate().before(entryTwo.getToDate());
+	    final boolean fromDateBetweenEntryOneDates = entryTwo.getFromDate().after(entryOne.getFromDate()) && entryTwo.getFromDate().before(entryOne.getToDate()) && entryTwo.getFromDate().before(entryOne.getToDate());
+		final boolean toDateBetweenEntryOneDates = entryTwo.getToDate().after(entryOne.getFromDate()) && entryTwo.getToDate().before(entryOne.getToDate());
+		return entryOneInsideEntryTwo || fromDateBetweenEntryOneDates || toDateBetweenEntryOneDates;
+	}
 }
