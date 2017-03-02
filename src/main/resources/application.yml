@@ -28,7 +28,7 @@ spring:
   profiles: production
   data.mongodb:
     database: teambuilting # Database name.
-    host: ${MONGODB_HOST} # Mongo server host.
+    host: ${MONGODB_HOST:localhost} # Mongo server host.
     port: ${MONGODB_PORT} # Mongo server port.
     username: ${MONGODB_USERNAME} # Login user of the mongo server.
     password: ${MONGODB_PASSWORD} # Login password of the mongo server.
