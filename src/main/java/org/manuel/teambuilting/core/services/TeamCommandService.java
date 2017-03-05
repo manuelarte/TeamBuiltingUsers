@@ -37,7 +37,6 @@ public class TeamCommandService {
 	private final TeamRepository teamRepository;
 	private final RabbitTemplate rabbitTemplate;
 	private final Auth0Client auth0Client;
-	private final UserService userService;
 
 	@Inject
 	public TeamCommandService(final TeamRepository teamRepository, final RabbitTemplate rabbitTemplate,
@@ -45,7 +44,6 @@ public class TeamCommandService {
 		this.teamRepository = teamRepository;
 		this.rabbitTemplate = rabbitTemplate;
 		this.auth0Client = auth0Client;
-		this.userService = userService;
 	}
 
 	@PreAuthorize("hasAuthority('user') or hasAuthority('admin')")
