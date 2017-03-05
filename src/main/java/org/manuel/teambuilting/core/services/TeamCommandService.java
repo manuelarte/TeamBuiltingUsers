@@ -5,11 +5,7 @@ package org.manuel.teambuilting.core.services;
 
 import com.auth0.authentication.result.UserProfile;
 import com.auth0.spring.security.api.Auth0JWTToken;
-
-import java.util.Date;
-
-import javax.inject.Inject;
-
+import org.manuel.teambuilting.core.aspects.UserDataSave;
 import org.manuel.teambuilting.core.config.Auth0Client;
 import org.manuel.teambuilting.core.messages.TeamCreatedMessage;
 import org.manuel.teambuilting.core.model.Team;
@@ -21,6 +17,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+
+import javax.inject.Inject;
+import java.util.Date;
 
 /**
  * @author Manuel Doncel Martos
@@ -35,21 +34,22 @@ public class TeamCommandService {
 	@Value("${messaging.event.amqp.team.queue.team-created-routing-key}")
 	private String teamCreatedRoutingKey;
 
-
 	private final TeamRepository teamRepository;
 	private final RabbitTemplate rabbitTemplate;
-
 	private final Auth0Client auth0Client;
-
+	private final UserService userService;
 
 	@Inject
-	public TeamCommandService(final TeamRepository teamRepository, final RabbitTemplate rabbitTemplate, final Auth0Client auth0Client) {
+	public TeamCommandService(final TeamRepository teamRepository, final RabbitTemplate rabbitTemplate,
+							  final Auth0Client auth0Client, final UserService userService) {
 		this.teamRepository = teamRepository;
 		this.rabbitTemplate = rabbitTemplate;
 		this.auth0Client = auth0Client;
+		this.userService = userService;
 	}
 
 	@PreAuthorize("hasAuthority('user') or hasAuthority('admin')")
+	@UserDataSave
 	public Team createTeam(final Team team) {
 		Assert.notNull(team);
 		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();

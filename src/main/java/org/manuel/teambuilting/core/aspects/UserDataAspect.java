@@ -2,20 +2,20 @@ package org.manuel.teambuilting.core.aspects;
 
 import com.auth0.authentication.result.UserProfile;
 import com.auth0.spring.security.api.Auth0JWTToken;
-
-import javax.inject.Inject;
-
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.manuel.teambuilting.core.config.Auth0Client;
 import org.manuel.teambuilting.core.model.Player;
+import org.manuel.teambuilting.core.model.Team;
 import org.manuel.teambuilting.core.model.UserData;
 import org.manuel.teambuilting.core.services.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+
+import javax.inject.Inject;
 
 /**
  * @author manuel.doncel.martos
@@ -43,6 +43,8 @@ public class UserDataAspect {
 		final UserData userData = userService.getOrCreateUserData(user.getId());
 		if (retVal instanceof Player) {
 			userData.setPlayerId(((Player) retVal).getId());
+		} else if (retVal instanceof Team) {
+			userData.addTeamAdminByUser(((Team) retVal).getId());
 		}
 		userService.update(userData);
 	}
