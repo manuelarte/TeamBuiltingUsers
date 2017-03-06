@@ -40,7 +40,7 @@ public class TeamCommandService {
 
 	@Inject
 	public TeamCommandService(final TeamRepository teamRepository, final RabbitTemplate rabbitTemplate,
-							  final Auth0Client auth0Client, final UserService userService) {
+							  final Auth0Client auth0Client) {
 		this.teamRepository = teamRepository;
 		this.rabbitTemplate = rabbitTemplate;
 		this.auth0Client = auth0Client;
