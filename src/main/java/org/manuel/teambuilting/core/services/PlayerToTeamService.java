@@ -3,18 +3,21 @@
  */
 package org.manuel.teambuilting.core.services;
 
-import org.manuel.teambuilting.core.exceptions.ValidationRuntimeException;
-import org.manuel.teambuilting.core.model.*;
-import org.manuel.teambuilting.core.repositories.PlayerRepository;
-import org.manuel.teambuilting.core.repositories.PlayerToTeamRepository;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Service;
-
-import javax.inject.Inject;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import javax.inject.Inject;
+
+import org.manuel.teambuilting.core.exceptions.ValidationRuntimeException;
+import org.manuel.teambuilting.core.model.Player;
+import org.manuel.teambuilting.core.model.PlayerToTeam;
+import org.manuel.teambuilting.core.model.TimeSlice;
+import org.manuel.teambuilting.core.repositories.PlayerRepository;
+import org.manuel.teambuilting.core.repositories.PlayerToTeamRepository;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Service;
 
 /**
  * @author Manuel Doncel Martos
@@ -33,15 +36,15 @@ public class PlayerToTeamService {
 		this.playerRepository = playerRepository;
 	}
 
-	public Set<Player> getPlayersFor(final TeamId teamId, final LocalDate time) {
+	public Set<Player> getPlayersFor(final String teamId, final LocalDate time) {
 		final Collection<PlayerToTeam> playersForTeam = playerToTeamRepository
-				.findByToDateAfterOrToDateIsNullAndTeamId(time, teamId.getId());
+				.findByToDateAfterOrToDateIsNullAndTeamId(time, teamId);
 		return playersForTeam.stream()
 				.map(playerId -> playerRepository.findOne(playerId.getPlayerId())).collect(Collectors.toSet());
 	}
 
-	public Collection<PlayerToTeam> findPlayerHistory(final PlayerId playerId) {
-		return playerToTeamRepository.findByPlayerId(playerId.getId());
+	public Collection<PlayerToTeam> findPlayerHistory(final String playerId) {
+		return playerToTeamRepository.findByPlayerId(playerId);
 	}
 
 	@PreAuthorize("hasAuthority('user') or hasAuthority('admin')")
@@ -55,8 +58,8 @@ public class PlayerToTeamService {
 	}
 
 	@PreAuthorize("hasAuthority('user') or hasAuthority('admin')")
-	public void deletePlayerToTeam(PlayerToTeamId playerToTeamId) {
-		playerToTeamRepository.delete(playerToTeamId.getId());
+	public void deletePlayerToTeam(final String playerToTeamId) {
+		playerToTeamRepository.delete(playerToTeamId);
     }
 
 	private <T extends TimeSlice> boolean isOverlapping(final T entryOne, final T entryTwo) {

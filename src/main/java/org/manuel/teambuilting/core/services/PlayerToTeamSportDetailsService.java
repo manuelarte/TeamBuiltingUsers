@@ -4,7 +4,6 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
-import org.manuel.teambuilting.core.model.PlayerId;
 import org.manuel.teambuilting.core.model.PlayerToTeamSportDetails;
 import org.manuel.teambuilting.core.repositories.PlayerToTeamSportDetailsRepository;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -24,12 +23,12 @@ public class PlayerToTeamSportDetailsService {
 		this.playerToTeamSportDetailsRepository = playerToTeamSportDetailsRepository;
 	}
 
-	public Set<PlayerToTeamSportDetails> findPlayerDetails(final PlayerId playerId) {
-		return playerToTeamSportDetailsRepository.findByPlayerId(playerId.getId());
+	public Set<PlayerToTeamSportDetails> findPlayerDetails(final String playerId) {
+		return playerToTeamSportDetailsRepository.findByPlayerId(playerId);
 	}
 
-	public PlayerToTeamSportDetails findPlayerDetailsForSport(final PlayerId playerId, final String sport) {
-		return playerToTeamSportDetailsRepository.findByPlayerIdAndSportIgnoringCase(playerId.getId(), sport);
+	public PlayerToTeamSportDetails findPlayerDetailsForSport(final String playerId, final String sport) {
+		return playerToTeamSportDetailsRepository.findByPlayerIdAndSportIgnoringCase(playerId, sport);
 	}
 
 	@PreAuthorize("hasAuthority('user') or hasAuthority('admin')")

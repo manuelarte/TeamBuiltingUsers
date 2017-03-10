@@ -10,6 +10,7 @@ import java.util.Date;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 
+import org.manuel.teambuilting.core.validations.TeamExists;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -41,6 +42,7 @@ public class PlayerToTeam implements TimeSlice {
 
 	@NotNull
 	@Indexed
+	@TeamExists
 	private String teamId;
 
 	@NotNull

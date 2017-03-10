@@ -16,10 +16,12 @@ import javax.validation.Valid;
 import org.manuel.teambuilting.core.config.Auth0Client;
 import org.manuel.teambuilting.core.model.Player;
 import org.manuel.teambuilting.core.model.Team;
-import org.manuel.teambuilting.core.model.TeamId;
 import org.manuel.teambuilting.core.services.PlayerToTeamService;
 import org.manuel.teambuilting.core.services.TeamCommandService;
 import org.manuel.teambuilting.core.services.TeamQueryService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -62,21 +64,22 @@ public class TeamController {
     }
 
 	@RequestMapping(path = "/{id}", method = RequestMethod.GET)
-	public Team getTeamOf(@PathVariable("id") final TeamId id) {
+	public Team getTeamOf(@PathVariable("id") final String id) {
 		final Optional<UserProfile> userProfile = getUserProfile();
 		return teamQueryService.getTeam(id, userProfile);
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
-	public Set<Team> findTeamBy(@RequestParam(value = "sport", defaultValue = "") final String sport,
+	public Page<Team> findTeamBy(@PageableDefault(page = 0, size = 20) final Pageable pageable,
+		@RequestParam(value = "sport", defaultValue = "") final String sport,
 			@RequestParam(value = "name", defaultValue = "") final String name) {
-		return teamQueryService.findTeamBy(sport, name);
+		return teamQueryService.findTeamBy(pageable, sport, name);
 	}
 
 	@RequestMapping(path = "/{teamId}/players", method = RequestMethod.GET)
-	public Set<Player> getPlayersForTeam(@PathVariable("teamId") final TeamId teamId,
+	public Set<Player> getPlayersForTeam(@PathVariable("teamId") final String teamId,
 			@RequestParam(value = "date", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") final LocalDate date) {
-		Assert.notNull(teamId);
+		Assert.hasLength(teamId);
 		return playerToTeamService.getPlayersFor(teamId, date);
 	}
 

@@ -39,18 +39,20 @@ public class Player {
 	
 	@NotNull
 	@Indexed
-	@Size(min=2)
+	@Size(min=2, max=200)
 	private String name;
 	
 	@Indexed
-	@Size(min=2)
+	@Size(min=2, max=50)
 	private String nickname;
 	
 	@Indexed
 	private Character sex;
 
+	@Size(min=10, max=200)
 	private String bornAddress;
 
+	@Size(min=10, max=200)
 	private String imageLink;
 
 	public Player() {

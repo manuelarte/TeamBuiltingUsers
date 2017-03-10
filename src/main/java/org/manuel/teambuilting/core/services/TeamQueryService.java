@@ -4,19 +4,18 @@ import com.auth0.authentication.result.UserProfile;
 
 import java.util.Date;
 import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 import javax.validation.constraints.NotNull;
 
 import org.manuel.teambuilting.core.messages.TeamVisitedMessage;
 import org.manuel.teambuilting.core.model.Team;
-import org.manuel.teambuilting.core.model.TeamId;
 import org.manuel.teambuilting.core.repositories.TeamRepository;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -42,19 +41,14 @@ public class TeamQueryService {
 		this.rabbitTemplate = rabbitTemplate;
 	}
 
-
 	@Cacheable
-	public Set<Team> findTeamBy(final String sport, final String name) {
-		final Set<Team> teamsForSport = repository.findBySportLikeIgnoreCase(sport);
-		final Set<Team> matchingName = repository.findByNameLikeIgnoreCase(name);
-		return matchingName.stream()
-			.filter(team -> teamsForSport.contains(team)).collect(Collectors.toSet());
+	public Page<Team> findTeamBy(final Pageable pageable, final String sport, final String name) {
+		return repository.findBySportLikeIgnoreCaseAndNameLikeIgnoreCase(pageable, sport, name);
 	}
 
-	public Team getTeam(@NotNull final TeamId teamId, final Optional<UserProfile> userProfile) {
-		Assert.notNull(teamId);
-        Assert.notNull(userProfile);
-		final Team retrieved = repository.findOne(teamId.getId());
+	public Team getTeam(@NotNull final String teamId, final Optional<UserProfile> userProfile) {
+		Assert.hasLength(teamId);
+        final Team retrieved = repository.findOne(teamId);
 		sendMessage(retrieved, userProfile);
 		return retrieved;
 	}

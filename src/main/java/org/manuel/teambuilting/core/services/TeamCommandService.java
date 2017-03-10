@@ -5,6 +5,11 @@ package org.manuel.teambuilting.core.services;
 
 import com.auth0.authentication.result.UserProfile;
 import com.auth0.spring.security.api.Auth0JWTToken;
+
+import java.util.Date;
+
+import javax.inject.Inject;
+
 import org.manuel.teambuilting.core.aspects.UserDataSave;
 import org.manuel.teambuilting.core.config.Auth0Client;
 import org.manuel.teambuilting.core.messages.TeamCreatedMessage;
@@ -17,9 +22,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-
-import javax.inject.Inject;
-import java.util.Date;
 
 /**
  * @author Manuel Doncel Martos
@@ -50,18 +52,16 @@ public class TeamCommandService {
 	@UserDataSave
 	public Team createTeam(final Team team) {
 		Assert.notNull(team);
-		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		final UserProfile userProfile = auth0Client.getUser((Auth0JWTToken) auth);
 		final Team savedTeam = teamRepository.save(team);
-		sendTeamCreatedMessage(savedTeam, userProfile);
+		sendTeamCreatedMessage(savedTeam);
 		return savedTeam;
 	}
 
-	private void sendTeamCreatedMessage(final Team savedTeam, final UserProfile userProfile) {
+	private void sendTeamCreatedMessage(final Team savedTeam) {
+		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		final UserProfile userProfile = auth0Client.getUser((Auth0JWTToken) auth);
 		final TeamCreatedMessage message = new TeamCreatedMessage(savedTeam, userProfile.getId(), new Date());
 		rabbitTemplate.convertAndSend(teamExchangeName, teamCreatedRoutingKey, message);
 	}
-
-
 
 }

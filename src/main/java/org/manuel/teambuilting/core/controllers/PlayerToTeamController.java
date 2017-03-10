@@ -5,9 +5,7 @@ import java.util.Collection;
 import javax.inject.Inject;
 import javax.validation.Valid;
 
-import org.manuel.teambuilting.core.model.PlayerId;
 import org.manuel.teambuilting.core.model.PlayerToTeam;
-import org.manuel.teambuilting.core.model.PlayerToTeamId;
 import org.manuel.teambuilting.core.services.PlayerToTeamService;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,22 +26,22 @@ public class PlayerToTeamController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
-	public Collection<PlayerToTeam> findPlayerHistory(@PathVariable("playerId") final PlayerId playerId) {
+	public Collection<PlayerToTeam> findPlayerHistory(@PathVariable("playerId") final String playerId) {
 		Assert.notNull(playerId);
 		return playerToTeamService.findPlayerHistory(playerId);
 	}
 
 	@RequestMapping(method = RequestMethod.POST, produces = "application/json")
-	public PlayerToTeam savePlayerToTeam(@PathVariable("playerId") final PlayerId playerId,
+	public PlayerToTeam savePlayerToTeam(@PathVariable("playerId") final String playerId,
 			@Valid @RequestBody final PlayerToTeam playerToTeam) {
 		Assert.notNull(playerToTeam);
-		Assert.isTrue(playerToTeam.getPlayerId().equals(playerId.getId()));
+		Assert.isTrue(playerToTeam.getPlayerId().equals(playerId));
 		return playerToTeamService.savePlayerToTeam(playerToTeam);
 	}
 
 	@RequestMapping(value = "/{playerToTeamId}", method = RequestMethod.DELETE, produces = "application/json")
-	public void deletePlayerToTeam(@PathVariable("playerId") final PlayerId playerId,
-										   @PathVariable("playerToTeamId") final PlayerToTeamId playerToTeamId) {
+	public void deletePlayerToTeam(@PathVariable("playerId") final String playerId,
+										   @PathVariable("playerToTeamId") final String playerToTeamId) {
 		playerToTeamService.deletePlayerToTeam(playerToTeamId);
 	}
 

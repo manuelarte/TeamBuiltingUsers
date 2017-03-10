@@ -5,7 +5,6 @@ import java.util.Set;
 import javax.inject.Inject;
 
 import org.manuel.teambuilting.core.model.Player;
-import org.manuel.teambuilting.core.model.PlayerId;
 import org.manuel.teambuilting.core.repositories.PlayerRepository;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,8 +29,8 @@ public class PlayerQueryService {
 		this.rabbitTemplate = rabbitTemplate;
 	}
 
-	public Player getPlayer(final PlayerId playerId) {
-		return playerRepository.findOne(playerId.getId());
+	public Player getPlayer(final String playerId) {
+		return playerRepository.findOne(playerId);
 	}
 
 	public Set<Player> findPlayerByName(final String name) {

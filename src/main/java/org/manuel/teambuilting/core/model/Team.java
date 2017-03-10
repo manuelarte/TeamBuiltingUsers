@@ -10,6 +10,7 @@ import com.mongodb.annotations.Immutable;
 
 import java.util.Date;
 
+import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.data.annotation.Id;
@@ -43,15 +44,18 @@ public class Team {
 	@NotNull
 	@Indexed
 	private String name;
+	@Max(200)
 	private String location;
 	@NotNull
 	@Indexed
 	private String sport;
 
+	@Max(500)
 	private String bio;
 	private Date fromDate;
 	private Date toDate;
 
+	@Max(200)
 	private String emblemLink;
 
 	@PersistenceConstructor

@@ -7,7 +7,6 @@ import javax.validation.Valid;
 
 import org.manuel.teambuilting.core.config.Auth0Client;
 import org.manuel.teambuilting.core.model.Player;
-import org.manuel.teambuilting.core.model.PlayerId;
 import org.manuel.teambuilting.core.model.PlayerToTeamSportDetails;
 import org.manuel.teambuilting.core.services.PlayerCommandService;
 import org.manuel.teambuilting.core.services.PlayerQueryService;
@@ -41,7 +40,7 @@ public class PlayerController {
 	}
 
 	@RequestMapping(path = "/{playerId}", method = RequestMethod.GET)
-	public Player getPlayer(@PathVariable("playerId") final PlayerId playerId) {
+	public Player getPlayer(@PathVariable("playerId") final String playerId) {
 		Assert.notNull(playerId);
 		return playerQueryService.getPlayer(playerId);
 	}
@@ -53,12 +52,12 @@ public class PlayerController {
 
 	@RequestMapping(path = "/{playerId}", method = RequestMethod.DELETE)
 	public ResponseEntity<Player> deleteUser(@PathVariable("playerId") final String playerId) {
-		Player player = playerQueryService.getPlayer(new PlayerId(playerId));
+		Player player = playerQueryService.getPlayer(playerId);
 		if (player == null) {
 			return new ResponseEntity<Player>(HttpStatus.NOT_FOUND);
 		}
 
-		playerCommandService.deletePlayer(new PlayerId(playerId));
+		playerCommandService.deletePlayer(playerId);
 		return new ResponseEntity<Player>(HttpStatus.NO_CONTENT);
 	}
 
@@ -69,23 +68,23 @@ public class PlayerController {
 	}
 
 	@RequestMapping(path = "/{playerId}/details", method = RequestMethod.GET)
-	public Set<PlayerToTeamSportDetails> findPlayerDetails(@PathVariable("playerId") final PlayerId playerId) {
-		Assert.notNull(playerId);
+	public Set<PlayerToTeamSportDetails> findPlayerDetails(@PathVariable("playerId") final String playerId) {
+		Assert.hasLength(playerId);
 		return playerToTeamSportDetailsService.findPlayerDetails(playerId);
 	}
 
 	@RequestMapping(path = "/{playerId}/details/{sport}", method = RequestMethod.GET)
-	public PlayerToTeamSportDetails findPlayerDetailsForSport(@PathVariable("playerId") final PlayerId playerId, @PathVariable("sport") final String sport) {
+	public PlayerToTeamSportDetails findPlayerDetailsForSport(@PathVariable("playerId") final String playerId, @PathVariable("sport") final String sport) {
 		Assert.notNull(playerId);
 		Assert.notNull(sport);
 		return playerToTeamSportDetailsService.findPlayerDetailsForSport(playerId, sport);
 	}
 
 	@RequestMapping(path = "/{playerId}/details", method = RequestMethod.POST)
-	public PlayerToTeamSportDetails savePlayerDetails(@PathVariable("playerId") final PlayerId playerId,
+	public PlayerToTeamSportDetails savePlayerDetails(@PathVariable("playerId") final String playerId,
 			@Valid @RequestBody final PlayerToTeamSportDetails playerToTeamSportDetails) {
-		Assert.notNull(playerId);
-		Assert.isTrue(playerId.getId().equals(playerToTeamSportDetails.getPlayerId()));
+		Assert.hasLength(playerId);
+		Assert.isTrue(playerId.equals(playerToTeamSportDetails.getPlayerId()));
 		return playerToTeamSportDetailsService.savePlayerDetails(playerToTeamSportDetails);
 	}
 

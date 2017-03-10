@@ -3,13 +3,13 @@
  */
 package org.manuel.teambuilting.core.model;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+import com.mongodb.annotations.Immutable;
+
 import java.io.Serializable;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
-
-import com.fasterxml.jackson.annotation.JsonValue;
-import com.mongodb.annotations.Immutable;
 
 /**
  * @author Manuel Doncel Martos
@@ -31,7 +31,5 @@ public abstract class ModelId implements Serializable {
 	public String getId() {
 		return id.toHexString();
 	}
-	
-	
 
 }

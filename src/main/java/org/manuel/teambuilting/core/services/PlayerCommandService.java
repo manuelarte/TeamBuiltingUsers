@@ -12,7 +12,6 @@ import org.manuel.teambuilting.core.aspects.UserDataSave;
 import org.manuel.teambuilting.core.config.Auth0Client;
 import org.manuel.teambuilting.core.messages.PlayerDeletedMessage;
 import org.manuel.teambuilting.core.model.Player;
-import org.manuel.teambuilting.core.model.PlayerId;
 import org.manuel.teambuilting.core.repositories.PlayerRepository;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
@@ -50,14 +49,14 @@ public class PlayerCommandService {
 
 	@PreAuthorize("hasAuthority('user') or hasAuthority('admin')")
 	@UserDataDeletePlayer
-	public void deletePlayer(final PlayerId playerId) {
-		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		final UserProfile userProfile = auth0Client.getUser((Auth0JWTToken) auth);
-		playerRepository.delete(playerId.getId());
-		sendPlayerDeletedMessage(playerRepository.findOne(playerId.getId()), userProfile);
+	public void deletePlayer(final String playerId) {
+		playerRepository.delete(playerId);
+		sendPlayerDeletedMessage(playerRepository.findOne(playerId));
 	}
 
-	private void sendPlayerDeletedMessage(final Player player, final UserProfile userProfile) {
+	private void sendPlayerDeletedMessage(final Player player) {
+		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		final UserProfile userProfile = auth0Client.getUser((Auth0JWTToken) auth);
 		final PlayerDeletedMessage message = new PlayerDeletedMessage(player, userProfile.getId(), new Date());
 		rabbitTemplate.convertAndSend(exchangeName, playerDeletedRoutingKey, message);
 	}
