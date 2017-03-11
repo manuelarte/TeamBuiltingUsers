@@ -10,8 +10,8 @@ import lombok.Getter;
  *  The field is described like this
  *
  *     -----------(0.0, 1.0)------------
- *     |           |_______|           |
- *     |                               |
+ *     |          (        )           |
+ *     |           (______)            |
  *     |                               |
  *     |              y                |
  *     |              ^                |
@@ -20,9 +20,9 @@ import lombok.Getter;
  *     |                               |
  *     |                               |
  *     |                               |
- *     ^                               |
- *   y |            _______            |
- *     |           |       |           |
+ *     ^             _____             |
+ *   y |           (       )           |
+ *     |          (        )           |
  *   (0,0)-->-------(0 ,0.5)-----------
  *
  * @author Manuel Doncel Martos

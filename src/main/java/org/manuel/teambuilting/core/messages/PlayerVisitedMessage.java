@@ -7,24 +7,19 @@ import javax.validation.constraints.NotNull;
 import org.manuel.teambuilting.core.model.Player;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 
 /**
- * Event Message to show that a player was deleted
- *
  * @author Manuel Doncel Martos
  * @since 07/12/2016.
  */
 @Data
 @AllArgsConstructor
-@Builder
-public class PlayerDeletedMessage {
+public class PlayerVisitedMessage {
 
     @NotNull
     private final Player player;
 
-    @NotNull
     private final String userId;
 
     @NotNull

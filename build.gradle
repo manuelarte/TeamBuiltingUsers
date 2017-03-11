@@ -137,6 +137,7 @@ dependencies {
 
 	integrationTestCompile 'org.springframework.boot:spring-boot-starter-test'
 	integrationTestCompile group: "de.flapdoodle.embed", name: "de.flapdoodle.embed.mongo", version: "1.50.3"
+	integrationTestCompile 'org.springframework.amqp:spring-rabbit-test:1.6.6.RELEASE'
 	
 }
 

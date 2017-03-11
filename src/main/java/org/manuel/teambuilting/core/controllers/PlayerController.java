@@ -1,16 +1,21 @@
 package org.manuel.teambuilting.core.controllers;
 
+import java.util.Optional;
 import java.util.Set;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
 
 import org.manuel.teambuilting.core.config.Auth0Client;
+import org.manuel.teambuilting.core.exceptions.ValidationRuntimeException;
 import org.manuel.teambuilting.core.model.Player;
 import org.manuel.teambuilting.core.model.PlayerToTeamSportDetails;
 import org.manuel.teambuilting.core.services.PlayerCommandService;
 import org.manuel.teambuilting.core.services.PlayerQueryService;
 import org.manuel.teambuilting.core.services.PlayerToTeamSportDetailsService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.Assert;
@@ -40,9 +45,13 @@ public class PlayerController {
 	}
 
 	@RequestMapping(path = "/{playerId}", method = RequestMethod.GET)
-	public Player getPlayer(@PathVariable("playerId") final String playerId) {
+	public ResponseEntity<Player> getPlayer(@PathVariable("playerId") final String playerId) {
 		Assert.notNull(playerId);
-		return playerQueryService.getPlayer(playerId);
+		final Optional<Player> player = playerQueryService.getPlayer(playerId);
+		if (player.isPresent()) {
+			return ResponseEntity.ok(player.get());
+		}
+		throw new ValidationRuntimeException("0001", "player with id " + playerId + " not found", "player with id " + playerId + " not found");
 	}
 
 	@RequestMapping(method = RequestMethod.POST, produces = "application/json")
@@ -52,19 +61,19 @@ public class PlayerController {
 
 	@RequestMapping(path = "/{playerId}", method = RequestMethod.DELETE)
 	public ResponseEntity<Player> deleteUser(@PathVariable("playerId") final String playerId) {
-		Player player = playerQueryService.getPlayer(playerId);
-		if (player == null) {
-			return new ResponseEntity<Player>(HttpStatus.NOT_FOUND);
+		final Optional<Player> player = playerQueryService.getPlayer(playerId);
+		if (!player.isPresent()) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-
 		playerCommandService.deletePlayer(playerId);
-		return new ResponseEntity<Player>(HttpStatus.NO_CONTENT);
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
-	public Set<Player> findPlayerByName(@RequestParam(value = "name", defaultValue = "") final String name) {
+	public Page<Player> findPlayerByName(@PageableDefault(page = 0, size = 20) final Pageable pageable,
+		@RequestParam(value = "name", defaultValue = "") final String name) {
 		Assert.notNull(name);
-		return playerQueryService.findPlayerByName(name);
+		return playerQueryService.findPlayerByName(pageable, name);
 	}
 
 	@RequestMapping(path = "/{playerId}/details", method = RequestMethod.GET)

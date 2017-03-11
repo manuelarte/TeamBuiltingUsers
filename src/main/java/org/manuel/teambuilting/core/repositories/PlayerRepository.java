@@ -4,10 +4,10 @@
 package org.manuel.teambuilting.core.repositories;
 
 import org.manuel.teambuilting.core.model.Player;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
-
-import java.util.Set;
 
 /**
  * @author Manuel Doncel Martos
@@ -16,6 +16,6 @@ import java.util.Set;
 @Repository
 public interface PlayerRepository extends MongoRepository<Player, String> {
 
-	Set<Player> findByNameLikeIgnoreCase(final String name);
+	Page<Player> findByNameLikeIgnoreCase(Pageable pageable, String name);
 
 }
