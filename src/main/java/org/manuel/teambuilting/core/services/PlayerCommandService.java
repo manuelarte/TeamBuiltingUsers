@@ -23,22 +23,21 @@ import org.springframework.stereotype.Service;
 @Service
 public class PlayerCommandService {
 
-	@Value("${messaging.event.amqp.exchange.name}")
-	private String exchangeName;
-
-	@Value("${messaging.event.amqp.player.queue.player-deleted-routing-key}")
-	private String playerDeletedRoutingKey;
+	private static final String PLAYER_DELETED_ROUTING_KEY = "player.deleted";
 
 
 	private final PlayerRepository playerRepository;
 	private final Auth0Client auth0Client;
 	private final RabbitTemplate rabbitTemplate;
+	private final String playerExchangeName;
 
 	@Inject
-	public PlayerCommandService(final PlayerRepository playerRepository, final Auth0Client auth0Client, final RabbitTemplate rabbitTemplate) {
+	public PlayerCommandService(final PlayerRepository playerRepository, final Auth0Client auth0Client, final RabbitTemplate rabbitTemplate,
+		final @Value("${messaging.amqp.player.exchange.name}") String playerExchangeName) {
 		this.playerRepository = playerRepository;
 		this.rabbitTemplate = rabbitTemplate;
 		this.auth0Client = auth0Client;
+		this.playerExchangeName = playerExchangeName;
 	}
 
 	@PreAuthorize("hasAuthority('user') or hasAuthority('admin')")
@@ -58,7 +57,7 @@ public class PlayerCommandService {
 		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		final UserProfile userProfile = auth0Client.getUser((Auth0JWTToken) auth);
 		final PlayerDeletedMessage message = new PlayerDeletedMessage(player, userProfile.getId(), new Date());
-		rabbitTemplate.convertAndSend(exchangeName, playerDeletedRoutingKey, message);
+		rabbitTemplate.convertAndSend(playerExchangeName, PLAYER_DELETED_ROUTING_KEY, message);
 	}
 
 }

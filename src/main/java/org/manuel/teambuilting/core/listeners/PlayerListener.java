@@ -17,9 +17,9 @@ import javax.inject.Inject;
  * @since 31/12/2016.
  */
 @RabbitListener(bindings = @QueueBinding(
-        value = @Queue(durable = "true", value = "${messaging.event.amqp.player.queue.name}"),
-        exchange = @Exchange(durable = "${messaging.event.amqp.exchange.durable}", value = "${messaging.event.amqp.exchange.name}", type = ExchangeTypes.TOPIC),
-        key = "player.#"))
+        value = @Queue(durable = "true", value = "${messaging.amqp.player.queue.name}"),
+        exchange = @Exchange(durable = "${messaging.amqp.player.exchange.durable}", value = "${messaging.amqp.player.exchange.name}", type = ExchangeTypes.TOPIC),
+        key = "${messaging.amqp.player.queue.binding}"))
 @Configuration
 public class PlayerListener {
 

@@ -17,19 +17,21 @@ import org.springframework.stereotype.Service;
 @Service
 public class PlayerQueryService {
 
-	@Value("${messaging.event.amqp.exchange.name}")
-	private String exchangeName;
+	private final String playerExchangeName;
 
 	private final PlayerRepository playerRepository;
 	private final RabbitTemplate rabbitTemplate;
 
 	@Inject
-	public PlayerQueryService(final PlayerRepository playerRepository, final RabbitTemplate rabbitTemplate) {
+	public PlayerQueryService(final @Value("${messaging.amqp.player.exchange.name}") String playerExchangeName,
+		final PlayerRepository playerRepository, final RabbitTemplate rabbitTemplate) {
+		this.playerExchangeName = playerExchangeName;
 		this.playerRepository = playerRepository;
 		this.rabbitTemplate = rabbitTemplate;
 	}
 
 	public Player getPlayer(final String playerId) {
+		// TODO send player visited message event
 		return playerRepository.findOne(playerId);
 	}
 

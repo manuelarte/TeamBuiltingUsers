@@ -26,17 +26,16 @@ import org.springframework.util.Assert;
 @Service
 public class TeamQueryService {
 
-	@Value("${messaging.event.amqp.exchange.name}")
+	private static final String TEAM_VISITED_ROUTING_KEY = "team.visited";
+
 	private String teamExchangeName;
-
-	@Value("${messaging.event.amqp.team.queue.team-visited-routing-key}")
-	private String teamVisitedRoutingKey;
-
 	private final TeamRepository repository;
 	private final RabbitTemplate rabbitTemplate;
 
 	@Inject
-	public TeamQueryService(final TeamRepository repository, final RabbitTemplate rabbitTemplate) {
+	public TeamQueryService(final @Value("${messaging.amqp.team.exchange.name}") String teamExchangeName,
+		final TeamRepository repository, final RabbitTemplate rabbitTemplate) {
+		this.teamExchangeName = teamExchangeName;
 		this.repository = repository;
 		this.rabbitTemplate = rabbitTemplate;
 	}
@@ -49,13 +48,13 @@ public class TeamQueryService {
 	public Team getTeam(@NotNull final String teamId, final Optional<UserProfile> userProfile) {
 		Assert.hasLength(teamId);
         final Team retrieved = repository.findOne(teamId);
-		sendMessage(retrieved, userProfile);
+		sendTeamVisitedMessage(retrieved, userProfile);
 		return retrieved;
 	}
 
-	private void sendMessage(final Team savedTeam, final Optional<UserProfile> userProfile) {
+	private void sendTeamVisitedMessage(final Team savedTeam, final Optional<UserProfile> userProfile) {
 		final String userId = userProfile.isPresent() ? userProfile.get().getId() : null;
 		final TeamVisitedMessage message = new TeamVisitedMessage(savedTeam, userId, new Date());
-		rabbitTemplate.convertAndSend(teamExchangeName, teamVisitedRoutingKey, message);
+		rabbitTemplate.convertAndSend(teamExchangeName, TEAM_VISITED_ROUTING_KEY, message);
 	}
 }

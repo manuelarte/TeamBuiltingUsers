@@ -6,7 +6,25 @@ import org.manuel.teambuilting.core.model.TeamSportPosition;
 import lombok.Getter;
 
 /**
- * 
+ * The positions available as a futsal player
+ *  The field is described like this
+ *
+ *     -----------(0.0, 1.0)------------
+ *     |           |_______|           |
+ *     |                               |
+ *     |                               |
+ *     |              y                |
+ *     |              ^                |
+ *     |              |                |
+ * (0.5 , 0)     (0.5,0.5)->x       (1, 0)
+ *     |                               |
+ *     |                               |
+ *     |                               |
+ *     ^                               |
+ *   y |            _______            |
+ *     |           |       |           |
+ *   (0,0)-->-------(0 ,0.5)-----------
+ *
  * @author Manuel Doncel Martos
  *
  */

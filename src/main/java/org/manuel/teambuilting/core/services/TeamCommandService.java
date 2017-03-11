@@ -30,19 +30,18 @@ import org.springframework.util.Assert;
 @Service
 public class TeamCommandService {
 
-	@Value("${messaging.event.amqp.exchange.name}")
-	private String teamExchangeName;
+	private static final String TEAM_CREATED_ROUTING_KEY = "team.created";
 
-	@Value("${messaging.event.amqp.team.queue.team-created-routing-key}")
-	private String teamCreatedRoutingKey;
-
+	private final String teamExchangeName;
 	private final TeamRepository teamRepository;
 	private final RabbitTemplate rabbitTemplate;
 	private final Auth0Client auth0Client;
 
 	@Inject
-	public TeamCommandService(final TeamRepository teamRepository, final RabbitTemplate rabbitTemplate,
-							  final Auth0Client auth0Client) {
+	public TeamCommandService(final @Value("${messaging.amqp.team.exchange.name}") String teamExchangeName,
+		final TeamRepository teamRepository, final RabbitTemplate rabbitTemplate,
+		final Auth0Client auth0Client) {
+		this.teamExchangeName = teamExchangeName;
 		this.teamRepository = teamRepository;
 		this.rabbitTemplate = rabbitTemplate;
 		this.auth0Client = auth0Client;
@@ -61,7 +60,7 @@ public class TeamCommandService {
 		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		final UserProfile userProfile = auth0Client.getUser((Auth0JWTToken) auth);
 		final TeamCreatedMessage message = new TeamCreatedMessage(savedTeam, userProfile.getId(), new Date());
-		rabbitTemplate.convertAndSend(teamExchangeName, teamCreatedRoutingKey, message);
+		rabbitTemplate.convertAndSend(teamExchangeName, TEAM_CREATED_ROUTING_KEY, message);
 	}
 
 }
