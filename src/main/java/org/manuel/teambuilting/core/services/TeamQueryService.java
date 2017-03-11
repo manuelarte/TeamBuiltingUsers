@@ -11,6 +11,7 @@ import javax.validation.constraints.NotNull;
 import org.manuel.teambuilting.core.messages.TeamVisitedMessage;
 import org.manuel.teambuilting.core.model.Team;
 import org.manuel.teambuilting.core.repositories.TeamRepository;
+import org.manuel.teambuilting.core.util.Util;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
@@ -31,13 +32,15 @@ public class TeamQueryService {
 	private String teamExchangeName;
 	private final TeamRepository repository;
 	private final RabbitTemplate rabbitTemplate;
+	private final Util util;
 
 	@Inject
 	public TeamQueryService(final @Value("${messaging.amqp.team.exchange.name}") String teamExchangeName,
-		final TeamRepository repository, final RabbitTemplate rabbitTemplate) {
+		final TeamRepository repository, final RabbitTemplate rabbitTemplate, final Util util) {
 		this.teamExchangeName = teamExchangeName;
 		this.repository = repository;
 		this.rabbitTemplate = rabbitTemplate;
+		this.util = util;
 	}
 
 	@Cacheable
@@ -45,16 +48,19 @@ public class TeamQueryService {
 		return repository.findBySportLikeIgnoreCaseAndNameLikeIgnoreCase(pageable, sport, name);
 	}
 
-	public Team getTeam(@NotNull final String teamId, final Optional<UserProfile> userProfile) {
+	public Optional<Team> getTeam(@NotNull final String teamId) {
 		Assert.hasLength(teamId);
-        final Team retrieved = repository.findOne(teamId);
-		sendTeamVisitedMessage(retrieved, userProfile);
+        final Optional<Team> retrieved = Optional.ofNullable(repository.findOne(teamId));
+		if (retrieved.isPresent()) {
+        	sendTeamVisitedMessage(retrieved.get());
+		}
 		return retrieved;
 	}
 
-	private void sendTeamVisitedMessage(final Team savedTeam, final Optional<UserProfile> userProfile) {
+	private void sendTeamVisitedMessage(final Team visitedTeam) {
+		final Optional<UserProfile> userProfile = util.getUserProfile();
 		final String userId = userProfile.isPresent() ? userProfile.get().getId() : null;
-		final TeamVisitedMessage message = new TeamVisitedMessage(savedTeam, userId, new Date());
+		final TeamVisitedMessage message = new TeamVisitedMessage(visitedTeam, userId, new Date());
 		rabbitTemplate.convertAndSend(teamExchangeName, TEAM_VISITED_ROUTING_KEY, message);
 	}
 }

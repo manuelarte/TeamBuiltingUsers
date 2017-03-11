@@ -16,6 +16,6 @@ public interface TeamRepository extends MongoRepository<Team, String> {
 
 	Page<Team> findBySportLikeIgnoreCaseAndNameLikeIgnoreCase(Pageable pageable, String sport, String name);
 
-	Team findByFromDateBeforeAndToDateAfter(final Date fromDate, final Date toDate);
+	Team findByFromDateBeforeAndToDateAfter(Date fromDate, Date toDate);
 
 }

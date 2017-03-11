@@ -1,12 +1,13 @@
 package org.manuel.teambuilting.core.services;
 
+import java.util.HashSet;
+
+import javax.inject.Inject;
+
 import org.manuel.teambuilting.core.model.UserData;
 import org.manuel.teambuilting.core.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-
-import javax.inject.Inject;
-import java.util.HashSet;
 
 /**
  * @author Manuel on 11/12/2016.
@@ -34,7 +35,6 @@ public class UserService {
         final UserData userData = new UserData(userId, playerId, adminOfTeams);
         return repository.save(userData);
     }
-
 
     public UserData update(final UserData userData) {
         Assert.notNull(userData.getId());
