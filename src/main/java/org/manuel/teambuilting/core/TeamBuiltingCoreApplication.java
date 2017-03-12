@@ -27,14 +27,13 @@ import org.manuel.teambuilting.core.repositories.PlayerRepository;
 import org.manuel.teambuilting.core.repositories.PlayerToTeamRepository;
 import org.manuel.teambuilting.core.repositories.PlayerToTeamSportDetailsRepository;
 import org.manuel.teambuilting.core.services.command.TeamCommandService;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 @SpringBootApplication
 @EnableAspectJAutoProxy
-public class TeamBuiltingCoreApplication implements CommandLineRunner {
+public class TeamBuiltingCoreApplication {
 
 	@Inject
 	private PlayerRepository playerRepository;
@@ -52,7 +51,7 @@ public class TeamBuiltingCoreApplication implements CommandLineRunner {
 		SpringApplication.run(TeamBuiltingCoreApplication.class, args);
 	}
 
-	@Override
+	//@Override
 	public void run(final String... args) throws Exception {
 		// createData();
 	}
