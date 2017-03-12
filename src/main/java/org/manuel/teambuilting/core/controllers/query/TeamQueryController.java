@@ -32,14 +32,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/core/teams")
 public class TeamQueryController extends AbstractQueryController<Team, String, TeamQueryService>{
 
-	private final TeamQueryService teamQueryService;
 	private final PlayerToTeamService playerToTeamService;
-
 
 	@Inject
 	public TeamQueryController(final TeamQueryService teamQueryService, final PlayerToTeamService playerToTeamService, final Auth0Client auth0Client) {
 		super(teamQueryService);
-		this.teamQueryService = teamQueryService;
 		this.playerToTeamService = playerToTeamService;
 	}
 
@@ -47,7 +44,7 @@ public class TeamQueryController extends AbstractQueryController<Team, String, T
 	public Page<Team> findTeamBy(@PageableDefault(page = 0, size = 20) final Pageable pageable,
 		@RequestParam(value = "sport", defaultValue = "") final String sport,
 			@RequestParam(value = "name", defaultValue = "") final String name) {
-		return teamQueryService.findTeamBy(pageable, sport, name);
+		return queryService.findTeamBy(pageable, sport, name);
 	}
 
 	@RequestMapping(path = "/{teamId}/players", method = RequestMethod.GET)
