@@ -1,4 +1,4 @@
-package org.manuel.teambuilting.core.controllers;
+package org.manuel.teambuilting.core.controllers.query;
 
 import com.auth0.spring.security.api.Auth0JWTToken;
 
@@ -19,13 +19,13 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/core/users")
-public class UserController {
+public class UserQueryController {
 
     private final UserService userService;
     private final Auth0Client auth0Client;
 
     @Inject
-    public UserController(final UserService userService, final Auth0Client auth0Client) {
+    public UserQueryController(final UserService userService, final Auth0Client auth0Client) {
         this.userService = userService;
         this.auth0Client = auth0Client;
     }
