@@ -4,22 +4,19 @@
 package org.manuel.teambuilting.core.services.command;
 
 import com.auth0.authentication.result.UserProfile;
-import com.auth0.spring.security.api.Auth0JWTToken;
 
 import java.util.Date;
 
 import javax.inject.Inject;
 
 import org.manuel.teambuilting.core.aspects.UserDataSave;
-import org.manuel.teambuilting.core.config.Auth0Client;
 import org.manuel.teambuilting.core.messages.TeamCreatedMessage;
 import org.manuel.teambuilting.core.model.Team;
 import org.manuel.teambuilting.core.repositories.TeamRepository;
+import org.manuel.teambuilting.core.util.Util;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -35,16 +32,16 @@ public class TeamCommandService {
 	private final String teamExchangeName;
 	private final TeamRepository teamRepository;
 	private final RabbitTemplate rabbitTemplate;
-	private final Auth0Client auth0Client;
+	private final Util util;
 
 	@Inject
 	public TeamCommandService(final @Value("${messaging.amqp.team.exchange.name}") String teamExchangeName,
 		final TeamRepository teamRepository, final RabbitTemplate rabbitTemplate,
-		final Auth0Client auth0Client) {
+		final Util util) {
 		this.teamExchangeName = teamExchangeName;
 		this.teamRepository = teamRepository;
 		this.rabbitTemplate = rabbitTemplate;
-		this.auth0Client = auth0Client;
+		this.util = util;
 	}
 
 	@PreAuthorize("hasAuthority('user') or hasAuthority('admin')")
@@ -57,8 +54,7 @@ public class TeamCommandService {
 	}
 
 	private void sendTeamCreatedMessage(final Team savedTeam) {
-		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		final UserProfile userProfile = auth0Client.getUser((Auth0JWTToken) auth);
+		final UserProfile userProfile = util.getUserProfile().get();
 		final TeamCreatedMessage message = new TeamCreatedMessage(savedTeam, userProfile.getId(), new Date());
 		rabbitTemplate.convertAndSend(teamExchangeName, TEAM_CREATED_ROUTING_KEY, message);
 	}
