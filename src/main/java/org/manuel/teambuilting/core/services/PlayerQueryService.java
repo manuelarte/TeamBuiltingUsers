@@ -10,6 +10,7 @@ import javax.inject.Inject;
 import org.manuel.teambuilting.core.messages.PlayerVisitedMessage;
 import org.manuel.teambuilting.core.model.Player;
 import org.manuel.teambuilting.core.repositories.PlayerRepository;
+import org.manuel.teambuilting.core.services.query.AbstractQueryService;
 import org.manuel.teambuilting.core.util.Util;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,7 +23,7 @@ import org.springframework.stereotype.Service;
  * @since 16-12-2016
  */
 @Service
-public class PlayerQueryService {
+public class PlayerQueryService extends AbstractQueryService<Player, String, PlayerRepository> {
 
 	private static final String PLAYER_VISITED_ROUTING_KEY = "player.visited";
 
@@ -38,18 +39,11 @@ public class PlayerQueryService {
 	@Inject
 	public PlayerQueryService(final @Value("${messaging.amqp.player.exchange.name}") String playerExchangeName,
 		final PlayerRepository playerRepository, final RabbitTemplate rabbitTemplate, final Util util) {
+		super(playerRepository);
 		this.playerExchangeName = playerExchangeName;
 		this.playerRepository = playerRepository;
 		this.rabbitTemplate = rabbitTemplate;
 		this.util = util;
-	}
-
-	public Optional<Player> getPlayer(final String playerId) {
-		final Optional<Player> retrieved = Optional.ofNullable(playerRepository.findOne(playerId));
-		if (retrieved.isPresent()) {
-			sendPlayerVisitedMessage(retrieved.get());
-		}
-		return retrieved;
 	}
 
 	public Page<Player> findPlayerByName(final Pageable pageable, final String name) {
@@ -63,4 +57,10 @@ public class PlayerQueryService {
 		rabbitTemplate.convertAndSend(playerExchangeName, PLAYER_VISITED_ROUTING_KEY, message);
 	}
 
+	@Override
+	public void postFindOne(final Optional<Player> player) {
+		if (player.isPresent()) {
+			sendPlayerVisitedMessage(player.get());
+		}
+	}
 }

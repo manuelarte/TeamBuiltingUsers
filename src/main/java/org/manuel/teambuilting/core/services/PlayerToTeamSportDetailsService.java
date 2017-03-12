@@ -1,5 +1,6 @@
 package org.manuel.teambuilting.core.services;
 
+import java.util.Optional;
 import java.util.Set;
 
 import javax.inject.Inject;
@@ -27,8 +28,8 @@ public class PlayerToTeamSportDetailsService {
 		return playerToTeamSportDetailsRepository.findByPlayerId(playerId);
 	}
 
-	public PlayerToTeamSportDetails findPlayerDetailsForSport(final String playerId, final String sport) {
-		return playerToTeamSportDetailsRepository.findByPlayerIdAndSportIgnoringCase(playerId, sport);
+	public Optional<PlayerToTeamSportDetails> findPlayerDetailsForSport(final String playerId, final String sport) {
+		return Optional.ofNullable(playerToTeamSportDetailsRepository.findByPlayerIdAndSportIgnoringCase(playerId, sport));
 	}
 
 	@PreAuthorize("hasAuthority('user') or hasAuthority('admin')")
