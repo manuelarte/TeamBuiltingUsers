@@ -1,7 +1,5 @@
 package org.manuel.teambuilting.core.repositories;
 
-import java.util.Date;
-
 import org.manuel.teambuilting.core.model.Team;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,7 +13,5 @@ import org.springframework.stereotype.Repository;
 public interface TeamRepository extends MongoRepository<Team, String> {
 
 	Page<Team> findBySportLikeIgnoreCaseAndNameLikeIgnoreCase(Pageable pageable, String sport, String name);
-
-	Team findByFromDateBeforeAndToDateAfter(Date fromDate, Date toDate);
 
 }

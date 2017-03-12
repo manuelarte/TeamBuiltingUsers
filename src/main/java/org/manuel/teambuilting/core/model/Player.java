@@ -19,6 +19,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @author Manuel Doncel Martos
@@ -29,6 +30,7 @@ import lombok.Data;
 @Data
 @lombok.Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor
 @JsonIgnoreProperties
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonDeserialize
@@ -54,10 +56,6 @@ public class Player {
 
 	@Size(min=10, max=200)
 	private String imageLink;
-
-	public Player() {
-
-	}
 
 	@PersistenceConstructor
 	public Player(final String name, final String nickname, final Character sex, final String bornAddress, final String imageLink) {
