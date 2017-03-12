@@ -1,4 +1,4 @@
-package org.manuel.teambuilting.core.services;
+package org.manuel.teambuilting.core.services.query;
 
 import com.auth0.authentication.result.UserProfile;
 
@@ -10,7 +10,6 @@ import javax.inject.Inject;
 import org.manuel.teambuilting.core.messages.PlayerVisitedMessage;
 import org.manuel.teambuilting.core.model.Player;
 import org.manuel.teambuilting.core.repositories.PlayerRepository;
-import org.manuel.teambuilting.core.services.query.AbstractQueryService;
 import org.manuel.teambuilting.core.util.Util;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,7 +31,6 @@ public class PlayerQueryService extends AbstractQueryService<Player, String, Pla
 	 * Exchange name for the players
 	 */
 	private final String playerExchangeName;
-	private final PlayerRepository playerRepository;
 	private final RabbitTemplate rabbitTemplate;
 	private final Util util;
 
@@ -41,13 +39,19 @@ public class PlayerQueryService extends AbstractQueryService<Player, String, Pla
 		final PlayerRepository playerRepository, final RabbitTemplate rabbitTemplate, final Util util) {
 		super(playerRepository);
 		this.playerExchangeName = playerExchangeName;
-		this.playerRepository = playerRepository;
 		this.rabbitTemplate = rabbitTemplate;
 		this.util = util;
 	}
 
 	public Page<Player> findPlayerByName(final Pageable pageable, final String name) {
-		return playerRepository.findByNameLikeIgnoreCase(pageable, name);
+		return repository.findByNameLikeIgnoreCase(pageable, name);
+	}
+
+	@Override
+	public void postFindOne(final Optional<Player> player) {
+		if (player.isPresent()) {
+			sendPlayerVisitedMessage(player.get());
+		}
 	}
 
 	private void sendPlayerVisitedMessage(final Player visitedPlayer) {
@@ -57,10 +61,4 @@ public class PlayerQueryService extends AbstractQueryService<Player, String, Pla
 		rabbitTemplate.convertAndSend(playerExchangeName, PLAYER_VISITED_ROUTING_KEY, message);
 	}
 
-	@Override
-	public void postFindOne(final Optional<Player> player) {
-		if (player.isPresent()) {
-			sendPlayerVisitedMessage(player.get());
-		}
-	}
 }

@@ -1,4 +1,4 @@
-package org.manuel.teambuilting.core.services;
+package org.manuel.teambuilting.core.services.query;
 
 import com.auth0.authentication.result.UserProfile;
 
@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.Optional;
 
 import javax.inject.Inject;
-import javax.validation.constraints.NotNull;
 
 import org.manuel.teambuilting.core.messages.TeamVisitedMessage;
 import org.manuel.teambuilting.core.model.Team;
@@ -18,27 +17,25 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 
 /**
  * @author manuel.doncel.martos
  * @since 16-12-2016
  */
 @Service
-public class TeamQueryService {
+public class TeamQueryService extends AbstractQueryService<Team, String, TeamRepository>{
 
 	private static final String TEAM_VISITED_ROUTING_KEY = "team.visited";
 
 	private String teamExchangeName;
-	private final TeamRepository repository;
 	private final RabbitTemplate rabbitTemplate;
 	private final Util util;
 
 	@Inject
 	public TeamQueryService(final @Value("${messaging.amqp.team.exchange.name}") String teamExchangeName,
 		final TeamRepository repository, final RabbitTemplate rabbitTemplate, final Util util) {
+		super(repository);
 		this.teamExchangeName = teamExchangeName;
-		this.repository = repository;
 		this.rabbitTemplate = rabbitTemplate;
 		this.util = util;
 	}
@@ -48,13 +45,11 @@ public class TeamQueryService {
 		return repository.findBySportLikeIgnoreCaseAndNameLikeIgnoreCase(pageable, sport, name);
 	}
 
-	public Optional<Team> getTeam(@NotNull final String teamId) {
-		Assert.hasLength(teamId);
-        final Optional<Team> retrieved = Optional.ofNullable(repository.findOne(teamId));
-		if (retrieved.isPresent()) {
-        	sendTeamVisitedMessage(retrieved.get());
+	@Override
+	public void postFindOne(final Optional<Team> team) {
+		if (team.isPresent()) {
+			sendTeamVisitedMessage(team.get());
 		}
-		return retrieved;
 	}
 
 	private void sendTeamVisitedMessage(final Team visitedTeam) {
@@ -63,4 +58,5 @@ public class TeamQueryService {
 		final TeamVisitedMessage message = new TeamVisitedMessage(visitedTeam, userId, new Date());
 		rabbitTemplate.convertAndSend(teamExchangeName, TEAM_VISITED_ROUTING_KEY, message);
 	}
+
 }

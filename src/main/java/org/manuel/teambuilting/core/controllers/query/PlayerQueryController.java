@@ -10,7 +10,7 @@ import org.manuel.teambuilting.core.exceptions.ValidationRuntimeException;
 import org.manuel.teambuilting.core.model.Player;
 import org.manuel.teambuilting.core.model.PlayerToTeamSportDetails;
 import org.manuel.teambuilting.core.services.PlayerCommandService;
-import org.manuel.teambuilting.core.services.PlayerQueryService;
+import org.manuel.teambuilting.core.services.query.PlayerQueryService;
 import org.manuel.teambuilting.core.services.PlayerToTeamSportDetailsService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,18 +27,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/core/players")
 public class PlayerQueryController extends AbstractQueryController<Player, String, PlayerQueryService> {
 
-	private final Auth0Client auth0Client;
-	private final PlayerCommandService playerCommandService;
-	private final PlayerQueryService playerQueryService;
 	private final PlayerToTeamSportDetailsService playerToTeamSportDetailsService;
 
 	@Inject
 	public PlayerQueryController(final Auth0Client auth0Client, final PlayerCommandService playerCommandService, final PlayerQueryService playerQueryService,
 			final PlayerToTeamSportDetailsService playerToTeamSportDetailsService) {
 		super(playerQueryService);
-		this.auth0Client = auth0Client;
-		this.playerCommandService = playerCommandService;
-		this.playerQueryService = playerQueryService;
 		this.playerToTeamSportDetailsService = playerToTeamSportDetailsService;
 	}
 
@@ -46,7 +40,7 @@ public class PlayerQueryController extends AbstractQueryController<Player, Strin
 	public Page<Player> findPlayerByName(@PageableDefault(page = 0, size = 20) final Pageable pageable,
 		@RequestParam(value = "name", defaultValue = "") final String name) {
 		Assert.notNull(name);
-		return playerQueryService.findPlayerByName(pageable, name);
+		return queryService.findPlayerByName(pageable, name);
 	}
 
 	@RequestMapping(path = "/{playerId}/details", method = RequestMethod.GET)

@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public abstract class AbstractQueryController<Entity, ID extends Serializable, QueryService extends AbstractQueryService<Entity, ID, ?>> implements
 	InitializingBean {
 
-	private final QueryService queryService;
+	protected final QueryService queryService;
 
 	private Class<Entity> entityClass;
 
