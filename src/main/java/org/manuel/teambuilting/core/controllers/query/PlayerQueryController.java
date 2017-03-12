@@ -9,7 +9,7 @@ import org.manuel.teambuilting.core.config.Auth0Client;
 import org.manuel.teambuilting.core.exceptions.ValidationRuntimeException;
 import org.manuel.teambuilting.core.model.Player;
 import org.manuel.teambuilting.core.model.PlayerToTeamSportDetails;
-import org.manuel.teambuilting.core.services.PlayerCommandService;
+import org.manuel.teambuilting.core.services.command.PlayerCommandService;
 import org.manuel.teambuilting.core.services.query.PlayerQueryService;
 import org.manuel.teambuilting.core.services.PlayerToTeamSportDetailsService;
 import org.springframework.data.domain.Page;

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.manuel.teambuilting.core.services;
+package org.manuel.teambuilting.core.services.command;
 
 import com.auth0.authentication.result.UserProfile;
 import com.auth0.spring.security.api.Auth0JWTToken;

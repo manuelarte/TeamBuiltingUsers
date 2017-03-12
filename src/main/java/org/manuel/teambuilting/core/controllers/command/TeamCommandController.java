@@ -10,7 +10,7 @@ import javax.validation.Valid;
 
 import org.manuel.teambuilting.core.config.Auth0Client;
 import org.manuel.teambuilting.core.model.Team;
-import org.manuel.teambuilting.core.services.TeamCommandService;
+import org.manuel.teambuilting.core.services.command.TeamCommandService;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
