@@ -1,62 +1,16 @@
 package org.manuel.teambuilting.core.services.query;
 
-import com.auth0.authentication.result.UserProfile;
-
-import java.util.Date;
-import java.util.Optional;
-
-import javax.inject.Inject;
-
-import org.manuel.teambuilting.core.messages.TeamVisitedMessage;
 import org.manuel.teambuilting.core.model.Team;
-import org.manuel.teambuilting.core.repositories.TeamRepository;
-import org.manuel.teambuilting.core.util.Util;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
 
 /**
  * @author manuel.doncel.martos
- * @since 16-12-2016
+ * @since 14-3-2017
  */
-@Service
-public class TeamQueryService extends AbstractQueryService<Team, String, TeamRepository>{
+public interface TeamQueryService extends BaseQueryService<Team, String> {
 
-	private static final String TEAM_VISITED_ROUTING_KEY = "team.visited";
 
-	private String teamExchangeName;
-	private final RabbitTemplate rabbitTemplate;
-	private final Util util;
-
-	@Inject
-	public TeamQueryService(final @Value("${messaging.amqp.team.exchange.name}") String teamExchangeName,
-		final TeamRepository repository, final RabbitTemplate rabbitTemplate, final Util util) {
-		super(repository);
-		this.teamExchangeName = teamExchangeName;
-		this.rabbitTemplate = rabbitTemplate;
-		this.util = util;
-	}
-
-	@Cacheable
-	public Page<Team> findTeamBy(final Pageable pageable, final String sport, final String name) {
-		return repository.findBySportLikeIgnoreCaseAndNameLikeIgnoreCase(pageable, sport, name);
-	}
-
-	@Override
-	public void postFindOne(final Optional<Team> team) {
-		if (team.isPresent()) {
-			sendTeamVisitedMessage(team.get());
-		}
-	}
-
-	private void sendTeamVisitedMessage(final Team visitedTeam) {
-		final Optional<UserProfile> userProfile = util.getUserProfile();
-		final String userId = userProfile.isPresent() ? userProfile.get().getId() : null;
-		final TeamVisitedMessage message = new TeamVisitedMessage(visitedTeam, userId, new Date());
-		rabbitTemplate.convertAndSend(teamExchangeName, TEAM_VISITED_ROUTING_KEY, message);
-	}
+	Page<Team> findTeamBy(Pageable pageable, String sport, String name);
 
 }
