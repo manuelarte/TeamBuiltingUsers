@@ -22,6 +22,11 @@ messaging:
         name: teambuilting.q.player
         binding: player.#
 
+
+google:
+  api:
+    key: ${GOOGLE_API_KEY:key}
+
 ---
 
 spring:
@@ -38,7 +43,6 @@ spring:
       virtual-host: ${RABBITMQ_VIRTUAL_HOST}
       username: ${RABBITMQ_USERNAME}
       password: ${RABBITMQ_PASSWORD}
-
 
 ---
 
@@ -60,9 +64,3 @@ auth0:
   signingAlgorithm: HS256
   #signingAlgorithm: RS256
   #publicKeyPath: certificate/cert.pem
-
----
-
-google:
-  api:
-    key: ${GOOGLE_API_KEY:key}
