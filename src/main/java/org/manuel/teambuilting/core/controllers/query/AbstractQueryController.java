@@ -9,7 +9,7 @@ import java.util.Optional;
 import javax.inject.Inject;
 
 import org.manuel.teambuilting.core.exceptions.ValidationRuntimeException;
-import org.manuel.teambuilting.core.services.query.AbstractQueryService;
+import org.manuel.teambuilting.core.services.query.BaseQueryService;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.Assert;
@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * @author manuel.doncel.martos
  * @since 12-3-2017
  */
-public abstract class AbstractQueryController<Entity, ID extends Serializable, QueryService extends AbstractQueryService<Entity, ID, ?>> implements
+public abstract class AbstractQueryController<Entity, ID extends Serializable, QueryService extends BaseQueryService<Entity, ID>> implements
 	InitializingBean {
 
 	protected final QueryService queryService;
