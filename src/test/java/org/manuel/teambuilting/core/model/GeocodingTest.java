@@ -34,10 +34,10 @@ public class GeocodingTest {
 		//final String jsonInString = new String(Files.readAllBytes(Paths.get(resource.getURI())), Charset.forName("ISO-8859-15"));
 		final Geocoding geocoding = new Geocoding(GeocodingExamples.ubeda(), "OK");
 		assertEquals(5, geocoding.getResults()[0].addressComponents.length);
-		assertThat(geocoding.getResults()[0].addressComponents, hasTheseAddress("Úbeda", "Jaén", "Andalusia", "Spain", "23400"));
+		assertThat(geocoding.getResults()[0].addressComponents, hasTheseAddresses("Úbeda", "Jaén", "Andalusia", "Spain", "23400"));
 	}
 
-	private BaseMatcher<AddressComponent[]> hasTheseAddress(final String... longNames) {
+	private BaseMatcher<AddressComponent[]> hasTheseAddresses(final String... longNames) {
 		return new TypeSafeMatcher<AddressComponent[]>() {
 
 			@Override
