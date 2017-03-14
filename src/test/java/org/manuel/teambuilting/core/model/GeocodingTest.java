@@ -4,12 +4,12 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.maps.model.AddressComponent;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.List;
 
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
@@ -17,7 +17,6 @@ import org.hamcrest.TypeSafeMatcher;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.BlockJUnit4ClassRunner;
-import org.manuel.teambuilting.core.model.Geocoding.AddressComponent;
 import org.springframework.core.io.ClassPathResource;
 
 /**
@@ -34,12 +33,12 @@ public class GeocodingTest {
 		final ClassPathResource resource = new ClassPathResource("/geocoding/ubeda-jaen-spain.json");
 		final String jsonInString = new String(Files.readAllBytes(Paths.get(resource.getURI())), Charset.forName("ISO-8859-15"));
 		final Geocoding geocoding = mapper.readValue(jsonInString, Geocoding.class);
-		assertEquals(5, geocoding.getResults().get(0).getAddress_components().size());
-		assertThat(geocoding.getResults().get(0).getAddress_components(), hasTheseAddress("Úbeda", "Jaén", "Andalusia", "Spain", "23400"));
+		assertEquals(5, geocoding.getResults()[0].addressComponents.length);
+		assertThat(geocoding.getResults()[0].addressComponents, hasTheseAddress("Úbeda", "Jaén", "Andalusia", "Spain", "23400"));
 	}
 
-	private BaseMatcher<List<AddressComponent>> hasTheseAddress(final String... longNames) {
-		return new TypeSafeMatcher<List<AddressComponent>>() {
+	private BaseMatcher<AddressComponent[]> hasTheseAddress(final String... longNames) {
+		return new TypeSafeMatcher<AddressComponent[]>() {
 
 			@Override
 			public void describeTo(final Description description) {
@@ -47,9 +46,9 @@ public class GeocodingTest {
 			}
 
 			@Override
-			protected boolean matchesSafely(final List<AddressComponent> item) {
+			protected boolean matchesSafely(final AddressComponent[] item) {
 				for (int i = 0; i < longNames.length; i++) {
-					if (!longNames[i].equals(item.get(i).getLong_name())) {
+					if (!longNames[i].equals(item[i].longName)) {
 						return false;
 					}
 				}
