@@ -38,23 +38,9 @@ spring:
       virtual-host: ${RABBITMQ_VIRTUAL_HOST}
       username: ${RABBITMQ_USERNAME}
       password: ${RABBITMQ_PASSWORD}
-    
---- 
-  
-spring:
-  profiles: development
-  data.mongodb:
-    database: teambuilting # Database name.
-    host: localhost # Mongo server host.
-    port: 27017 # Mongo server port.
-    repositories.enabled: true # Enable Mongo repositories.
-  rabbitmq:
-    username: guest
-    password: guest
-    host: localhost
-    port: 5672
 
 
+---
 
 endpoints:
   enabled: true # Enable endpoints.
@@ -79,4 +65,4 @@ auth0:
 
 google:
   api:
-    key: ${GOOGLE_API_KEY}
+    key: ${GOOGLE_API_KEY:key}
