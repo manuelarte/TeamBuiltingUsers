@@ -1,5 +1,7 @@
 package org.manuel.teambuilting.core.validations;
 
+import java.util.Optional;
+
 import javax.inject.Inject;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -28,7 +30,7 @@ public class PlayerExistsValidator implements ConstraintValidator<PlayerExists, 
 
     @Override
     public boolean isValid(final String playerId, final ConstraintValidatorContext context) {
-        final Player retrieved = playerRepository.findOne(playerId);
-        return retrieved != null;
+        final Optional<Player> retrieved = Optional.ofNullable(playerRepository.findOne(playerId));
+        return retrieved.isPresent();
     }
 }

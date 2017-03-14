@@ -1,5 +1,7 @@
 package org.manuel.teambuilting.core.validations;
 
+import java.util.Optional;
+
 import javax.inject.Inject;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -28,7 +30,7 @@ public class TeamExistsValidator implements ConstraintValidator<TeamExists, Stri
 
     @Override
     public boolean isValid(final String teamId, final ConstraintValidatorContext context) {
-        final Team retrieved = teamRepository.findOne(teamId);
-        return retrieved != null;
+        final Optional<Team> retrieved = Optional.ofNullable(teamRepository.findOne(teamId));
+        return retrieved.isPresent();
     }
 }
