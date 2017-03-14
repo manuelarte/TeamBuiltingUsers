@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
+import org.manuel.teambuilting.core.exceptions.ErrorCode;
 import org.manuel.teambuilting.core.exceptions.ValidationRuntimeException;
 import org.manuel.teambuilting.core.model.Player;
 import org.manuel.teambuilting.core.model.PlayerToTeamSportDetails;
@@ -55,7 +56,7 @@ public class PlayerQueryController extends AbstractQueryController<Player, Strin
 		if (playerToTeamSportDetails.isPresent()) {
 			return ResponseEntity.ok(playerToTeamSportDetails.get());
 		}
-		throw new ValidationRuntimeException("0002", "Player Detail not found", "");
+		throw new ValidationRuntimeException(ErrorCode.PLAYER_DETAIL_FOR_SPORT_NOT_FOUND, playerId, sport);
 	}
 
 }

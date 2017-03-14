@@ -9,7 +9,9 @@ import lombok.Getter;
 
 public enum ErrorCode {
 
-	ID_NOT_FOUND("0001", "Entity %s with id %s not found");
+	ID_NOT_FOUND("0001", "Entity %s with id %s not found"),
+	PLAYER_DETAIL_FOR_SPORT_NOT_FOUND("0002", "The player with id %s does not have detail for sport %s"),
+	SPORT_NOT_FOUND("0010", "Sport %s not available");
 
 	@Getter
 	final String errorCode;

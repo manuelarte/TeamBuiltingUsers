@@ -1,7 +1,10 @@
 package org.manuel.teambuilting.core.exceptions;
 
+import javax.validation.constraints.NotNull;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 /**
  * @author manuel.doncel.martos
@@ -9,11 +12,17 @@ import lombok.Data;
  */
 @Data
 @AllArgsConstructor
+@RequiredArgsConstructor
 public class ValidationRuntimeException extends RuntimeException {
 
-	private String errorCode;
-	private String message;
+	@NotNull
+	private final String errorCode;
+	@NotNull
+	private final String message;
 	private String developerMessage;
 
+	public ValidationRuntimeException(final ErrorCode errorCode, final Object... args) {
+		this(errorCode.getErrorCode(), errorCode.getMessage(args));
+	}
 
 }

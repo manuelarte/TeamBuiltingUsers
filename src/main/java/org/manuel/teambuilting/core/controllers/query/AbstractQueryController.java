@@ -46,8 +46,7 @@ public abstract class AbstractQueryController<Entity, ID extends Serializable, Q
 		if (entity.isPresent()) {
 			return ResponseEntity.ok(entity.get());
 		}
-		throw new ValidationRuntimeException(ID_NOT_FOUND.getErrorCode(), ID_NOT_FOUND.getMessage(getClassSimpleName(), id),
-			ID_NOT_FOUND.getMessage(getClassSimpleName(), id));
+		throw new ValidationRuntimeException(ID_NOT_FOUND, getClassSimpleName(), id);
 	}
 
 	private String getClassSimpleName() {
