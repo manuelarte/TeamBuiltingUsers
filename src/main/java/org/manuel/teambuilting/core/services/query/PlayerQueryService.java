@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 /**
  * @author manuel.doncel.martos
@@ -48,7 +49,8 @@ public class PlayerQueryService extends AbstractQueryService<Player, String, Pla
 	}
 
 	@Override
-	public void postFindOne(final Optional<Player> player) {
+	void postFindOne(final Optional<Player> player) {
+		Assert.notNull(player);
 		if (player.isPresent()) {
 			sendPlayerVisitedMessage(player.get());
 		}

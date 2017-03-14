@@ -9,6 +9,7 @@ import javax.validation.ConstraintValidatorContext;
 import org.manuel.teambuilting.core.model.Player;
 import org.manuel.teambuilting.core.repositories.PlayerRepository;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
 
 /**
  * @author Manuel on 12/12/2016.
@@ -30,6 +31,8 @@ public class PlayerExistsValidator implements ConstraintValidator<PlayerExists, 
 
     @Override
     public boolean isValid(final String playerId, final ConstraintValidatorContext context) {
+        Assert.hasLength(playerId);
+        Assert.notNull(context);
         final Optional<Player> retrieved = Optional.ofNullable(playerRepository.findOne(playerId));
         return retrieved.isPresent();
     }
