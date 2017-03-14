@@ -119,7 +119,7 @@ public class TeamBuiltingCoreApplication {
 			final Optional<Date> optionalToDate) {
 		final Team team = Team.builder().name(name).location(location).sport(sport.getName())
 				.fromDate(fromDate).toDate(optionalToDate.orElse(null)).build();
-		return teamCommandService.createTeam(team);
+		return teamCommandService.save(team);
 	}
 
 	private Player createPlayer(final String name, final String nickname, final Optional<Character> sex,

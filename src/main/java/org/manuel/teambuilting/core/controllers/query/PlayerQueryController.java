@@ -5,13 +5,11 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
-import org.manuel.teambuilting.core.config.Auth0Client;
 import org.manuel.teambuilting.core.exceptions.ValidationRuntimeException;
 import org.manuel.teambuilting.core.model.Player;
 import org.manuel.teambuilting.core.model.PlayerToTeamSportDetails;
-import org.manuel.teambuilting.core.services.command.PlayerCommandService;
-import org.manuel.teambuilting.core.services.query.PlayerQueryService;
 import org.manuel.teambuilting.core.services.PlayerToTeamSportDetailsService;
+import org.manuel.teambuilting.core.services.query.PlayerQueryService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -30,7 +28,7 @@ public class PlayerQueryController extends AbstractQueryController<Player, Strin
 	private final PlayerToTeamSportDetailsService playerToTeamSportDetailsService;
 
 	@Inject
-	public PlayerQueryController(final Auth0Client auth0Client, final PlayerCommandService playerCommandService, final PlayerQueryService playerQueryService,
+	public PlayerQueryController(final PlayerQueryService playerQueryService,
 			final PlayerToTeamSportDetailsService playerToTeamSportDetailsService) {
 		super(playerQueryService);
 		this.playerToTeamSportDetailsService = playerToTeamSportDetailsService;

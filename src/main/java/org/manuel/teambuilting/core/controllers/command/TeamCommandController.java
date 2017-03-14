@@ -37,7 +37,7 @@ public class TeamCommandController {
 
 	@RequestMapping(method = RequestMethod.POST, produces = "application/json")
 	public Team saveTeam(@Valid @RequestBody final Team team) {
-		return teamCommandService.createTeam(team);
+		return teamCommandService.save(team);
     }
 
 	/**

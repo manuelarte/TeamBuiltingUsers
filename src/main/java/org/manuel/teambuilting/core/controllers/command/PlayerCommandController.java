@@ -8,9 +8,9 @@ import javax.validation.Valid;
 import org.manuel.teambuilting.core.config.Auth0Client;
 import org.manuel.teambuilting.core.model.Player;
 import org.manuel.teambuilting.core.model.PlayerToTeamSportDetails;
+import org.manuel.teambuilting.core.services.PlayerToTeamSportDetailsService;
 import org.manuel.teambuilting.core.services.command.PlayerCommandService;
 import org.manuel.teambuilting.core.services.query.PlayerQueryService;
-import org.manuel.teambuilting.core.services.PlayerToTeamSportDetailsService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.Assert;
@@ -40,7 +40,7 @@ public class PlayerCommandController {
 
 	@RequestMapping(method = RequestMethod.POST, produces = "application/json")
 	public Player savePlayer(@Valid @RequestBody final Player player) {
-		return playerCommandService.savePlayer(player);
+		return playerCommandService.save(player);
 	}
 
 	@RequestMapping(path = "/{playerId}", method = RequestMethod.DELETE)
@@ -49,7 +49,7 @@ public class PlayerCommandController {
 		if (!player.isPresent()) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		playerCommandService.deletePlayer(playerId);
+		playerCommandService.delete(playerId);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
