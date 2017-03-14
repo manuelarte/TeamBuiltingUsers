@@ -3,13 +3,16 @@ package org.manuel.teambuilting.core.model;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.BeanDescription;
+import com.fasterxml.jackson.databind.DeserializationConfig;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.deser.BeanDeserializerModifier;
 import com.google.maps.model.AddressComponent;
 
 import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
@@ -17,7 +20,6 @@ import org.hamcrest.TypeSafeMatcher;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.BlockJUnit4ClassRunner;
-import org.springframework.core.io.ClassPathResource;
 
 /**
  * @author manuel.doncel.martos
@@ -26,13 +28,11 @@ import org.springframework.core.io.ClassPathResource;
 @RunWith(BlockJUnit4ClassRunner.class)
 public class GeocodingTest {
 
-	private ObjectMapper mapper = new ObjectMapper();
-
 	@Test
 	public void testFormat() throws IOException {
-		final ClassPathResource resource = new ClassPathResource("/geocoding/ubeda-jaen-spain.json");
-		final String jsonInString = new String(Files.readAllBytes(Paths.get(resource.getURI())), Charset.forName("ISO-8859-15"));
-		final Geocoding geocoding = mapper.readValue(jsonInString, Geocoding.class);
+		//final ClassPathResource resource = new ClassPathResource("/geocoding/ubeda-jaen-spain.json");
+		//final String jsonInString = new String(Files.readAllBytes(Paths.get(resource.getURI())), Charset.forName("ISO-8859-15"));
+		final Geocoding geocoding = new Geocoding(GeocodingExamples.ubeda(), "OK");
 		assertEquals(5, geocoding.getResults()[0].addressComponents.length);
 		assertThat(geocoding.getResults()[0].addressComponents, hasTheseAddress("Úbeda", "Jaén", "Andalusia", "Spain", "23400"));
 	}
@@ -57,4 +57,24 @@ public class GeocodingTest {
 
 		};
 	}
+
+
+	private BeanDeserializerModifier customDeserializers() {
+		return new BeanDeserializerModifier() {
+			@Override
+			public JsonDeserializer<Enum> modifyEnumDeserializer(DeserializationConfig config,
+				final JavaType type,
+				BeanDescription beanDesc,
+				final JsonDeserializer<?> deserializer) {
+				return new JsonDeserializer<Enum>() {
+					@Override
+					public Enum deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
+						Class<? extends Enum> rawClass = (Class<Enum<?>>) type.getRawClass();
+						return Enum.valueOf(rawClass, jp.getValueAsString().toUpperCase());
+					}
+				};
+			}
+		};
+	}
+
 }
