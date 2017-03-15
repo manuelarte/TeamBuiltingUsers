@@ -2,25 +2,23 @@ package org.manuel.teambuilting.core.services.query;
 
 import com.google.maps.GeoApiContext;
 import com.google.maps.GeocodingApi;
-import com.google.maps.model.AddressComponent;
-import com.google.maps.model.AddressComponentType;
+import com.google.maps.PendingResult.Callback;
 import com.google.maps.model.GeocodingResult;
-import com.google.maps.model.LatLng;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author manuel.doncel.martos
  * @since 14-3-2017
  */
 @Service
+@Slf4j
 public class GoogleMapsApiService {
 
 	private final GeoApiContext geoApiContext;
@@ -30,18 +28,25 @@ public class GoogleMapsApiService {
 		this.geoApiContext = geoApiContext;
 	}
 
-	public Optional<GeocodingResult[]> get(final String address) {
+	public Optional<GeocodingResult[]> getSynchronously(final String address) {
 		return Optional.ofNullable(GeocodingApi.newRequest(geoApiContext).address(address).awaitIgnoreError());
 	}
 
-	public void getInformationFrom(final GeocodingResult[] results) {
-		Assert.notNull(results);
-		Assert.isTrue(results.length > 0);
-		final Map<AddressComponentType, String> map = new HashMap<>(results[0].addressComponents.length);
-		for (final AddressComponent addressComponent : results[0].addressComponents) {
-			map.put(addressComponent.types[0], addressComponent.longName);
-		}
-		final LatLng location = results[0].geometry.location;
-		final String placeId = results[0].placeId;
+	public void getASynchronously(final String address, final Callback<GeocodingResult[]> callback) {
+		GeocodingApi.newRequest(geoApiContext).address(address).setCallback(callback);
+	}
+
+	private Callback<GeocodingResult[]> addressRetrievedHandle(final String address) {
+		return new Callback<GeocodingResult[]>() {
+			@Override
+			public void onResult(final GeocodingResult[] results) {
+				// getInformationFrom(results);
+			}
+
+			@Override
+			public void onFailure(final Throwable e) {
+				log.error("TeamGeocoding not able to be retrieved for address " + address);
+			}
+		};
 	}
 }

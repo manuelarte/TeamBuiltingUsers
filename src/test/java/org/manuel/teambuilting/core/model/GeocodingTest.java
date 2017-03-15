@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
 import com.google.maps.model.AddressComponent;
+import com.google.maps.model.GeocodingResult;
 
 import java.io.IOException;
 
@@ -25,9 +26,9 @@ public class GeocodingTest {
 	public void testFormat() throws IOException {
 		//final ClassPathResource resource = new ClassPathResource("/geocoding/ubeda-jaen-spain.json");
 		//final String jsonInString = new String(Files.readAllBytes(Paths.get(resource.getURI())), Charset.forName("ISO-8859-15"));
-		final Geocoding geocoding = new Geocoding(GeocodingExamples.ubeda(), "OK");
-		assertEquals(5, geocoding.getResults()[0].addressComponents.length);
-		assertThat(geocoding.getResults()[0].addressComponents, hasTheseAddresses("Úbeda", "Jaén", "Andalusia", "Spain", "23400"));
+		final GeocodingResult[] geocodingResult = GeocodingExamples.ubeda();
+		assertEquals(5, geocodingResult[0].addressComponents.length);
+		assertThat(geocodingResult[0].addressComponents, hasTheseAddresses("Úbeda", "Jaén", "Andalusia", "Spain", "23400"));
 	}
 
 	private BaseMatcher<AddressComponent[]> hasTheseAddresses(final String... longNames) {

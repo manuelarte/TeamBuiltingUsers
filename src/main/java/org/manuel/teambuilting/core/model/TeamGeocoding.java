@@ -3,10 +3,9 @@ package org.manuel.teambuilting.core.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.google.maps.model.GeocodingResult;
 import com.mongodb.annotations.Immutable;
 
-import javax.validation.constraints.NotNull;
+import java.util.Map;
 
 import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -21,23 +20,19 @@ import lombok.NoArgsConstructor;
 @Immutable
 @Document
 @Data
-@lombok.Builder
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonDeserialize
-public class Geocoding {
+public class TeamGeocoding extends AbstractGeocoding {
 
-	@NotNull
-	private GeocodingResult[] results;
-
-	@NotNull
-	private String status;
-
+	@lombok.Builder
 	@PersistenceConstructor
-	public Geocoding(final GeocodingResult[] results, final String status) {
-		this.results = results;
-		this.status = status;
+	public TeamGeocoding(final String entityId, final double lat, final double lng, final Map<String, String> addressComponents) {
+		this.entityId = entityId;
+		this.lat = lat;
+		this.lng = lng;
+		this.addressComponents = addressComponents;
 	}
 
 }
