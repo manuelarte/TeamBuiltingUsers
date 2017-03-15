@@ -48,8 +48,9 @@ class PlayerCommandServiceImpl implements PlayerCommandService {
 	@PreAuthorize("hasAuthority('user') or hasAuthority('admin')")
 	@UserDataDeletePlayer
 	public void delete(final String playerId) {
+		final Player playerToBeDeleted = playerRepository.findOne(playerId);
 		playerRepository.delete(playerId);
-		sendPlayerDeletedMessage(playerRepository.findOne(playerId));
+		sendPlayerDeletedMessage(playerToBeDeleted);
 	}
 
 	private void sendPlayerDeletedMessage(final Player player) {
