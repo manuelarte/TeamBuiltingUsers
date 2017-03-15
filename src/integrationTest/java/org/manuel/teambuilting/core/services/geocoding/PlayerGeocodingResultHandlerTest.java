@@ -1,4 +1,4 @@
-package org.manuel.teambuilting.core.services;
+package org.manuel.teambuilting.core.services.geocoding;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -10,6 +10,7 @@ import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.manuel.teambuilting.core.repositories.PlayerGeocodingRepository;
+import org.manuel.teambuilting.core.services.GeocodingExamples;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 

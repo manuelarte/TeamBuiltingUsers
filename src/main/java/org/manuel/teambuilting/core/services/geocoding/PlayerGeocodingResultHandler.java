@@ -1,8 +1,7 @@
-package org.manuel.teambuilting.core.services;
+package org.manuel.teambuilting.core.services.geocoding;
 
 import com.google.maps.PendingResult.Callback;
 import com.google.maps.model.AddressComponent;
-import com.google.maps.model.AddressComponentType;
 import com.google.maps.model.GeocodingResult;
 import com.google.maps.model.LatLng;
 
