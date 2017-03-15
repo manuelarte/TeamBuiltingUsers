@@ -1,5 +1,7 @@
 package org.manuel.teambuilting.core.exceptions;
 
+import java.text.MessageFormat;
+
 import lombok.Getter;
 
 /**
@@ -9,9 +11,9 @@ import lombok.Getter;
 
 public enum ErrorCode {
 
-	ID_NOT_FOUND("0001", "Entity %s with id %s not found"),
-	PLAYER_DETAIL_FOR_SPORT_NOT_FOUND("0002", "The player with id %s does not have details for sport %s"),
-	SPORT_NOT_FOUND("0010", "Sport %s not available");
+	ID_NOT_FOUND("0001", "Entity {0} with id {1} not found"),
+	PLAYER_DETAIL_FOR_SPORT_NOT_FOUND("0002", "The player with id {0} does not have details for sport {1}"),
+	SPORT_NOT_FOUND("0010", "Sport {0} not available");
 
 	@Getter
 	final String errorCode;
@@ -23,6 +25,6 @@ public enum ErrorCode {
 	}
 
 	public String getMessage(final Object... args) {
-		return String.format(message, args);
+		return MessageFormat.format(message, args);
 	}
 }
