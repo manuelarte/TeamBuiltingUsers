@@ -5,7 +5,6 @@ import static org.manuel.teambuilting.core.listeners.PlayerListener.LISTENER_ID;
 import javax.inject.Inject;
 
 import org.manuel.teambuilting.core.messages.PlayerDeletedMessage;
-import org.manuel.teambuilting.core.messages.PlayerVisitedMessage;
 import org.manuel.teambuilting.core.repositories.PlayerToTeamRepository;
 import org.manuel.teambuilting.core.repositories.PlayerToTeamSportDetailsRepository;
 import org.springframework.amqp.core.ExchangeTypes;
@@ -25,7 +24,7 @@ import org.springframework.stereotype.Component;
 @RabbitListener(id = LISTENER_ID, bindings = @QueueBinding(
         value = @Queue(durable = "true", value = "${messaging.amqp.player.queue.name}"),
         exchange = @Exchange(durable = "${messaging.amqp.player.exchange.durable}", value = "${messaging.amqp.player.exchange.name}", type = ExchangeTypes.TOPIC),
-        key = "${messaging.amqp.player.queue.binding}"))
+        key = "player.deleted"))
 @Component
 public class PlayerListener {
 
@@ -46,7 +45,4 @@ public class PlayerListener {
         playerToTeamSportDetailsRepository.delete(playerToTeamSportDetailsRepository.findByPlayerId(message.getPlayer().getId()));
     }
 
-    @RabbitHandler
-    public void handle(final PlayerVisitedMessage message) {
-    }
 }
