@@ -1,33 +1,29 @@
-package org.manuel.teambuilting.core.services.geocoding;
+package org.manuel.teambuilting.core.services.geocoding.handlers;
 
 import com.google.maps.PendingResult.Callback;
 import com.google.maps.model.AddressComponent;
 import com.google.maps.model.GeocodingResult;
 import com.google.maps.model.LatLng;
+import lombok.extern.slf4j.Slf4j;
+import org.manuel.teambuilting.core.model.PlayerGeocoding;
+import org.manuel.teambuilting.core.repositories.PlayerGeocodingRepository;
+import org.springframework.util.Assert;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import org.manuel.teambuilting.core.model.TeamGeocoding;
-import org.manuel.teambuilting.core.repositories.TeamGeocodingRepository;
-import org.springframework.util.Assert;
-
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author manuel.doncel.martos
  * @since 14-3-2017
  */
 @Slf4j
-public class TeamGeocodingResultHandler implements Callback<GeocodingResult[]> {
+public class PlayerGeocodingResultHandler implements Callback<GeocodingResult[]> {
 
-	private final String address;
-	private final String teamId;
-	private final TeamGeocodingRepository repository;
+	private final String playerId;
+	private final PlayerGeocodingRepository repository;
 
-	public TeamGeocodingResultHandler(final String address, final String teamId, final TeamGeocodingRepository repository) {
-		this.address = address;
-		this.teamId = teamId;
+	public PlayerGeocodingResultHandler(final String playerId, final PlayerGeocodingRepository repository) {
+		this.playerId = playerId;
 		this.repository = repository;
 	}
 
@@ -39,10 +35,10 @@ public class TeamGeocodingResultHandler implements Callback<GeocodingResult[]> {
 
 	@Override
 	public void onFailure(final Throwable e) {
-		log.error("Not able to store the geocoding data for" + address);
+		log.error("Not able to store the geocoding data for", e);
 	}
 
-	private TeamGeocoding getGeocodingFrom(final GeocodingResult[] results) {
+	private PlayerGeocoding getGeocodingFrom(final GeocodingResult[] results) {
 		Assert.notNull(results);
 		Assert.isTrue(results.length > 0);
 		final Map<String, String> map = new HashMap<>(results[0].addressComponents.length);
@@ -51,7 +47,7 @@ public class TeamGeocodingResultHandler implements Callback<GeocodingResult[]> {
 		}
 		final LatLng location = results[0].geometry.location;
 		final String placeId = results[0].placeId;
-		return TeamGeocoding.builder().addressComponents(map).entityId(teamId)
+		return PlayerGeocoding.builder().addressComponents(map).entityId(playerId)
 			.lat(location.lat).lng(location.lng).build();
 	}
 }

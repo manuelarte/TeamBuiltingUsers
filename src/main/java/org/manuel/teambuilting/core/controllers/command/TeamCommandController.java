@@ -4,18 +4,18 @@
 package org.manuel.teambuilting.core.controllers.command;
 
 import com.auth0.spring.security.api.Auth0JWTToken;
-
-import javax.inject.Inject;
-import javax.validation.Valid;
-
-import org.manuel.teambuilting.core.config.Auth0Client;
+import lombok.AllArgsConstructor;
 import org.manuel.teambuilting.core.model.Team;
 import org.manuel.teambuilting.core.services.command.TeamCommandService;
+import org.manuel.teambuilting.core.services.geocoding.TeamGeocodingService;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.Valid;
+import java.util.Optional;
 
 /**
  * @author Manuel Doncel Martos
@@ -23,20 +23,17 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/core/teams")
+@AllArgsConstructor
 public class TeamCommandController {
 	
 	private final TeamCommandService teamCommandService;
-	private final Auth0Client auth0Client;
-
-
-	@Inject
-	public TeamCommandController(final TeamCommandService teamCommandService, final Auth0Client auth0Client) {
-		this.teamCommandService = teamCommandService;
-		this.auth0Client = auth0Client;
-	}
+	private final TeamGeocodingService teamGeocodingService;
 
 	@RequestMapping(method = RequestMethod.POST, produces = "application/json")
 	public Team saveTeam(@Valid @RequestBody final Team team) {
+		if (Optional.ofNullable(team.getLocation()).isPresent()) {
+			teamGeocodingService.asyncReq(team);
+		}
 		return teamCommandService.save(team);
     }
 

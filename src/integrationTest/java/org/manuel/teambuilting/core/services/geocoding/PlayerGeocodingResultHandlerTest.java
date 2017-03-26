@@ -11,6 +11,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.manuel.teambuilting.core.repositories.PlayerGeocodingRepository;
 import org.manuel.teambuilting.core.services.GeocodingExamples;
+import org.manuel.teambuilting.core.services.geocoding.handlers.PlayerGeocodingResultHandler;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 

@@ -4,22 +4,19 @@
 package org.manuel.teambuilting.core.model;
 
 import com.mongodb.annotations.Immutable;
-
-import java.util.Date;
-
-import javax.validation.constraints.AssertTrue;
-import javax.validation.constraints.NotNull;
-
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.manuel.teambuilting.core.validations.TeamExists;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import javax.validation.constraints.AssertTrue;
+import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 /**
  * @author Manuel Doncel Martos
@@ -52,7 +49,7 @@ public class PlayerToTeam implements TimeSlice {
 	
 	@AssertTrue
 	private boolean startDateBeforeEndDate() {
-		return toDate == null ? true : toDate.getTime() > fromDate.getTime();
+		return toDate == null || toDate.getTime() > fromDate.getTime();
 	}
 
 	@PersistenceConstructor

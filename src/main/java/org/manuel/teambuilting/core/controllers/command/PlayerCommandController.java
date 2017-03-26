@@ -1,45 +1,35 @@
 package org.manuel.teambuilting.core.controllers.command;
 
-import java.util.Optional;
-
-import javax.inject.Inject;
-import javax.validation.Valid;
-
-import org.manuel.teambuilting.core.config.Auth0Client;
+import lombok.AllArgsConstructor;
 import org.manuel.teambuilting.core.model.Player;
 import org.manuel.teambuilting.core.model.PlayerToTeamSportDetails;
 import org.manuel.teambuilting.core.services.PlayerToTeamSportDetailsService;
 import org.manuel.teambuilting.core.services.command.PlayerCommandService;
+import org.manuel.teambuilting.core.services.geocoding.PlayerGeocodingService;
 import org.manuel.teambuilting.core.services.query.PlayerQueryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.Assert;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/core/players")
+@AllArgsConstructor
 public class PlayerCommandController {
 
-	private final Auth0Client auth0Client;
 	private final PlayerCommandService playerCommandService;
+	private final PlayerGeocodingService playerGeocodingService;
 	private final PlayerQueryService playerQueryService;
 	private final PlayerToTeamSportDetailsService playerToTeamSportDetailsService;
 
-	@Inject
-	public PlayerCommandController(final Auth0Client auth0Client, final PlayerCommandService playerCommandService, final PlayerQueryService playerQueryService,
-			final PlayerToTeamSportDetailsService playerToTeamSportDetailsService) {
-		this.auth0Client = auth0Client;
-		this.playerCommandService = playerCommandService;
-		this.playerQueryService = playerQueryService;
-		this.playerToTeamSportDetailsService = playerToTeamSportDetailsService;
-	}
-
 	@RequestMapping(method = RequestMethod.POST, produces = "application/json")
 	public Player savePlayer(@Valid @RequestBody final Player player) {
+		if (Optional.ofNullable(player.getBornAddress()).isPresent()) {
+			playerGeocodingService.asyncReq(player);
+		}
 		return playerCommandService.save(player);
 	}
 
