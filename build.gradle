@@ -51,7 +51,11 @@ apply plugin: 'org.sonarqube'
 apply plugin: 'project-report'
 apply plugin: 'ru.d10xa.allure'
 
-findbugs {
+pmd {
+	ignoreFailures = true
+}
+
+	findbugs {
 	ignoreFailures = true
 	effort = 'max'
 }
