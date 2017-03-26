@@ -27,10 +27,11 @@ public class PlayerCommandController {
 
 	@RequestMapping(method = RequestMethod.POST, produces = "application/json")
 	public Player savePlayer(@Valid @RequestBody final Player player) {
-		if (Optional.ofNullable(player.getBornAddress()).isPresent()) {
-			playerGeocodingService.asyncReq(player);
+		final Player saved = playerCommandService.save(player);
+		if (Optional.ofNullable(saved.getBornAddress()).isPresent()) {
+			playerGeocodingService.asyncReq(saved);
 		}
-		return playerCommandService.save(player);
+		return saved;
 	}
 
 	@RequestMapping(path = "/{playerId}", method = RequestMethod.DELETE)

@@ -31,10 +31,11 @@ public class TeamCommandController {
 
 	@RequestMapping(method = RequestMethod.POST, produces = "application/json")
 	public Team saveTeam(@Valid @RequestBody final Team team) {
-		if (Optional.ofNullable(team.getLocation()).isPresent()) {
-			teamGeocodingService.asyncReq(team);
+		final Team saved = teamCommandService.save(team);
+		if (Optional.ofNullable(saved.getLocation()).isPresent()) {
+			teamGeocodingService.asyncReq(saved);
 		}
-		return teamCommandService.save(team);
+		return saved;
     }
 
 	/**

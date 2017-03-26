@@ -23,6 +23,8 @@ public class TeamGeocodingResultHandler implements Callback<GeocodingResult[]> {
 	private final TeamGeocodingRepository repository;
 
 	public TeamGeocodingResultHandler(final String teamId, final TeamGeocodingRepository repository) {
+		Assert.hasLength(teamId);
+		Assert.notNull(repository);
 		this.teamId = teamId;
 		this.repository = repository;
 	}
