@@ -1,11 +1,6 @@
 package org.manuel.teambuilting.core.services.command.impl;
 
 import com.auth0.authentication.result.UserProfile;
-
-import java.util.Date;
-
-import javax.inject.Inject;
-
 import org.manuel.teambuilting.core.aspects.UserDataDeletePlayer;
 import org.manuel.teambuilting.core.aspects.UserDataSave;
 import org.manuel.teambuilting.core.messages.PlayerDeletedMessage;
@@ -18,10 +13,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
+import javax.inject.Inject;
+import java.util.Date;
+
 @Service
 class PlayerCommandServiceImpl implements PlayerCommandService {
-
-	private static final String PLAYER_DELETED_ROUTING_KEY = "player.deleted";
 
 	private final String playerExchangeName;
 	private final PlayerRepository playerRepository;
@@ -56,7 +52,7 @@ class PlayerCommandServiceImpl implements PlayerCommandService {
 	private void sendPlayerDeletedMessage(final Player player) {
 		final UserProfile userProfile = util.getUserProfile().get();
 		final PlayerDeletedMessage message = new PlayerDeletedMessage(player, userProfile.getId(), new Date());
-		rabbitTemplate.convertAndSend(playerExchangeName, PLAYER_DELETED_ROUTING_KEY, message);
+		rabbitTemplate.convertAndSend(playerExchangeName, PlayerDeletedMessage.ROUTING_KEY, message);
 	}
 
 }
