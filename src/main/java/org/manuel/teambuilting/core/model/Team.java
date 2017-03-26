@@ -7,21 +7,18 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.mongodb.annotations.Immutable;
-
-import java.util.Date;
-
-import javax.validation.constraints.Max;
-import javax.validation.constraints.NotNull;
-
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.util.Date;
 
 /**
  * @author Manuel Doncel Martos
@@ -44,18 +41,18 @@ public class Team {
 	@NotNull
 	@Indexed
 	private String name;
-	@Max(200)
+	@Size(max = 200)
 	private String location;
 	@NotNull
 	@Indexed
 	private String sport;
 
-	@Max(500)
+	@Size(max = 1000)
 	private String bio;
 	private Date fromDate;
 	private Date toDate;
 
-	@Max(200)
+	@Size(max = 300)
 	private String emblemLink;
 
 	@PersistenceConstructor

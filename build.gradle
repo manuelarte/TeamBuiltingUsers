@@ -42,11 +42,37 @@ apply plugin: 'build-dashboard'
 apply plugin: 'idea'
 apply plugin: 'io.spring.dependency-management'
 apply plugin: 'jacoco'
+apply plugin: 'pmd'
+apply plugin: 'findbugs'
+apply plugin: 'jdepend'
 apply plugin: 'java'
 apply plugin: 'maven'
 apply plugin: 'org.sonarqube'
 apply plugin: 'project-report'
 apply plugin: 'ru.d10xa.allure'
+
+findbugs {
+	ignoreFailures = true
+	effort = 'max'
+}
+
+tasks.withType(FindBugs) {
+	reports {
+		xml.enabled = false
+		html.enabled = true
+	}
+}
+
+jdepend {
+	ignoreFailures = false
+}
+
+tasks.withType(JDepend) {
+	reports {
+		text.enabled = false
+		xml.enabled = true
+	}
+}
 
 gradleLint {
     alwaysRun = false
