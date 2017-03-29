@@ -22,6 +22,11 @@ messaging:
         name: teambuilting.q.player
         binding: player.#
 
+
+resources:
+  token: /oauth/token
+  users: /api/v2/users
+
 ---
 
 spring:
