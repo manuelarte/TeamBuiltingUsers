@@ -1,7 +1,7 @@
 package org.manuel.teambuilting.users.controllers.query;
 
 import org.manuel.teambuilting.users.model.User;
-import org.manuel.teambuilting.users.services.query.impl.UserQueryService;
+import org.manuel.teambuilting.users.services.query.UserQueryService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;

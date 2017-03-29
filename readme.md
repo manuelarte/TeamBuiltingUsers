@@ -1,6 +1,6 @@
-# Microservice TeamBuiltingCore
+# Microservice TeamBuiltingUsers
 
-This microservice contains the information related to the teams and players.
+This microservice contains the information related to the users.
 
 # Endpoints available
 

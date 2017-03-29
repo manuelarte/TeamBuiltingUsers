@@ -2,27 +2,31 @@ package org.manuel.teambuilting.users.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-
-import javax.validation.constraints.NotNull;
-
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.validation.constraints.NotNull;
 
 /**
  * @author manuel.doncel.martos
  * @since 29-3-2017
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-@JsonInclude(Include.NON_NULL)
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonDeserialize
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class User {
 
 	@NotNull
-	private final String user_id;
+	private String user_id;
 	@NotNull
-	private final String email;
+	private String email;
 	@NotNull
-	private final String imageLink;
+	private String picture;
 }
