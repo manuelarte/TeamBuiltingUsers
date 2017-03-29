@@ -25,8 +25,17 @@ public class User {
 
 	@NotNull
 	private String user_id;
+
+	@NotNull
+	private String given_name;
+
+	@NotNull
+	private String family_name;
+
 	@NotNull
 	private String email;
+
 	@NotNull
 	private String picture;
+
 }
