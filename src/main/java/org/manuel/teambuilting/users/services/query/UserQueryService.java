@@ -1,8 +1,9 @@
 package org.manuel.teambuilting.users.services.query;
 
+import com.auth0.json.mgmt.users.User;
+
 import java.util.Optional;
 
-import org.manuel.teambuilting.users.model.User;
 
 /**
  * @author manuel.doncel.martos
