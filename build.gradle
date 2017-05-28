@@ -139,7 +139,10 @@ dependencies {
 	compile 'org.springframework.boot:spring-boot-starter-web-services'
 	compile "org.springframework:spring-aspects:5.0.0.M4"
 	compile "org.springframework.boot:spring-boot-starter-amqp"
-	compile 'com.auth0:auth0-spring-security-api:0.3.2'
+
+	compile 'com.auth0:auth0-spring-security-api:1.0.0-rc.2'
+	compile 'com.auth0:auth0:1.1.0'
+
 	compile 'com.mashape.unirest:unirest-java:1.4.9'
 	
 	compile 'javax.inject:javax.inject:1'

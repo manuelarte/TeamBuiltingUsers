@@ -1,6 +1,8 @@
 package org.manuel.teambuilting.users.services.query.impl;
 
-import com.fasterxml.jackson.core.type.TypeReference;
+import com.auth0.client.auth.AuthAPI;
+import com.auth0.json.auth.TokenHolder;
+import com.auth0.net.AuthRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
@@ -14,8 +16,6 @@ import org.springframework.util.Assert;
 
 import javax.annotation.PostConstruct;
 import java.text.MessageFormat;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -29,34 +29,24 @@ class UserQueryServiceImpl implements UserQueryService {
 	private final String usersExtension;
 	private final Auth0Properties auth0Properties;
 	private final ObjectMapper mapper;
+	private final AuthAPI authAPI;
 
-	private Map<String, String> authentication;
+	private Optional<TokenHolder> tokenHolder;
 
-	public UserQueryServiceImpl(final @Value("${resources.users}") String usersExtension, final Auth0Properties auth0Properties) {
+	public UserQueryServiceImpl(final @Value("${resources.users}") String usersExtension,
+								final AuthAPI authAPI, final Auth0Properties auth0Properties) {
 		this.usersExtension = usersExtension;
 		this.auth0Properties = auth0Properties;
+		this.authAPI = authAPI;
 		this.mapper = new ObjectMapper();
 	}
 
 	@PostConstruct
-	@SneakyThrows
+    @SneakyThrows
 	private void getToken() {
-		// TODO THE Token expires... add a check to call this method again if it is expired, and do an async call to the token
-		// so then we do not have t wait until it finishes.
-		final String tokenUrl = MessageFormat.format("https://{0}/{1}", auth0Properties.getDomain(), "oauth/token");
-		final Map<String, String> body = new HashMap<>();
-		body.put("client_id", auth0Properties.getClientId());
-		body.put("client_secret", auth0Properties.getClientSecret());
-		body.put("audience", "https://manuelarte.eu.auth0.com/api/v2/");
-		body.put("grant_type", "client_credentials");
-		final HttpResponse<String> response = Unirest.post(tokenUrl)
-				.header("content-type", "application/json")
-				//.body("{\"client_id\":\"XOBz4RdzWoMnpxAvXKtK9R8W9IODYKsl\",\"client_secret\":\"tvKvKZd1tigVIAGztcOELwKIj0B0DswEbLdRG1PWu7NfZXk6VGbGkWdQjFpTZmWp\",\"audience\":\"https://manuelarte.eu.auth0.com/api/v2/\",\"grant_type\":\"client_credentials\"}")
-				.body(mapper.writeValueAsString(body))
-				.asString();
-
-		authentication = mapper.readValue(response.getBody(), new TypeReference<Map<String, String>>(){});
-	}
+        final AuthRequest authRequest = authAPI.requestToken("https://manuelarte.eu.auth0.com/api/v2/");
+        tokenHolder = Optional.of(authRequest.execute());
+    }
 
 	@Override
 	@SneakyThrows
@@ -65,7 +55,7 @@ class UserQueryServiceImpl implements UserQueryService {
 		final String usersUrl = MessageFormat.format("https://{0}/{1}/{2}", auth0Properties.getDomain(), usersExtension, id);
 		final HttpResponse<String> user = Unirest.get(usersUrl)
 				.header("authorization",
-						MessageFormat.format("Bearer {0}", authentication.get("access_token")))
+						MessageFormat.format("Bearer {0}", tokenHolder.get().getAccessToken()))
 				.asString();
 		return Optional.ofNullable(mapper.readValue(user.getBody(), User.class));
 	}

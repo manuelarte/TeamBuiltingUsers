@@ -21,6 +21,9 @@ public class Auth0Properties {
     private String domain;
 
     @NotNull
+    private String issuer;
+
+    @NotNull
     private String clientId;
 
     @NotNull
