@@ -23,8 +23,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
         JwtWebSecurityConfigurer
-                .forHS256WithBase64Secret(auth0Properties.getClientId(), auth0Properties.getIssuer(),
-                        auth0Properties.getClientSecret())
+                .forRS256(auth0Properties.getClientId(), auth0Properties.getIssuer())
+                //.forHS256WithBase64Secret(auth0Properties.getClientId(), auth0Properties.getIssuer(), auth0Properties.getClientSecret())
                 .configure(http)
                 .authorizeRequests()
                 .anyRequest().permitAll();
